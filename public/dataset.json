@@ -1,0 +1,88 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "password": "password123"
+    },
+    {
+      "id": 2,
+      "name": "Jane Smith",
+      "email": "jane.smith@example.com",
+      "password": "securepass"
+    },
+    {
+      "id": 3,
+      "name": "Mike Jones",
+      "email": "mike.jones@example.com",
+      "password": "test123"
+    }
+  ],
+  "tasks": [
+    {
+      "id": 1,
+      "title": "Complete React assignment",
+      "description": "Finish the React project by the end of the week.",
+      "state": "in_progress",
+      "subject_id": 1,
+      "topic_id": 1
+    },
+    {
+      "id": 2,
+      "title": "Prepare for SQL exam",
+      "description": "Study SQL queries and database normalization.",
+      "state": "todo",
+      "subject_id": 2,
+      "topic_id": 2
+    },
+    {
+      "id": 3,
+      "title": "Write API documentation",
+      "description": "Document the REST API endpoints and request formats.",
+      "state": "done",
+      "subject_id": 3,
+      "topic_id": 3
+    }
+  ],
+  "subjects": [
+    {
+      "id": 1,
+      "name": "React",
+      "state": "active",
+      "user_id": 1
+    },
+    {
+      "id": 2,
+      "name": "SQL",
+      "state": "active",
+      "user_id": 2
+    },
+    {
+      "id": 3,
+      "name": "API Documentation",
+      "state": "archived",
+      "user_id": 3
+    }
+  ],
+  "topics": [
+    {
+      "id": 1,
+      "title": "Hooks",
+      "color": "#61dafb",
+      "user_id": 1
+    },
+    {
+      "id": 2,
+      "title": "Normalization",
+      "color": "#ff7f0e",
+      "user_id": 2
+    },
+    {
+      "id": 3,
+      "title": "REST API",
+      "color": "#2ca02c",
+      "user_id": 3
+    }
+  ]
+}
