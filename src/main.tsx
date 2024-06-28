@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Login from './pages/login/Login.tsx'
+import SingUp from './pages/singUp/SingUp.tsx'
 import Dashboard from './pages/Dashboard.tsx'
 import { createTheme, ThemeProvider } from '@mui/material'
 
@@ -12,22 +13,22 @@ const theme = createTheme({
       primary: '#d5d5d5',
       secondary: '#d5d5d5',
       disabled: '#d5d5d5',
-    
+
     },
-    background:{
-      default:'#0F0F0F'
+    background: {
+      default: '#0F0F0F'
     },
-    primary:{
-      main:'#666666'
+    primary: {
+      main: '#666666'
     },
-    secondary:{
-      main:'#FFD700'
+    secondary: {
+      main: '#FFD700'
     },
-    common:{
-      white:'#d5d5d5'
+    common: {
+      white: '#d5d5d5'
     },
-    action:{
-      active:'#FFD700'
+    action: {
+      active: '#FFD700'
     },
 
   },
@@ -35,12 +36,17 @@ const theme = createTheme({
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Login/>
+    element: <Login />
   },
   {
-    path:'/dashboard',
-    element: <Dashboard/>
+    path: '/dashboard',
+    element: <Dashboard />
+  },
+  {
+    path: '/singUp',
+    element: <SingUp />
   }
+
 ])
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
