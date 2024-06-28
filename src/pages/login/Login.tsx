@@ -19,6 +19,10 @@ export default function Login() {
           <h1 className="formTitle">Welcome to Mercurial</h1>
           <form action="" className="loginForm" onSubmit={(e) => {
             e.preventDefault()
+
+            handleSubmit()}}>
+            <TextField required label="E-mail" variant="outlined" type="email" value={email} onChange={(e)=> {setEmail(e.target.value)}}/>
+            <TextField required label="Password" type="password" variant="outlined" value={password} onChange={(e)=>{setPassword(e.target.value)}}/>
             handleSubmit()
           }}>
             <TextField required label="E-mail" variant="outlined" value={email} onChange={(e) => { setEmail(e.target.value) }} />

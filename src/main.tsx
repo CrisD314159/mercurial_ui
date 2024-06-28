@@ -9,6 +9,15 @@ import { createTheme, ThemeProvider } from '@mui/material'
 
 const theme = createTheme({
   palette: {
+<<<<<<< dev
+    mode: 'dark',
+    primary: {
+      main: '#d5d5d5',
+    },
+    secondary: {
+      main: '#f50057',
+    },
+=======
     text: {
       primary: '#d5d5d5',
       secondary: '#d5d5d5',
@@ -31,6 +40,7 @@ const theme = createTheme({
       active: '#FFD700'
     },
 
+>>>>>>> main
   },
 });
 const router = createBrowserRouter([
