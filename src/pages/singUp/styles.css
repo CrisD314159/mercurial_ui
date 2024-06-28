@@ -18,7 +18,7 @@
   border-radius: 25px;
 }
 
-.signUpForm{
+.singUpForm{
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -55,7 +55,7 @@
 
 }
 
-.signUpButton{
+.singUpButton{
   width: 130px;
   margin: 30px 0;
   height: 30px;
@@ -65,7 +65,7 @@
   transition: all 0.3s ;
 }
 
-.signUpButton:hover{
+.singUpButton:hover{
   background-color: #cecece;
   transform: translate(0, -2px)
   
