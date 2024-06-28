@@ -23,9 +23,14 @@
   flex-direction: column;
   align-items: center;
   margin: 30px 0;
+  justify-content: space-between;
 
 }
 
+.loginForm > div{
+  margin-bottom: 15px;
+
+}
 .backgroundContainer{
   display: flex;
   justify-content: center;
@@ -73,8 +78,4 @@
 
 .signUp{
   color: #d5d5d5;
-}
-
-.input{
-  margin-bottom: 10px;
 }

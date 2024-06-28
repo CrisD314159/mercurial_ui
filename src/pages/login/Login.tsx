@@ -20,7 +20,7 @@ export default function Login(){
           <form action="" className="loginForm" onSubmit={(e)=>{
             e.preventDefault()
             handleSubmit()}}>
-            <TextField required label="E-mail" variant="outlined" value={email} onChange={(e)=> {setEmail(e.target.value)}}/>
+            <TextField required label="E-mail" variant="outlined" type="email" value={email} onChange={(e)=> {setEmail(e.target.value)}}/>
             <TextField required label="Password" type="password" variant="outlined" value={password} onChange={(e)=>{setPassword(e.target.value)}}/>
             <button className="loginButton">Log In</button>
             <a href="" className="signUp">Sign Up</a>

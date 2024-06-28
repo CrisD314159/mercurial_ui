@@ -8,28 +8,13 @@ import { createTheme, ThemeProvider } from '@mui/material'
 
 const theme = createTheme({
   palette: {
-    text: {
-      primary: '#d5d5d5',
-      secondary: '#d5d5d5',
-      disabled: '#d5d5d5',
-    
+    mode: 'dark',
+    primary: {
+      main: '#d5d5d5',
     },
-    background:{
-      default:'#0F0F0F'
+    secondary: {
+      main: '#f50057',
     },
-    primary:{
-      main:'#666666'
-    },
-    secondary:{
-      main:'#FFD700'
-    },
-    common:{
-      white:'#d5d5d5'
-    },
-    action:{
-      active:'#FFD700'
-    },
-
   },
 });
 const router = createBrowserRouter([
