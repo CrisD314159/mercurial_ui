@@ -1,7 +1,7 @@
 
 import './App.css'
 import Login from './pages/login/Login'
-import SingUp from './pages/singUp/SingUp'
+import SingUp from './pages/signUp/SignUp'
 
 function App() {
 

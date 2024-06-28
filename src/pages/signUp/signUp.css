@@ -11,26 +11,22 @@
   flex-direction: column;
   align-items: center;
   width: 400px;
-  height: 400px;
+  height: 550px;
   background-color: #0f0f0f;
   padding: 50px 0 ;
   border: 1px solid #666666;
   border-radius: 25px;
 }
 
-.loginForm{
+.signUpForm{
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 30px 0;
-  justify-content: space-between;
+  margin: 10px 0;
+  width: 100%;
 
 }
 
-.loginForm > div{
-  margin-bottom: 15px;
-
-}
 .backgroundContainer{
   display: flex;
   justify-content: center;
@@ -52,7 +48,7 @@
 
 }
 
-.mainLoginContainer{
+.mainSingUpContainer{
   display: flex;
   justify-content: center;
   align-items: center;
@@ -60,7 +56,7 @@
 
 }
 
-.loginButton{
+.singUpButton{
   width: 130px;
   margin: 30px 0;
   height: 30px;
@@ -70,12 +66,30 @@
   transition: all 0.3s ;
 }
 
-.loginButton:hover{
+.singUpButton:hover{
   background-color: #cecece;
   transform: translate(0, -2px)
   
 }
 
-.signUp{
-  color: #d5d5d5;
+.inputsContainers{
+  padding: 20px;
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
 }
+
+.border{
+  border-bottom: 1px solid #666666;
+}
+
+.inputsContainers > div{
+  margin-bottom: 15px;
+  width: 60%;
+
+}
+
+

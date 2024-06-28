@@ -3,13 +3,14 @@ import ReactDOM from 'react-dom/client'
 import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Login from './pages/login/Login.tsx'
-import SingUp from './pages/singUp/SingUp.tsx'
-import Dashboard from './pages/Dashboard.tsx'
+import Dashboard from './pages/dashboard/Dashboard.tsx'
 import { createTheme, ThemeProvider } from '@mui/material'
+import SignUp from './pages/signUp/SignUp.tsx'
+import Subjects from './pages/subjects/Subjects.tsx'
+import Topics from './pages/topics/Topics.tsx'
 
 const theme = createTheme({
   palette: {
-<<<<<<< dev
     mode: 'dark',
     primary: {
       main: '#d5d5d5',
@@ -17,31 +18,7 @@ const theme = createTheme({
     secondary: {
       main: '#f50057',
     },
-=======
-    text: {
-      primary: '#d5d5d5',
-      secondary: '#d5d5d5',
-      disabled: '#d5d5d5',
-
-    },
-    background: {
-      default: '#0F0F0F'
-    },
-    primary: {
-      main: '#666666'
-    },
-    secondary: {
-      main: '#FFD700'
-    },
-    common: {
-      white: '#d5d5d5'
-    },
-    action: {
-      active: '#FFD700'
-    },
-
->>>>>>> main
-  },
+  }
 });
 const router = createBrowserRouter([
   {
@@ -53,8 +30,16 @@ const router = createBrowserRouter([
     element: <Dashboard />
   },
   {
-    path: '/singUp',
-    element: <SingUp />
+    path: '/signUp',
+    element: <SignUp />
+  },
+  {
+    path:'/dashboard/subjects',
+    element:<Subjects/>
+  },
+  {
+    path:'/dashboard/topics',
+    element:<Topics/>
   }
 
 ])
