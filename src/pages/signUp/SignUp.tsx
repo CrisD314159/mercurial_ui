@@ -12,7 +12,7 @@ export default function SignUp() {
         console.log(FullName, email, Username, password);
     }
     return (
-        <div className="mainSingUpContainer">
+        <div className="mainSignUpContainer">
             <div className="backgroundContainer">
                 <div className="formContainer">
                     <div className="imageContainer">
@@ -70,8 +70,8 @@ export default function SignUp() {
                                 }}
                             />
                         </div>
-                        
-                        <button className="singUpButton">Sign Up</button>
+
+                        <button className="signUpButton">Sign Up</button>
                     </form>
                 </div>
             </div>

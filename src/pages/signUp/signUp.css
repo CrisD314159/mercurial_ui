@@ -48,7 +48,7 @@
 
 }
 
-.mainSingUpContainer{
+.mainSignUpContainer{
   display: flex;
   justify-content: center;
   align-items: center;
@@ -56,7 +56,7 @@
 
 }
 
-.singUpButton{
+.signUpButton{
   width: 130px;
   margin: 30px 0;
   height: 30px;
@@ -66,7 +66,7 @@
   transition: all 0.3s ;
 }
 
-.singUpButton:hover{
+.signUpButton:hover{
   background-color: #cecece;
   transform: translate(0, -2px)
   
@@ -89,7 +89,15 @@
 .inputsContainers > div{
   margin-bottom: 15px;
   width: 60%;
-
 }
 
+@media screen and (max-width: 530px){
+  .formContainer{
+    width: 350px;
+  }
+  .backgroundContainer{
+    width: 100%;
+    background-size: contain;
+  }
+}
 
