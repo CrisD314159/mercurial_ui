@@ -43,6 +43,46 @@
       "state": "done",
       "subject_id": 3,
       "topic_id": 3
+    },
+    {
+      "id": 3,
+      "title": "Write API documentation",
+      "description": "Document the REST API endpoints and request formats.",
+      "state": "done",
+      "subject_id": 3,
+      "topic_id": 3
+    },
+    {
+      "id": 3,
+      "title": "Write API documentation",
+      "description": "Document the REST API endpoints and request formats.",
+      "state": "done",
+      "subject_id": 3,
+      "topic_id": 3
+    },
+    {
+      "id": 3,
+      "title": "Write API documentation",
+      "description": "Document the REST API endpoints and request formats.",
+      "state": "done",
+      "subject_id": 3,
+      "topic_id": 3
+    },
+    {
+      "id": 3,
+      "title": "Write API documentation",
+      "description": "Document the REST API endpoints and request formats.",
+      "state": "done",
+      "subject_id": 3,
+      "topic_id": 3
+    },
+    {
+      "id": 3,
+      "title": "Write API documentation",
+      "description": "Document the REST API endpoints and request formats.",
+      "state": "done",
+      "subject_id": 3,
+      "topic_id": 3
     }
   ],
   "subjects": [
@@ -61,6 +101,30 @@
     {
       "id": 3,
       "name": "API Documentation",
+      "state": "archived",
+      "user_id": 3
+    },
+    {
+      "id": 3,
+      "name": "Historia",
+      "state": "archived",
+      "user_id": 3
+    },
+    {
+      "id": 3,
+      "name": "Programacion",
+      "state": "archived",
+      "user_id": 3
+    },
+    {
+      "id": 3,
+      "name": "Vectorial",
+      "state": "archived",
+      "user_id": 3
+    },
+    {
+      "id": 3,
+      "name": "Calculo",
       "state": "archived",
       "user_id": 3
     }
