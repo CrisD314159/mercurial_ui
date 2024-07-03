@@ -1,5 +1,162 @@
 .doneContainer{
   height: 100%;
   width: 50vw;
-  background-color: blue;
+  padding: 0 40px;
+  
+
+  
+}
+.doneButtonContainer{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  
+  
+}
+
+.subjectButton{
+  width: 140px;
+  height: 40px;
+  background-color: #e2e2e2;
+  font-size: 16px;
+  font-weight: 300;
+  border: 1px solid #6666;
+  border-radius: 40px;
+  margin-right: 15px;
+  transition: all 0.3s;
+  
+
+}
+
+.subjectButton:hover{
+  background-color: #e2e2e2;
+  transform: translate(0, -3px);
+  cursor: pointer;
+}
+
+.topicButton{
+  width: 140px;
+  height: 40px;
+  background-color: #e2e2e2;
+  font-size: 16px;
+  border: 1px solid #6666;
+  border-radius: 40px;
+  transition: all 0.3s;
+
+
+}
+
+.topicButton:hover{
+  background-color: #e2e2e2;
+  transform: translate(0, -3px);
+  cursor: pointer;
+}
+
+.mainTitleContainer{
+  width: 85%;
+  border: 1px solid #6666;
+  height: 40px;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px #00FE47;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 26px 0;
+}
+
+.doneTitle{
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.hide_showButton{
+
+  width: 15%;
+  height: 40px;
+  border: none;
+  font-size: 14px;
+  font-weight: 300;
+  background-color: transparent;
+  color: #e2e2e2;
+  
+}
+
+.hide_showButton:hover{
+  cursor: pointer;
+  
+}
+
+.doneTasksContainer{
+  margin: 72px 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: scroll;
+}
+
+/*.taskContainer{
+  
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-bottom: 30px;
+  width: 90%;
+  border: 1px solid #666;
+  border-radius: 40px;
+  height: 80px;
+}
+
+.iconContainer{
+  width: 30px;
+  height: 30px;
+  background-color: #3285f2;
+  margin: 0 20px;
+}
+
+.title{
+  font-size: 14px;
+  font-weight: 500;
+}
+.subject{
+  font-size: 12px;
+  font-weight: 300;
+}
+
+h3{
+  margin: 0;
+  .topic{
+  font-size: 12px;
+  font-weight: 300;
+  color: #a7ec04; 
+  margin: 0 30px;
+}*/
+
+.state{
+  font-size: 12px;
+  font-weight: 300;
+  color: #24FF00; 
+  margin: 0 30px;
+}
+
+.roll_backButton{
+  width: 112px;
+  height: 30px;
+  background-color: transparent;
+  font-size: 16px;
+  font-weight: 300;
+  border: 1px solid #9712FF;
+  border-radius: 40px;
+  margin-right: 15px;
+  transition: all 0.3s;
+  color: #e2e2e2;
+
+}
+
+.roll_backButton:hover{
+  
+  transform: translate(0, -3px);
+  cursor: pointer;
 }
