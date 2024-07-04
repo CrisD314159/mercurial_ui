@@ -11,6 +11,7 @@
   display: flex;
   align-items: center;
   justify-content: right;
+  height: 84px;
   
   
 }
@@ -50,7 +51,33 @@
 .topicButton:hover{
   background-color: #e2e2e2;
   transform: translate(0, -3px);
+  animation: gradient 5s ease infinite; /* Define la animación */
+  background: linear-gradient(45deg, #f800f0b1, #fe38f8e6, #2d03d2bc, #1d0092bc); /* Define el gradiente */
+  background-size: 200% 200%; /* Asegura que el gradiente sea lo suficientemente grande */
+  color: white;
   cursor: pointer;
+}
+
+@keyframes gradient { /* Define la animación */
+	0% {
+		background-position: 0% 50%; /* Define la posición inicial del fondo */
+	}
+	50% {
+		background-position: 100% 50%; /* Define la posición final del fondo */
+	}
+	100% {
+		background-position: 0% 50%; /* Define la posición inicial del fondo, es decir, para que se poonga en bucle*/
+	}
+}
+
+
+
+.mainMenuContainer{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
 }
 
 .mainTitleContainer{
@@ -58,11 +85,11 @@
   border: 1px solid #6666;
   height: 40px;
   border-radius: 15px;
-  box-shadow: 0 4px 8px #00FE47;
+  box-shadow: 0 3px 8px #0CF924;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 26px 0;
+  margin: 20px 0;
 }
 
 .doneTitle{
@@ -88,13 +115,19 @@
 }
 
 .doneTasksContainer{
-  margin: 72px 0;
+  margin: 30px 0;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  overflow: scroll;
+  overflow-y:auto;
+  position: relative;
+  height: 100%;
+  scrollbar-width: none; /* especifica el ancho de la barra de desplazamiento */
+
+  &:-webkit-scrollbar {
+    display: none;
+  }
 }
 
 /*.taskContainer{
@@ -138,6 +171,8 @@ h3{
   font-size: 12px;
   font-weight: 300;
   color: #24FF00; 
+  position: absolute;
+  left: 45%;
   margin: 0 30px;
 }
 
@@ -151,8 +186,19 @@ h3{
   border-radius: 40px;
   margin-right: 15px;
   transition: all 0.3s;
+  position: absolute;
+  right: 0;
   color: #e2e2e2;
 
+}
+
+.topicDone{
+  font-size: 12px;
+  font-weight: 300;
+  color: #a7ec04; /* especifica el color del texto */
+  margin: 0 30px;
+  position: absolute;
+  left: 60%;
 }
 
 .roll_backButton:hover{

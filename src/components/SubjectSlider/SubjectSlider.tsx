@@ -11,7 +11,7 @@ export default function SubjectSlider(props:SliderProps){
         subjects.map((subject:Subject)=>{ // Con map se recorre el array de materias, y se renderiza cada materia según el componente subjectContainer
           return(
             <div className="subjectContainer" key={subject.id}>
-              <button className="buttonContainer"> {/** en este boton mas adelante colocaremos un evento para poder filtrar por la materia */}
+              <button className="buttonContainerSlider"> {/** en este boton mas adelante colocaremos un evento para poder filtrar por la materia */}
                 <h1 className="subjectTitle">{subject.name}</h1>
               </button>
             </div>

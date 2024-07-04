@@ -18,6 +18,10 @@ const theme = createTheme({
     secondary: {
       main: '#f50057',
     },
+    error:{
+      main: '#FF1212'
+    }
+
   }
 });
 const router = createBrowserRouter([

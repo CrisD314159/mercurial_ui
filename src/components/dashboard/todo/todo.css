@@ -5,6 +5,7 @@
   flex-direction: column; /* especifica la dirección de los elementos hijos */
   align-items: center; /* especifica la alineación de los elementos hijos */
   justify-content: center;
+  border-right: 1px dotted #3d3d3d; /* especifica el borde derecho del elemento */
 
   
 
@@ -69,26 +70,30 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  overflow: scroll; /*  Permite crear un scroll por si los elementos contenidos superan las dimensiones del elemento contenedor */
+  overflow-y:auto;
+  position: relative;
+  height: 100%;
+  scrollbar-width: none; /* especifica el ancho de la barra de desplazamiento */
+
+  &:-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .taskContainer{
-  
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  margin-bottom: 30px;
-  width: 90%;
-  border: 1px solid #666;
-  border-radius: 40px;
-  height: 80px;
+  flex: 1 0 80px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+    width: 90%;
+    border: 1px solid #666;
+    border-radius: 40px;
+    height: 80px;
+    position: relative;
 }
 
 .iconContainer{
-  width: 30px;
-  height: 30px;
-  background-color: #740CF9;
+  width: 40px;
   margin: 0 20px;
 
 }
@@ -97,6 +102,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  width: 30%;
 }
 
 .title{
@@ -117,18 +123,21 @@ h3{
   font-weight: 300;
   color: #a7ec04; /* especifica el color del texto */
   margin: 0 30px;
+  position: absolute;
+  left: 50%;
 }
 
 .buttonContainer{
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  width: 15%;
+  width: 35%;
+  position: absolute;
+  right: 0;
 }
 
 .button{
   width: 30px;
-  background-color: white;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -139,7 +148,6 @@ h3{
 }
 
 .button:hover{
-  background-color: #e2e2e2;
   transform: translate(0, -3px);
   cursor: pointer;
 }
@@ -151,4 +159,13 @@ h3{
 
 .deleteButton{
   border: 1px solid #FF1212;
+}
+
+.mainTasksContainer{
+  height: 900px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
