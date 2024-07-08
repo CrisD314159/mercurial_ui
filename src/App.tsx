@@ -1,7 +1,9 @@
 
+import { Subject, Topic } from '@mui/icons-material';
 import './App.css'
 import Login from './pages/login/Login'
 import SingUp from './pages/signUp/SignUp'
+
 
 function App() {
 
@@ -10,6 +12,8 @@ function App() {
     <>
       <Login />
       <SingUp />
+
+
     </>
   );
 }

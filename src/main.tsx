@@ -18,7 +18,7 @@ const theme = createTheme({
     secondary: {
       main: '#f50057',
     },
-    error:{
+    error: {
       main: '#FF1212'
     }
 
@@ -38,12 +38,12 @@ const router = createBrowserRouter([
     element: <SignUp />
   },
   {
-    path:'/dashboard/subjects',
-    element:<Subjects/>
+    path: '/dashboard/subjects',
+    element: <Subjects />
   },
   {
-    path:'/dashboard/topics',
-    element:<Topics/>
+    path: '/dashboard/topics',
+    element: <Topics />
   }
 
 ])
