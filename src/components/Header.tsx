@@ -1,8 +1,8 @@
 import { NavLink } from 'react-router-dom';
 import './header.css'
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-interface HeaderProps{
-  picture:string
+interface HeaderProps {
+  picture: string
 
 }
 
@@ -13,7 +13,7 @@ props: {
   }
 **/
 
-export default function Header(props:HeaderProps){
+export default function Header(props: HeaderProps) {
   /*
   Listas en html
 
@@ -40,18 +40,18 @@ export default function Header(props:HeaderProps){
     <header className='headerContainer'>
       <div className='imageContainerHeader'>
         <NavLink to='/dashboard'>
-          <img src="https://res.cloudinary.com/dw43hgf5p/image/upload/v1719193860/xllkumrdq702etruhxfq.png" alt="" className='image'/>
+          <img src="https://res.cloudinary.com/dw43hgf5p/image/upload/v1719193860/xllkumrdq702etruhxfq.png" alt="" className='image' />
         </NavLink>
       </div>
       <nav className='nav'>
         <ul className='navList'>
-          <li className='listItem'><button className='logoutButton'><ExitToAppIcon/></button></li>
+          <li className='listItem'><button className='logoutButton'><ExitToAppIcon /></button></li>
           <li className='listItem'>
-            <NavLink to={'/user'}>
-              <div className='profileImageContainer'><img src={props.picture} alt="" className='profileImage'/></div>
+            <NavLink to={'/userSettings'}>
+              <div className='profileImageContainer'><img src={props.picture} alt="" className='profileImage' /></div>
             </NavLink>
-            
-            </li>
+
+          </li>
         </ul>
       </nav>
     </header>

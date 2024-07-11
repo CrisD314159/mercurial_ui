@@ -8,6 +8,7 @@ import { createTheme, ThemeProvider } from '@mui/material'
 import SignUp from './pages/signUp/SignUp.tsx'
 import Subjects from './pages/subjects/Subjects.tsx'
 import Topics from './pages/topics/Topics.tsx'
+import UserSettings from './pages/userSettings/userSettings.tsx'
 
 const theme = createTheme({
   palette: {
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
   {
     path: '/dashboard/topics',
     element: <Topics />
+  },
+  {
+    path: '/userSettings',
+    element: <UserSettings />
   }
 
 ])

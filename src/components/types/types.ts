@@ -20,3 +20,11 @@ export interface Topic{
   title: string
   color: string
 }
+
+export interface User{
+  id: number,
+  name: string,
+  email: string,
+  password: string
+  picture: string
+}
