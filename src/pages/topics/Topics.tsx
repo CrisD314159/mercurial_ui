@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Header from "../../components/Header";
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import { Button, Fab } from "@mui/material";
@@ -8,27 +7,12 @@ import { Topic } from "../../components/types/types";
 import ModeEditRoundedIcon from '@mui/icons-material/ModeEditRounded';
 import DeleteIcon from '@mui/icons-material/Delete';
 import './topics.css'
+import TopicCreation from "../../components/creation/TopicCreation";
 
 export default function Topics() {
-  const [create, setCreate] = useState(false)
-
-
-  function createTopic() {
-    setCreate(!create)
-  }
   return (
     <div>
-      {
-        create ?
-          <div className="createTopicContainer">
-            <div className="createTopic">
-              <h1>Create Topic</h1>
-              <input type="text" placeholder="Name" />
-              <button onClick={createTopic}>Create</button>
-            </div>
-          </div>
-          : null
-      }
+
       <Header picture="https://icons.veryicon.com/png/o/miscellaneous/two-color-icon-library/user-286.png" />
 
       <div className="mainTopicsContainer">
@@ -41,7 +25,7 @@ export default function Topics() {
         </div>
         <div className="topicMenuContainer">
           <div className="topicMenu menuButtonTopic">
-            <button className="createButton" onClick={createTopic}>+</button>
+            <TopicCreation />
           </div>
           <NavLink to="/dashboard/subjects" className='menuButtonTopic'><button className="subjectButton">Go to Subjects</button></NavLink>
         </div>
