@@ -3,20 +3,22 @@ import DoneIcon from '@mui/icons-material/Done';
 import DeleteIcon from '@mui/icons-material/Delete';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import SubjectSlider from '../../SubjectSlider/SubjectSlider'
-import { Subject, Task } from '../../types/types'
+import { Subject, Task, Topic } from '../../types/types'
 import {  Fab } from '@mui/material';
+import TaskCreation from '../../creation/TaskCreation';
 
 
 
 interface ToDoProps{
   subjects: Subject[],
-  tasks: Task[]
+  tasks: Task[],
+  topics: Topic[],
   createTask: ()=> void
 }
 
 
 export default function ToDo(props: ToDoProps){
-  const {subjects, tasks} = props
+  const {subjects, tasks, topics} = props
   return(
     <div className="todoContainer">
           {/* Contenedor de las materias del usuario */}
@@ -27,7 +29,8 @@ export default function ToDo(props: ToDoProps){
 
          
           <div className="createMenu">  {/* Contenedor de la barra de creación de tareas */}
-            <button className="createButton" onClick={props.createTask}>+</button> {/** Este boton le añadiremos un evento el cual muestra el menu de creación */}
+            <TaskCreation subjects={subjects} topics={topics}/>
+             {/** Este boton le añadiremos un evento el cual muestra el menu de creación */}
             <div className='mainTittleContainer'>
               <h1 className='todoTittle'>To-Do</h1>
             </div>

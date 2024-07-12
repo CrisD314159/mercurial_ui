@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { styled } from '@mui/material/styles';
+import { NavLink } from 'react-router-dom';
 
 
 const VisuallyHiddenInput = styled('input')({
@@ -105,7 +106,7 @@ export default function EditUser() {
               </FormControl>
             </form>
             <div className='editUserbuttonContainer'>
-              <Button variant='contained' color='error'>Cancel</Button>
+              <NavLink to={'/userSettings'}><Button variant='contained' color='error'>Cancel</Button></NavLink>
               <Button variant='contained' onClick={handleSubmit}>Save</Button>
             </div>
         </div>

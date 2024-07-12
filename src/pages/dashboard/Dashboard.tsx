@@ -9,6 +9,7 @@ import { useState } from "react";
 export default function Dashboard(){
   const [subjects] = useState(json.subjects)
   const [tasks] = useState(json.tasks)
+  const [topics] = useState(json.topics)
   const [create, setCreate] = useState(false)
 
   function createTask(){
@@ -42,7 +43,7 @@ export default function Dashboard(){
       }
       <Header picture="https://icons.veryicon.com/png/o/miscellaneous/two-color-icon-library/user-286.png"/>
       <div className="dashboardMainContainer">
-        <ToDo subjects={subjects} tasks={tasks} createTask={createTask}/> {/**Aquí importamos el componente to do
+        <ToDo subjects={subjects} tasks={tasks} createTask={createTask} topics={topics}/> {/**Aquí importamos el componente to do
          * Enviamos la funcion de createTask para poder que en el todo mediante un evento accionado por el 
          * boton + se muestre el formulario de creación de tareas
          */}
