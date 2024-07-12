@@ -4,6 +4,7 @@ import ModeEditRoundedIcon from '@mui/icons-material/ModeEditRounded';
 import { Button } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import './userSettings.css'
+import { NavLink } from "react-router-dom";
 
 export default function UserSettings() {
     // const [delete, setDelete] = useState(false)
@@ -40,10 +41,12 @@ export default function UserSettings() {
                             </p>
                         </div>
                         <div className="buttonUser">
-                            <button className="editButton userButton">
-                                <p className="editButtonText">Edit profile </p>
-                                <ModeEditRoundedIcon></ModeEditRoundedIcon>
-                            </button>
+                            <NavLink to={'/userSettings/editUser'} className="editButton userButton">
+                                <button className="editButton userButton">
+                                    <p className="editButtonText">Edit profile </p>
+                                    <ModeEditRoundedIcon></ModeEditRoundedIcon>
+                                </button>
+                            </NavLink>
                             <button className="deleteButton userButton">
                                 <p className="deleteButtonText">Delete </p>
                                 <DeleteIcon />

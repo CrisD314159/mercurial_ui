@@ -10,7 +10,7 @@
 
 .subjectContainer{
   flex: 1 0 130px;
-  box-shadow: 0 1px 1rem -4px #000;
+  box-shadow: 0 1px 1rem -4px #5600bf8d;
   border: 1px solid #666;
   display: flex;
   align-items: center;
@@ -41,4 +41,8 @@
   border: none;
   color: #e0e0e0;
 
+}
+.mainSliderContainer{
+  display: flex;
+  align-items: center;
 }

@@ -9,13 +9,21 @@
     position: relative;
     background-color: #131212;
     overflow: hidden;
+    margin-top: 50px;
+    @media screen and (max-width: 768px){
+        width: 90%;
+        height: 100%;
+        margin: 0;
+        height: 550px;
+        
+      }
 
 }
 
 .mainUserSettingsContainer{
     display: flex;
-    flex-direction: column;
     align-items: center;
+    justify-content: center;
 
 }
 
@@ -23,7 +31,7 @@
     width: 150px;
     height: 150px;
     border-radius: 50%;
-    margin: 20px auto;
+    margin: 30px auto;
     background-size: cover;
     background-repeat: no-repeat;
     
@@ -47,6 +55,7 @@
 }
 
 .userButton{
+    text-decoration: none;
     width: 100%;
     display: flex;
     align-items: center;

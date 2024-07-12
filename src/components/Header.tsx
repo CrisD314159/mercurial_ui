@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import './header.css'
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import { Button } from '@mui/material';
 interface HeaderProps {
   picture: string
 
@@ -45,7 +46,7 @@ export default function Header(props: HeaderProps) {
       </div>
       <nav className='nav'>
         <ul className='navList'>
-          <li className='listItem'><button className='logoutButton'><ExitToAppIcon /></button></li>
+          <li className='listItem'><Button variant='contained' color='primary' className='logoutButton'><ExitToAppIcon /></Button></li>
           <li className='listItem'>
             <NavLink to={'/userSettings'}>
               <div className='profileImageContainer'><img src={props.picture} alt="" className='profileImage' /></div>

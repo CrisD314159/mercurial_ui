@@ -46,7 +46,7 @@
       "topic_id": 3
     },
     {
-      "id": 3,
+      "id": 4,
       "title": "Matematicas",
       "description": "Document the REST API endpoints and request formats.",
       "state": "done",
@@ -54,7 +54,7 @@
       "topic_id": 3
     },
     {
-      "id": 3,
+      "id": 5,
       "title": "Hacer tarea de historia",
       "description": "Document the REST API endpoints and request formats.",
       "state": "done",
@@ -62,7 +62,7 @@
       "topic_id": 3
     },
     {
-      "id": 3,
+      "id": 6,
       "title": "Fabricar un vectorial",
       "description": "Document the REST API endpoints and request formats.",
       "state": "done",
@@ -70,7 +70,7 @@
       "topic_id": 3
     },
     {
-      "id": 3,
+      "id": 7,
       "title": "Hacer tarea de calculo",
       "description": "Document the REST API endpoints and request formats.",
       "state": "done",
@@ -78,7 +78,7 @@
       "topic_id": 3
     },
     {
-      "id": 3,
+      "id": 8,
       "title": "Repasar programacion",
       "description": "Document the REST API endpoints and request formats.",
       "state": "done",
@@ -86,7 +86,7 @@
       "topic_id": 3
     },
     {
-      "id": 3,
+      "id": 9,
       "title": "Mirar apuntes",
       "description": "Document the REST API endpoints and request formats.",
       "state": "done",
@@ -94,7 +94,7 @@
       "topic_id": 3
     },
     {
-      "id": 3,
+      "id": 10,
       "title": "Write API documentation",
       "description": "Document the REST API endpoints and request formats.",
       "state": "done",
@@ -102,39 +102,7 @@
       "topic_id": 3
     },
     {
-      "id": 3,
-      "title": "Write API documentation",
-      "description": "Document the REST API endpoints and request formats.",
-      "state": "done",
-      "subject_id": 3,
-      "topic_id": 3
-    },
-    {
-      "id": 3,
-      "title": "Write API documentation",
-      "description": "Document the REST API endpoints and request formats.",
-      "state": "done",
-      "subject_id": 3,
-      "topic_id": 3
-    },
-    {
-      "id": 3,
-      "title": "Write API documentation",
-      "description": "Document the REST API endpoints and request formats.",
-      "state": "done",
-      "subject_id": 3,
-      "topic_id": 3
-    },
-    {
-      "id": 3,
-      "title": "Write API documentation",
-      "description": "Document the REST API endpoints and request formats.",
-      "state": "done",
-      "subject_id": 3,
-      "topic_id": 3
-    },
-    {
-      "id": 3,
+      "id": 11,
       "title": "Write API documentation",
       "description": "Document the REST API endpoints and request formats.",
       "state": "done",
@@ -162,25 +130,25 @@
       "user_id": 3
     },
     {
-      "id": 3,
+      "id": 4,
       "name": "Historia",
       "state": "archived",
       "user_id": 3
     },
     {
-      "id": 3,
+      "id": 5,
       "name": "Programacion",
       "state": "archived",
       "user_id": 3
     },
     {
-      "id": 3,
+      "id": 6,
       "name": "Vectorial",
       "state": "archived",
       "user_id": 3
     },
     {
-      "id": 3,
+      "id": 7,
       "name": "Calculo",
       "state": "archived",
       "user_id": 3
