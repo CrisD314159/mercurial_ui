@@ -1,6 +1,5 @@
 
 import Header from "../../components/Header";
-import { useState } from 'react'
 import './subjects.css'
 import { NavLink } from "react-router-dom";
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -9,27 +8,13 @@ import { Subject } from "../../components/types/types";
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import ModeEditRoundedIcon from '@mui/icons-material/ModeEditRounded';
 import json from '../../../public/dataset.json'
+import SubjectCreation from "../../components/creation/SubjectCreation";
 
 export default function Subjects() {
-  const [create, setCreate] = useState(false)
 
-
-  function createSubject() {
-    setCreate(!create)
-  }
   return (
     <div>
-      {
-        create ?
-          <div className="createSubjectContainer">
-            <div className="createSubject">
-              <h1>Create Subject</h1>
-              <input type="text" placeholder="Name" />
-              <button onClick={createSubject}>Create</button>
-            </div>
-          </div>
-          : null
-      }
+
       <Header picture="https://icons.veryicon.com/png/o/miscellaneous/two-color-icon-library/user-286.png" />
 
       <div className="mainSubjectsContainer">
@@ -42,7 +27,7 @@ export default function Subjects() {
         </div>
         <div className="subjectMenuContainer">
           <div className="subjectMenu menuButton">
-            <button className="createButton" onClick={createSubject}>+</button>
+            <SubjectCreation />
           </div>
           <NavLink to="/dashboard/topics" className='topicButton menuButton'>
             <button className='topicButton'>Go to Topics</button>
