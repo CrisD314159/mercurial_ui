@@ -13,7 +13,7 @@ export default function SelectMenu(props:SelectProps) {
 
 
   return(
-    <FormControl sx={{width:'210px', marginRight:'30px'}}>
+    <FormControl sx={{width:'210px', marginRight:'30px', marginBottom:'20px', m:1}}>
     <InputLabel id="demo-simple-select-label">{title}</InputLabel>
     <Select
       labelId="demo-simple-select-label"

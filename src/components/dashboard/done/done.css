@@ -2,6 +2,12 @@
   height: 100%;
   width: 50vw;
   padding: 0 40px;
+
+  @media screen and (max-width: 768px){
+    width: 100vw;
+    padding: 0;
+    
+  }
   
 
   
@@ -77,6 +83,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  @media screen and (max-width: 768px){
+    width: 90%;
+    
+  }
 
 }
 
@@ -174,6 +185,11 @@ h3{
   position: absolute;
   left: 45%;
   margin: 0 30px;
+
+  @media screen and (max-width: 768px){
+    display: none;
+    
+  }
 }
 
 .roll_backButton{
@@ -199,6 +215,11 @@ h3{
   margin: 0 30px;
   position: absolute;
   left: 60%;
+
+  @media screen and (max-width: 768px){
+    left: 45%;
+    
+  }
 }
 
 .roll_backButton:hover{

@@ -52,7 +52,9 @@ export default function ToDo(props: ToDoProps){
                         <h3 className='title'>{task.title}</h3> {/** Titulo de la tarea */}
                         <p className='subject'>{task.subject_id}</p> { /** Aquí luego pondremos el nombre de la materia, no su id */}
                       </div>
-                      <p className='topic'>{task.topic_id}</p> { /** Aquí luego pondremos el nombre del topic, no su id */}
+                      <div>
+                        <p className='topic'>{task.topic_id}</p> { /** Aquí luego pondremos el nombre del topic, no su id */}
+                      </div>
                       <div className='buttonContainer'>
                         <Fab size='small' className='doneButton button'> <DoneIcon/> </Fab> {/** Añadiremos un evento a este botón el cual permite marcar la 
                          * tarea como completada 

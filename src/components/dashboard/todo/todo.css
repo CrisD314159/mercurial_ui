@@ -7,7 +7,13 @@
   justify-content: center;
   border-right: 1px dotted #3d3d3d; /* especifica el borde derecho del elemento */
 
-  
+  @media screen and (max-width: 768px) { /* especifica un media query para pantallas de 768px o menos */
+    width: 100vw; /* especifica el ancho del elemento */
+    border-right: none;
+
+ 
+    
+  }
 
 }
 
@@ -22,6 +28,11 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
+
+  @media screen and (max-width: 768px) {
+    padding:0 ;
+    
+  }
 
 
 }
@@ -90,6 +101,11 @@
     border-radius: 40px;
     height: 80px;
     position: relative;
+
+    @media screen and (max-width: 768px) {
+      width: 95%;
+      
+    }
 }
 
 .iconContainer{
@@ -103,6 +119,11 @@
   flex-direction: column;
   justify-content: center;
   width: 30%;
+
+  @media screen and (max-width: 768px) {
+    width: 25%;
+    
+  }
 }
 
 .title{
@@ -125,6 +146,12 @@ h3{
   margin: 0 30px;
   position: absolute;
   left: 50%;
+  width: 10%;
+
+  @media screen and (max-width: 768px) {
+    left: 45%;
+    
+  }
 }
 
 .buttonContainer{
@@ -134,6 +161,8 @@ h3{
   width: 35%;
   position: absolute;
   right: 0;
+
+  
 }
 
 .button{

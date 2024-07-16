@@ -52,34 +52,36 @@ export default function TaskCreation(props: TaskCreationProps) {
   return (
     <div>
       <Fab size="small" onClick={handleClickOpen}><AddIcon /></Fab>
-      <Dialog open={open} onClose={handleClose} sx={{ backdropFilter: 'blur(2px)' }} aria-labelledby="alert-dialog-title"
+      <Dialog open={open} onClose={handleClose} sx={{ backdropFilter: 'blur(2px)'  }} aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description">
-        <DialogTitle sx={{ backgroundColor: '#0F0F0F', padding: '20px' }} id="alert-dialog-title">
-          <TextField placeholder="New task" value={title} onChange={(e) => setTitle(e.target.value)} variant="standard" required size="medium"></TextField>
-        </DialogTitle>
-        <DialogContent sx={{ backgroundColor: '#0F0F0F', width: '600px', height: '300px' }} id="alert-dialog-description" >
-          <form action="">
-            <div style={{ width: '90%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              <div style={{ margin: '30px' }}>
-                <SelectMenu handleSelect={handleSelectSubject} option={subject} options={subjects} title="Subjects" />
-                <SelectMenu handleSelect={handleSelectTopic} option={topic} options={topics} title="Topics" />
+          <div style={{border:'1px solid #666', borderRadius:'6px', overflow:'hidden'}}>
+            <DialogTitle sx={{ backgroundColor: '#0F0F0F', padding: '20px'  }} id="alert-dialog-title">
+            <TextField placeholder="New task" value={title} onChange={(e) => setTitle(e.target.value)} variant="standard" required size="medium"></TextField>
+          </DialogTitle>
+          <DialogContent sx={{ backgroundColor: '#0F0F0F', height: '300px' }} id="alert-dialog-description" >
+            <form action="">
+              <div style={{ width: '90%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <div style={{ margin: '30px' }}>
+                  <SelectMenu handleSelect={handleSelectSubject} option={subject} options={subjects} title="Subjects" />
+                  <SelectMenu handleSelect={handleSelectTopic} option={topic} options={topics} title="Topics" />
+                </div>
+                <TextField sx={{ m: 1, width: '100%' }} value={description} onChange={(e) => setDescription(e.target.value)} label='Description' type='text' variant='outlined' multiline maxRows={4} />
+
               </div>
-              <TextField sx={{ m: 1, width: '100%' }} value={description} onChange={(e) => setDescription(e.target.value)} label='Description' type='text' variant='outlined' multiline maxRows={4} />
-
-            </div>
 
 
 
 
-          </form>
+            </form>
 
 
-        </DialogContent>
-        <DialogActions sx={{ backgroundColor: '#0F0F0F', display: 'flex', justifyContent: 'space-around', paddingBottom: '50px' }}>
-          <Button onClick={handleClose} variant="outlined" color="error">Cancel</Button>
-          <Button onClick={handleCreate} variant="outlined" color="success">Create</Button>
+          </DialogContent>
+          <DialogActions sx={{ backgroundColor: '#0F0F0F', display: 'flex', justifyContent: 'space-around', paddingBottom: '50px' }}>
+            <Button onClick={handleClose} variant="outlined" color="error">Cancel</Button>
+            <Button onClick={handleCreate} variant="outlined" color="success">Create</Button>
 
-        </DialogActions>
+          </DialogActions>
+          </div>
 
       </Dialog>
 

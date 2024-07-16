@@ -27,19 +27,25 @@ export default function SubjectCreation() {
         <div>
             <Fab size="small" onClick={handleClickOpen}
             ><AddIcon /></Fab>
+            
             <Dialog open={open} onClose={handleClose} sx={{ backdropFilter: 'blur(2px)' }}
-            ><DialogContent sx={{
-                backgroundColor: '#0F0F0F',
-                display: 'flex', flexDirection: 'column', alignItems: 'center', width: '300px', height: '150px', justifyContent: 'center', borderRadius: '6px', border: '1px solid #666'
-            }}>
-                    <TextField placeholder="New Subject" value={title} onChange={(e) => setTitle(e.target.value)} variant="standard"
-                    ></TextField>
-                    <DialogActions sx={{ backgroundColor: '#0F0F0F', display: "flex", justifyContent: 'space-around', paddingTop: '30px' }}>
-                        <Button onClick={handleClose} variant="outlined" color="error">Cancel</Button>
-                        <Button onClick={handleCreate} variant="outlined" color="success">Create</Button>
-                    </DialogActions>
-                </DialogContent>
+            >
+                <div>
+                    <DialogContent sx={{
+                    backgroundColor: '#0F0F0F',
+                    display: 'flex', flexDirection: 'column', alignItems: 'center', height: '150px', justifyContent: 'center', borderRadius: '6px', border: '1px solid #666'
+                }}>
+                        <TextField placeholder="New Subject" value={title} onChange={(e) => setTitle(e.target.value)} variant="standard"
+                        ></TextField>
+                        <DialogActions sx={{ backgroundColor: '#0F0F0F', display: "flex", justifyContent: 'space-around', paddingTop: '30px' }}>
+                            <Button onClick={handleClose} variant="outlined" color="error">Cancel</Button>
+                            <Button onClick={handleCreate} variant="outlined" color="success">Create</Button>
+                        </DialogActions>
+                    </DialogContent>
 
+
+                </div>
+                
             </Dialog>
         </div>
     )
