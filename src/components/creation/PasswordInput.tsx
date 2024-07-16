@@ -18,9 +18,10 @@ export default function PasswordInput(props: PasswordInputProps) {
         event.preventDefault();
     };
     return (
-        <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+        <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined" required>
             <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
             <OutlinedInput
+                required
                 defaultValue={password}
                 id="outlined-adornment-password"
                 type={showPassword ? 'text' : 'password'}

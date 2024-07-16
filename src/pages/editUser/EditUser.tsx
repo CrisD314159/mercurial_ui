@@ -60,7 +60,7 @@ export default function EditUser() {
               </div>
 
               <form action="" className='editUserForm'>
-                <TextField sx={{ m: 1, width: '25ch' }} label='Name' type='text' variant='outlined' defaultValue={name}
+                <TextField sx={{ m: 1, width: '25ch' }} label='Name' type='text' variant='outlined' defaultValue={name} required
                   onChange={(e) => {
                     setName(e.target.value)
                   }} />
@@ -69,7 +69,7 @@ export default function EditUser() {
                     setEmail(e.target.value)
                   }}
                 />
-                <TextField sx={{ m: 1, width: '25ch' }} label='Username' type='text' variant='outlined' defaultValue={username}
+                <TextField sx={{ m: 1, width: '25ch' }} label='Username' type='text' variant='outlined' defaultValue={username} required
                   onChange={(e) => {
                     setUsername(e.target.value)
                   }}
