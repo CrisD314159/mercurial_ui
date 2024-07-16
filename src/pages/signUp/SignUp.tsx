@@ -1,6 +1,7 @@
 import { TextField } from "@mui/material";
 import { useState } from "react";
 import './signUp.css'
+import PasswordInput from "../../components/creation/PasswordInput";
 
 export default function SignUp() {
     const [FullName, setFullName] = useState('');
@@ -59,16 +60,7 @@ export default function SignUp() {
                                     setUsername(e.target.value);
                                 }}
                             />
-                            <TextField
-                                required
-                                label="Password"
-                                type="password"
-                                variant="outlined"
-                                value={password}
-                                onChange={(e) => {
-                                    setPassword(e.target.value);
-                                }}
-                            />
+                            <PasswordInput password={password} setPassword={setPassword}></PasswordInput>
                         </div>
 
                         <button className="signUpButton">Sign Up</button>

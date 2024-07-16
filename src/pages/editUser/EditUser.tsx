@@ -1,12 +1,12 @@
 import './editUser.css'
 import json from '../../../public/dataset.json'
 import Header from '../../components/Header';
-import { Button, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import { useState } from 'react';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { styled } from '@mui/material/styles';
 import { NavLink } from 'react-router-dom';
+import PasswordInput from '../../components/creation/PasswordInput';
 
 
 const VisuallyHiddenInput = styled('input')({
@@ -21,22 +21,16 @@ const VisuallyHiddenInput = styled('input')({
   width: 1,
 });
 export default function EditUser() {
-  const user = json.users.find((user)=> user.id === 1)
-  const [showPassword, setShowPassword] = useState(false)
+  const user = json.users.find((user) => user.id === 1)
   const [name, setName] = useState(user?.name)
   const [email, setEmail] = useState(user?.email)
   const [username, setUsername] = useState(user?.name)
-  const [password, setPassword] = useState(user?.password)
+  const [password, setPassword] = useState(user ? user.password : '')
 
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-  };
 
   // Lo que hace es que cuando se presiona el botón de save, se imprimen los valores de los campos en la consola
   // Cuando hagamos la integración con la API, aquí se hará la petición PUT
-  const handleSubmit = ()=>{
+  const handleSubmit = () => {
     console.log({
       name, email, username, password
     });
@@ -46,77 +40,54 @@ export default function EditUser() {
     <div>
       < Header picture="https://icons.veryicon.com/png/o/miscellaneous/two-color-icon-library/user-286.png" />
       {
-        user ? 
-        <div className='mainUserCardContainer'>
-          <div className='editUserCard'>
-            <div className='editProfileImageContainer'>
-              <div className='profileImageContainerUser' style={{ backgroundImage: `url("${user.picture}")` }}></div>
-              <Button
-                component="label"
-                role={undefined}
-                variant="contained"
-                tabIndex={-1}
-                startIcon={<CloudUploadIcon />}
-                size='small'
-              >
-                Edit Photo
-                <VisuallyHiddenInput type="file" />
-              </Button>
+        user ?
+          <div className='mainUserCardContainer'>
+            <div className='editUserCard'>
+              <div className='editProfileImageContainer'>
+                <div className='profileImageContainerUser' style={{ backgroundImage: `url("${user.picture}")` }}></div>
+                <Button
+                  component="label"
+                  role={undefined}
+                  variant="contained"
+                  tabIndex={-1}
+                  startIcon={<CloudUploadIcon />}
+                  size='small'
+                >
+                  Edit Photo
+                  <VisuallyHiddenInput type="file" />
+                </Button>
 
-            </div>
+              </div>
 
-            <form action="" className='editUserForm'>
-              <TextField sx={{ m: 1, width: '25ch' }} label = 'Name' type='text' variant='outlined' defaultValue={name}
-              onChange={(e)=>{
-                setName(e.target.value)
-              }}/>
-              <TextField sx={{ m: 1, width: '25ch' }} label = 'Email' type='email' variant='outlined' defaultValue={email} disabled
-                onChange={(e)=>{
-                  setEmail(e.target.value)
-                }}
-              />
-              <TextField sx={{ m: 1, width: '25ch' }} label = 'Username' type='text' variant='outlined' defaultValue={username} 
-                onChange={(e)=>{
-                  setUsername(e.target.value)
-                }}
-              />
-              <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
-                <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-                <OutlinedInput
-                  defaultValue={password}
-                  id="outlined-adornment-password"
-                  type={showPassword ? 'text' : 'password'}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                        edge="end"
-                      >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                  onChange={(e)=>{
-                    setPassword(e.target.value)
+              <form action="" className='editUserForm'>
+                <TextField sx={{ m: 1, width: '25ch' }} label='Name' type='text' variant='outlined' defaultValue={name}
+                  onChange={(e) => {
+                    setName(e.target.value)
+                  }} />
+                <TextField sx={{ m: 1, width: '25ch' }} label='Email' type='email' variant='outlined' defaultValue={email} disabled
+                  onChange={(e) => {
+                    setEmail(e.target.value)
                   }}
-                  label="Password"
                 />
-              </FormControl>
-            </form>
-            <div className='editUserbuttonContainer'>
-              <NavLink to={'/userSettings'}><Button variant='contained' color='error'>Cancel</Button></NavLink>
-              <Button variant='contained' onClick={handleSubmit}>Save</Button>
+                <TextField sx={{ m: 1, width: '25ch' }} label='Username' type='text' variant='outlined' defaultValue={username}
+                  onChange={(e) => {
+                    setUsername(e.target.value)
+                  }}
+                />
+                <PasswordInput password={password} setPassword={setPassword}></PasswordInput>
+              </form>
+              <div className='editUserbuttonContainer'>
+                <NavLink to={'/userSettings'}><Button variant='contained' color='error'>Cancel</Button></NavLink>
+                <Button variant='contained' onClick={handleSubmit}>Save</Button>
+              </div>
             </div>
-        </div>
 
-        </div>
-        : <></>
-        
+          </div>
+          : <></>
+
       }
-      
+
     </div>
   );
-  
+
 }
