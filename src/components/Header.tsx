@@ -1,11 +1,12 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import './header.css'
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { Button } from '@mui/material';
-interface HeaderProps {
-  picture: string
+import { useState } from 'react';
+import { getImageFromLocalStorage } from '../utils/utils';
+import { useMutation } from '@tanstack/react-query';
+import { LogOutResponse } from './types/types';
 
-}
 
 /*
 props: {
@@ -14,7 +15,33 @@ props: {
   }
 **/
 
-export default function Header(props: HeaderProps) {
+async function logout() : Promise <LogOutResponse>{
+  const response = await fetch('http://localhost:8080/logout',{
+    method:'POST',
+    credentials:'include',
+  })
+
+  return response.json()
+
+}
+
+export default function Header() {
+  const [image] = useState<string>(getImageFromLocalStorage() || '')
+  const navigate = useNavigate()
+
+
+  const mutate = useMutation<LogOutResponse, Error>({
+    // En este caso no se le pasa ningun argumento a la función logout, por lo tanto solo ponemos dos valores
+    // LogOutResponse es el tipo de dato que retornará la función logout
+    // Error es el tipo de dato que retornará la función en caso de error
+    mutationFn: logout, // Función que se ejecutará al llamar a mutate.mutate()
+    onSuccess: ()=>{
+      localStorage.removeItem('userImage') // Eliminamos la imagen de usuario del localStorage si la petición es exitosa
+      navigate('/') // Redirigimos al usuario a la ruta raíz, que es el login
+
+    }
+  })
+
   /*
   Listas en html
 
@@ -37,6 +64,10 @@ export default function Header(props: HeaderProps) {
      
 
   */
+  function handleLogout(){
+    mutate.mutate() // Como no se le pasa ningun argumento, se ejecuta la función logout
+  }
+
   return (
     <header className='headerContainer'>
       <div className='imageContainerHeader'>
@@ -46,10 +77,10 @@ export default function Header(props: HeaderProps) {
       </div>
       <nav className='nav'>
         <ul className='navList'>
-          <li className='listItem'><Button variant='contained' color='primary' className='logoutButton'><ExitToAppIcon /></Button></li>
+          <li className='listItem'><Button variant='contained' color='primary' className='logoutButton' onClick={handleLogout}><ExitToAppIcon /></Button></li>
           <li className='listItem'>
             <NavLink to={'/userSettings'}>
-              <div className='profileImageContainer'><img src={props.picture} alt="" className='profileImage' /></div>
+              <div className='profileImageContainer'><img src={image} alt="" className='profileImage' /></div>
             </NavLink>
 
           </li>

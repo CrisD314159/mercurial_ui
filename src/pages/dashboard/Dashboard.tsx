@@ -25,7 +25,7 @@ export default function Dashboard() {
   return (
     <div>
 
-      <Header picture="https://icons.veryicon.com/png/o/miscellaneous/two-color-icon-library/user-286.png" />
+      <Header />
       <div className="dashboardMainContainer">
         <ToDo subjects={subjects} tasks={tasks} createTask={createTask} topics={topics} /> {/**Aquí importamos el componente to do
          * Enviamos la funcion de createTask para poder que en el todo mediante un evento accionado por el 

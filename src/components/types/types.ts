@@ -28,3 +28,26 @@ export interface User{
   password: string
   picture: string
 }
+
+
+export interface LoginResponse{
+  success: boolean,
+  message: string,
+  data : LoginData
+
+}
+
+export interface LoginData{
+  userEmail: string,
+  userImage: string
+}
+
+export interface LoginCredentials{
+  email: string,
+  password: string
+}
+
+export interface LogOutResponse{
+  success: boolean,
+  message: string,
+}

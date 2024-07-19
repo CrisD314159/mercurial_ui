@@ -10,6 +10,7 @@ import Subjects from './pages/subjects/Subjects.tsx'
 import Topics from './pages/topics/Topics.tsx'
 import UserSettings from './pages/userSettings/userSettings.tsx'
 import EditUser from './pages/editUser/EditUser.tsx'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 const theme = createTheme({
   palette: {
@@ -26,6 +27,9 @@ const theme = createTheme({
 
   }
 });
+
+const queryClient = new QueryClient() // Creamos una instancia de la clase QueryClient para poder usarla en toda la aplicación
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -58,10 +62,15 @@ const router = createBrowserRouter([
 
 ])
 
+// Envolvemos toda la aplicación en el componente QueryClientProvider para que todas las páginas de la app tengan acceso a la instancia de QueryClient
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <RouterProvider router={router} />
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={theme}>
+        <RouterProvider router={router} />
+      </ThemeProvider>
+    </QueryClientProvider>
+    
   </React.StrictMode>,
 )

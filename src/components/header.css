@@ -27,6 +27,7 @@
 
 .profileImageContainer{
   width: 50px;
+  border-radius: 50%;
 }
 .profileImage{
   width: 100%;
