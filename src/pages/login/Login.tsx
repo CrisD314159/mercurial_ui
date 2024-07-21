@@ -20,7 +20,7 @@ async function login(credentials: LoginCredentials) : Promise<LoginResponse> {
     return response.json() // retornamos la respuesta en formato JSON
     
   } catch (error) {
-    throw new Error('There was a erro with the API') // lanzamos un error si la respuesta de la API no es correcta
+    throw new Error('There was a error with the API') // lanzamos un error si la respuesta de la API no es correcta
     
   }
   
@@ -38,6 +38,8 @@ export default function Login() {
   useEffect(()=>{
     if(localStorage.getItem('userImage')){ // verificamos si existe la imagen de usuario en el localStorage
       navigate('/dashboard') // si existe una imagen, es porque el usuario ya ha iniciado sesión, por lo que lo redirigimos al dashboard
+    }else{
+      document.title = 'Mercurial' // si no existe una imagen, es porque el usuario no ha iniciado sesión, por lo que mantenemos el título de la página como Login
     }
   })
 

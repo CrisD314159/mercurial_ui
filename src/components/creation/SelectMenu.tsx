@@ -4,9 +4,13 @@ interface SelectProps{
   title: string,
   option: string,
   handleSelect: (event: SelectChangeEvent) => void,
-  options: string[]
+  options: selectMenuProps[]
 
 
+}
+interface selectMenuProps {
+  id:string,
+  name:string
 }
 export default function SelectMenu(props:SelectProps) {
   const {title, option, handleSelect, options} = props
@@ -23,8 +27,8 @@ export default function SelectMenu(props:SelectProps) {
       onChange={handleSelect}
     >
       {
-        options.map((option: string)=>{
-          return <MenuItem value={option}>{option}</MenuItem>
+        options.map((option: selectMenuProps, index)=>{
+          return <MenuItem value={option.id} key={index}>{option.name}</MenuItem>
         })
       }
     </Select>

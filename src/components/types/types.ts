@@ -1,23 +1,30 @@
 export interface Subject{
-  id: number,
+  id: string,
   name: string,
-  state: string,
-  user_id: number
-  
+  color: string,
+  state_id: string,
+  state_name:string,
+  user_id: string,
+  user_name: string,
 }
 
 export interface Task{
-  id: number,
-  title: string,
+  id: string,
+  tittle: string,
   description: string,
-  state: string,
-  subject_id: number,
-  topic_id: number
+  stateid: string,
+  statename: string,
+  subjectid: string,
+  subjectname:string,
+  topicid: string,
+  topictittle: string,
 }
 
 export interface Topic{
-  id: number,
-  title: string
+  id: string,
+  tittle: string,
+  usuario_id: string,
+  state:string,
   color: string
 }
 
@@ -50,4 +57,36 @@ export interface LoginCredentials{
 export interface LogOutResponse{
   success: boolean,
   message: string,
+}
+
+export interface GeneralResponse{
+  success: boolean,
+  message: string,
+}
+
+export interface SignUpFields{
+  name:string,
+  email:string,
+  username: string,
+  password: string
+}
+
+export interface TaskList{
+  success: boolean,
+  tasksUser: Task[]
+
+}
+export interface TaskDoneList{
+  tasks: Task[]
+
+}
+export interface SubjectList{
+  success: boolean,
+  subjects: Subject[]
+
+}
+export interface TopicList{
+  success: boolean,
+  topic: Topic[]
+
 }

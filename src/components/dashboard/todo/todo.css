@@ -91,12 +91,37 @@
   }
 }
 
+.taskDescriptionContainer{
+  margin-bottom: 30px;
+  width: 90%;
+
+  @media screen and (max-width: 768px) {
+    width: 95%;
+    
+  }
+
+}
+.descriptionContainer{
+  height: 100px;
+  width: 100%;
+  border-radius: 30px;
+  margin-top: 5px;
+  border: 1px solid #666;
+  overflow: scroll;
+
+
+
+}
+.description{
+  font-size: 14px;
+  font-weight: 300;
+  padding-left: 10px;
+
+}
 .taskContainer{
-  flex: 1 0 80px;
     display: flex;
     align-items: center;
-    margin-bottom: 30px;
-    width: 90%;
+    width: 100%;
     border: 1px solid #666;
     border-radius: 40px;
     height: 80px;
@@ -145,7 +170,8 @@ h3{
   color: #a7ec04; /* especifica el color del texto */
   margin: 0 30px;
   position: absolute;
-  left: 50%;
+  left: 45%;
+  bottom: 40%;
   width: 10%;
 
   @media screen and (max-width: 768px) {
@@ -173,13 +199,8 @@ h3{
   height: 30px;
   border-radius: 50%;
   font-size: 20px;
-  transition: all 0.3s;
 }
 
-.button:hover{
-  transform: translate(0, -3px);
-  cursor: pointer;
-}
 
 .doneButton{
   border: 1px solid #1712FF;

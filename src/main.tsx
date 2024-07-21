@@ -11,6 +11,7 @@ import Topics from './pages/topics/Topics.tsx'
 import UserSettings from './pages/userSettings/userSettings.tsx'
 import EditUser from './pages/editUser/EditUser.tsx'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import NotFound from './pages/notFound/NotFound.tsx'
 
 const theme = createTheme({
   palette: {
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
   {
     path: '/userSettings/editUser',
     element:<EditUser/>
+  },
+  {
+    path: '*',
+    element: <NotFound/>
   }
 
 ])

@@ -2,6 +2,7 @@
   display: flex;
   overflow-x: auto;
   position: relative;
+  width: 100%;
   
   &::-webkit-scrollbar {
     display: none;
@@ -21,6 +22,7 @@
   border-radius: 40px;
   cursor: pointer;
   transition: all 250ms ease-in-out;
+
   
   &:hover {
     box-shadow: 0 4px 1rem -4px #000;
@@ -45,4 +47,5 @@
 .mainSliderContainer{
   display: flex;
   align-items: center;
+  width: 100%;
 }

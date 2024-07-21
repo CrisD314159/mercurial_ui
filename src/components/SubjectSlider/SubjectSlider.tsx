@@ -3,20 +3,26 @@ import { Subject } from "../types/types"
 import './subjectSlider.css'
 import {Fab } from "@mui/material"
 import ClearIcon from '@mui/icons-material/Clear';
-interface SliderProps{
-  subjects: Subject[]
+
+
+interface SubjectSliderProps{
+  subjects: Subject[],
+  filterTasks: (id:string) => void
+
 }
-export default function SubjectSlider(props:SliderProps){
-  const {subjects} = props
-  const [selected, setSelected] = useState<number>(0)
-  const handleClick = (id:number)=>{
-    setSelected(id)
+
+export default function SubjectSlider(props: SubjectSliderProps){
+  const [subjects] = useState<Subject[]>(props.subjects)
+  const [selected, setSelected] = useState<string>('')
+  const handleClick = (id:string)=>{
+    setSelected(id) // Con setSelected se cambia el estado de selected, para que se renderize el componente con el color de fondo correspondiente
+    props.filterTasks(id) // Se llama a la función filterTasks que se encuentra en el componente padre, para filtrar las tareas por materia
 
   }
   return(
     <div className="mainSliderContainer">
       {
-      selected !== 0?<Fab size="small" color="secondary" onClick={()=> handleClick(0)}><ClearIcon/></Fab>:<></>
+      selected !== ''?<Fab size="small" color="secondary" onClick={()=> handleClick('')}><ClearIcon/></Fab>:<></>
     }
       
       <div className="subjectsSlider">

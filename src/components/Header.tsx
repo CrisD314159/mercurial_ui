@@ -1,9 +1,9 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import './header.css'
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import { Button } from '@mui/material';
+import { Avatar, Button } from '@mui/material';
 import { useState } from 'react';
-import { getImageFromLocalStorage } from '../utils/utils';
+import { getImageFromLocalStorage, logout } from '../utils/utils';
 import { useMutation } from '@tanstack/react-query';
 import { LogOutResponse } from './types/types';
 
@@ -15,15 +15,7 @@ props: {
   }
 **/
 
-async function logout() : Promise <LogOutResponse>{
-  const response = await fetch('http://localhost:8080/logout',{
-    method:'POST',
-    credentials:'include',
-  })
 
-  return response.json()
-
-}
 
 export default function Header() {
   const [image] = useState<string>(getImageFromLocalStorage() || '')
@@ -80,7 +72,7 @@ export default function Header() {
           <li className='listItem'><Button variant='contained' color='primary' className='logoutButton' onClick={handleLogout}><ExitToAppIcon /></Button></li>
           <li className='listItem'>
             <NavLink to={'/userSettings'}>
-              <div className='profileImageContainer'><img src={image} alt="" className='profileImage' /></div>
+              <Avatar src={image} alt='userImage' className='avatar' />
             </NavLink>
 
           </li>
