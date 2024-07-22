@@ -1,0 +1,42 @@
+.notFoundContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    
+}
+
+.image404{
+    
+    margin: 30px 0;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.infoContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.backButton{
+  width: 140px;
+  height: 40px;
+  background-color: #e2e2e2;
+  font-size: 16px;
+  font-weight: 300;
+  border: 1px solid #6666;
+  border-radius: 40px;
+  margin-right: 15px;
+  transition: all 0.3s;
+    margin-top: 20px;
+}
+
+.backButton:hover{
+  background-color: #e2e2e2;
+  transform: translate(0, -3px);
+  cursor: pointer;
+}
