@@ -1,60 +1,52 @@
 import './todo.css'
-
 import SubjectSlider from '../../SubjectSlider/SubjectSlider'
-import { Subject, SubjectList, Task, TaskList, Topic, TopicList } from '../../types/types'
-
+import { Subject, SubjectList, Task, Topic, TopicList } from '../../types/types'
 import TaskCreation from '../../creation/TaskCreation';
 import { useEffect, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { getSubjects, getTasks, getTopics, logout } from '../../../utils/utils';
+import { getSubjects, getTopics, logout } from '../../../utils/utils';
 import LoadingComponent from '../../loading/LoadingComponent';
-import { useNavigate } from 'react-router-dom';
-
 import TaskContainer from './TaskContainer';
+import { useNavigate } from 'react-router-dom';
+import { Alert } from '@mui/material';
 
 
 
+interface TodoProps{
+  tasks: Task[],
+  handletaskCreation: (task:Task) => void,
+  filterTasks: (subjectId:string) => void,
+  markAsDone: (taskId:string) => void,
+  deleteTask: (taskId:string) => void,
+
+}
 
 
 
-export default function ToDo(){
-  
-  const navigate = useNavigate() // Hook de react-router-dom que permite navegar entre rutas
-  const [tasks, setTasks] = useState<Task[]>([]) // Estado que contendrá las tareas del usuario
-  const [filteredTasks, setFilterdTasks] = useState<Task[]>([]) // Estado que contendrá las tareas del usuario esto lo hacemos para poder filtrar sin necesidad de hacer otra petición
+export default function ToDo(props: TodoProps){ 
+  const navigate = useNavigate()
   const [subjects, setSubjects] = useState<Subject[]>([]) // Estado que contendrá las materias del usuario
   const [isLoading, setIsLoading] = useState(true) // Estado que indica si la página está cargando
   const [topics, setTopics] = useState<Topic[]>([]) // Estado que contendrá los topics del usuario
-  const [empty, setEmpty] = useState(false) // Estado que indica si el usuario no tiene tareas pendientes
+  const [alert, setAlert] = useState(false) // Estado que indica si hay una alerta en la página
+ 
 
-  const tasksMutation = useMutation<TaskList, Error>({
-    mutationFn: getTasks,
-    onSuccess:(data:TaskList)=>{
-      if(data.success === false){ // Si la respuesta de la API es que no hay tareas, entonces seteamos el estado empty a true
-        setEmpty(true)
-
-      }else{
-        setTasks(data.tasksUser) // Si hay tareas, entonces seteamos las tareas en el estado tasks
-        setFilterdTasks(data.tasksUser) // Seteamos las tareas en el estado filteredTasks
-      }
-      
-    },
-    onError:()=>{ // Si hay un error en la petición, entonces cerramos la sesión del usuario y lo redirigimos al login
-      logout() // Función que cierra la sesión del usuario
-      localStorage.clear() // Limpiamos el localStorage
-      navigate('/') // Redirigimos al usuario al login
-
-    }
-  })
 
   const subjectsMutation = useMutation<SubjectList, Error>({
     mutationFn: getSubjects,
     onSuccess:(data:SubjectList)=>{
-      console.log(data.subjects);
       setSubjects(data.subjects)
     },
-    onError:()=>{
-      console.log('error');
+    onError:(error:Error)=>{
+      if(error.message === 'Unauthorized'){
+        logout()
+        localStorage.clear()
+        navigate('/')
+
+      }else{
+        setAlert(true)
+      }
+      
       
     }
   })
@@ -63,24 +55,32 @@ export default function ToDo(){
     mutationFn: getTopics,
     onSuccess:(data:TopicList)=>{
       setTopics(data.topic)
+    },
+    onError:(error:Error)=>{
+      if(error.message === 'Unauthorized'){
+        logout()
+        localStorage.clear()
+        navigate('/')
+      }
     }
   })
 
   const handleTaskCreation = (task:Task)=>{ // Función que se encarga de añadir una tarea a la lista de tareas
-    console.log(task);
-    setTasks([...tasks, task]) // Añadimos la tarea al estado
-    setFilterdTasks([...filteredTasks, task]) // Añadimos la tarea al estado
+   props.handletaskCreation(task)
   }
 
   const filterTasks = (subjectId:string)=>{ 
     // Función que se encarga de filtrar las tareas por asignatura
-    if(subjectId !== ''){ // Si el id de la asignatura es 0, entonces mostramos todas las tareas
-      setFilterdTasks(tasks.filter(task => task.subjectid === subjectId)) // Filtramos las tareas por asignatura
-      
-    }else{
-      setFilterdTasks(tasks) // Si el id de la asignatura es '', entonces mostramos todas las tareas
-    }
+    props.filterTasks(subjectId)
 
+  }
+
+  const markAsDone = (taskId:string)=>{ // Función que se encarga de marcar una tarea como completada
+    props.markAsDone(taskId)
+  }
+
+  const deleteTask = (taskId:string)=>{ // Función que se encarga de eliminar una tarea
+    props.deleteTask(taskId)
   }
  
   
@@ -90,7 +90,6 @@ export default function ToDo(){
     function fetchData() { // Función que se encarga de hacer las peticiones a la API
       subjectsMutation.mutate(),
       topicsMutation.mutate(),
-      tasksMutation.mutate()
       setIsLoading(false)
       
     }
@@ -102,10 +101,15 @@ export default function ToDo(){
   if(isLoading){ // Si la página está cargando, entonces mostramos el componente LoadingComponent
     return <LoadingComponent/>
   }
-  if(empty){ // Si el usuario no tiene tareas pendientes, entonces mostramos un mensaje
-    return(
-      <div>
-      
+  
+
+  return(
+    <div>
+        {
+        alert && (
+          <Alert severity="error" onClose={()=>{setAlert(false)}}>There was an error with the content</Alert>
+        )
+      }
       
       <div className="todoContainer">
          {/* Contenedor de las materias del usuario */}
@@ -126,58 +130,16 @@ export default function ToDo(){
 
           {/* Contenedor de las tareas del usuario o la materia seleccionada */}
           <div className='mainTasksContainer'>
-            <div className="tasksContainer">
-             <p>There are not pending tasks right now</p>
-
-            </div>
-
-          </div>
-        
-      </div>
-      
-      
-         
-    </div>
-    );
-}
-
-
-  return(
-    <div>
-      
-      
-      <div className="todoContainer">
-         {/* Contenedor de las materias del usuario */}
-         <div className="subjectsSlider">
-          { subjects.length > 0 && (
-            <SubjectSlider subjects={subjects} filterTasks={filterTasks}/>
-
-          )}
-             {/* Aquí se renderiza el componente SubjectSlider, el cual recibe las materias del usuario 
-            Luego recibiremos las meterias mediante la api, ademas que envieremos un metodo para poder filtrar las tareas por asignatura*/}
-          </div>
-
-         
-          <div className="createMenu">  {/* Contenedor de la barra de creación de tareas */}
-             {/* Contenedor de la barra de creación de tareas */}
-          {subjects.length > 0 && topics.length > 0 && (
-            <TaskCreation subjects={subjects} topics={topics} handleTaskCreation={handleTaskCreation}/>
-          )}{/** Aquí se renderiza el componente TaskCreation, el cual recibe los topics del usuario */}
-             {/** Este boton le añadiremos un evento el cual muestra el menu de creación */}
-            <div className='mainTittleContainer'>
-              <h1 className='todoTittle'>To-Do</h1>
-            </div>
-          </div>
-
-
-          {/* Contenedor de las tareas del usuario o la materia seleccionada */}
-          <div className='mainTasksContainer'>
             {
               // Decidi hacer un componente TaskContainer para poder renderizar las tareas de una forma más ordenada
               // ya que se abulta mucho el componente ToDo
-              tasks && tasks.length > 0 && (
-                <TaskContainer tasks={filteredTasks}/>
-              )
+              props.tasks && props.tasks.length > 0 ? (
+                <TaskContainer tasks={props.tasks} deletetask={deleteTask} markAsDone= {markAsDone}/>
+              ):
+              <div className='tasksContainer'>
+                <p>There are not pending tasks right now</p>
+              </div>
+              
             }
             
 
@@ -185,8 +147,6 @@ export default function ToDo(){
         
       </div>
       
-      
-         
     </div>
   )
 }

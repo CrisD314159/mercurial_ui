@@ -73,6 +73,7 @@ export interface SignUpFields{
 
 export interface TaskList{
   success: boolean,
+  message: string,
   tasksUser: Task[]
 
 }
@@ -88,5 +89,30 @@ export interface SubjectList{
 export interface TopicList{
   success: boolean,
   topic: Topic[]
+
+}
+
+export interface TaskCreationFileds{
+  "tittle": string,
+  "description": string,
+  "subjectId": string,
+  "topicId": string
+}
+
+export interface TaskCreationResponse{
+  success: boolean,
+  message: string,
+  task: Task
+
+}
+export interface SubjectCreationFileds{
+  "name": string,
+  "color": string
+}
+
+export interface SubjectCreationResponse{
+  success: boolean,
+  message: string,
+  subject: Subject
 
 }

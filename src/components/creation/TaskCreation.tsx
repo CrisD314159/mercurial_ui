@@ -1,8 +1,10 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Fab, SelectChangeEvent, TextField } from "@mui/material";
+import { Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle, Fab, SelectChangeEvent, TextField } from "@mui/material";
 import { useState } from "react";
 import AddIcon from '@mui/icons-material/Add';
-import { Subject, Task, Topic } from "../types/types";
+import { Subject, Task, TaskCreationFileds, TaskCreationResponse, Topic } from "../types/types";
 import SelectMenu from "./SelectMenu";
+import { useMutation } from "@tanstack/react-query";
+import { createTask } from "../../utils/utils";
 
 
 interface TaskCreationProps {
@@ -18,9 +20,8 @@ interface selectMenuProps {
 
 export default function TaskCreation(props: TaskCreationProps) {
   const [error, setError] = useState(false)
+  const [alert, setAlert] = useState(false) // Estado que indica si hay una alerta en la página
 
-  // mas adelante aqui hacemos la peticion de crear tarea
-  
  
   const [open, setOpen] = useState(false);
   // Estos dos son los valores de los select
@@ -33,6 +34,18 @@ export default function TaskCreation(props: TaskCreationProps) {
   const [subjects] = useState<selectMenuProps[]>(props.subjects.map((subject: Subject) => ({id:subject.id, name:subject.name})))
   const [topics] = useState<selectMenuProps[]>(props.topics.map((topic: Topic) => ({id:topic.id, name:topic.tittle}) ))
 
+
+  const taskCreationMutation = useMutation<TaskCreationResponse, Error, TaskCreationFileds>({
+    mutationFn: createTask,
+    onSuccess: (data: TaskCreationResponse)=>{
+      props.handleTaskCreation(data.task) // Aquí se envía la tarea al componente padre para que la añada a la lista de tareas
+      resetValues() // Reseteamos los valores de los inputs
+      handleClose() // Cerramos el modal
+    },
+    onError:()=>{
+      setAlert(true)
+    }
+  })
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -52,25 +65,10 @@ export default function TaskCreation(props: TaskCreationProps) {
     if(title === '' || subject === '' || topic === ''){
       setError(true)
     }else{
-      const task : Task = {
-        id: '9896gjshva',
-        tittle:title,
-        description,
-        subjectid:subject,
-        topicid:topic,
-        stateid:'1',
-        statename:'To do',
-        subjectname: 'PRUEBA',
-        topictittle: 'Prueba'
-        
-      }
-      
-      props.handleTaskCreation(task) // Aquí se envía la tarea al componente padre para que la añada a la lista de tareas
-      resetValues() // Reseteamos los valores de los inputs
-      handleClose() // Cerramos el modal
+      taskCreationMutation.mutate({tittle:title, description, subjectId:subject, topicId:topic})
     }
-    
   };
+
   const resetValues = () => {
     setTitle('')
     setDescription('')
@@ -87,6 +85,9 @@ export default function TaskCreation(props: TaskCreationProps) {
             <TextField placeholder="New task" value={title} onChange={(e) => setTitle(e.target.value)} variant="standard" required size="medium" error={error}></TextField>
           </DialogTitle>
           <DialogContent sx={{ backgroundColor: '#0F0F0F', height: '300px' }} id="alert-dialog-description" >
+          {
+                    alert && <Alert severity="error" onClose={()=> setAlert(false)}>There was an error, try again later</Alert>
+                    }
             <form action="">
               <div style={{ width: '90%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <div style={{ margin: '30px' }}>

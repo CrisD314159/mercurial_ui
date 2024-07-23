@@ -1,15 +1,52 @@
 import { useState } from "react"
-import { Task } from "../../types/types"
+import { GeneralResponse, Task } from "../../types/types"
 import DoneIcon from '@mui/icons-material/Done';
 import DeleteIcon from '@mui/icons-material/Delete';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import ClearIcon from '@mui/icons-material/Clear';
 import {  Fab, IconButton } from '@mui/material';
+import { useMutation } from "@tanstack/react-query";
+import { deleteTask, markAsDoneTask } from "../../../utils/utils";
 interface TaskProps{
   tasks: Task[]
+  deletetask: (taskId:string) => void
+  markAsDone: (taskId:string) => void
 }
 
 export default function TaskContainer(props: TaskProps) {
+  const [id, setId]= useState('')
+
+  const deleteTaskMutation = useMutation<GeneralResponse, Error, string>({
+    mutationFn:deleteTask,
+    onSuccess:()=>{
+      props.deletetask(id)
+    },
+    onError:()=>{
+      console.log('error');
+      
+    }
+  })
+
+  const markDoneMutation = useMutation<GeneralResponse, Error, string>({
+    mutationFn: markAsDoneTask,
+    onSuccess:()=>{
+      props.markAsDone(id)
+    },
+    onError:()=>{
+      console.log('error');
+    }
+  })
+
+
+  const handleMarkAsDone = (taskId:string) => {
+    setId(taskId)
+    markDoneMutation.mutate(taskId)
+  }
+
+  const handleDelete = (taskId:string) => {
+    setId(taskId)
+    deleteTaskMutation.mutate(taskId)
+  }
   
   const [description, setDescription] = useState('') // Estado que indica si se muestra la descripción de la tarea
   return(
@@ -42,10 +79,16 @@ export default function TaskContainer(props: TaskProps) {
                         <p className='topic'>{task.topictittle}</p> { /** Aquí luego pondremos el nombre del topic, no su id */}
                       </div>
                       <div className='buttonContainer'>
-                        <Fab size='small' className='doneButton button'> <DoneIcon/> </Fab> {/** Añadiremos un evento a este botón el cual permite marcar la 
+                        <Fab size='small' className='doneButton button'
+                        onClick={()=>{
+                          handleMarkAsDone(task.id)
+                        }}
+                        > <DoneIcon/> </Fab> {/** Añadiremos un evento a este botón el cual permite marcar la 
                          * tarea como completada 
                          */}
-                        <Fab size='small' color='error' className='deleteButton button'> <DeleteIcon/> </Fab> {/** Añadiremos un evento a este botón el cual permite eliminar la tarea  */}
+                        <Fab size='small' color='error' className='deleteButton button' onClick={()=>{
+                          handleDelete(task.id)
+                        }}> <DeleteIcon/> </Fab> {/** Añadiremos un evento a este botón el cual permite eliminar la tarea  */}
                       </div>
 
                     </div>

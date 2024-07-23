@@ -1,42 +1,27 @@
-import { useEffect, useState } from 'react'
-import { Task, TaskDoneList } from '../../types/types'
+import {  useState } from 'react'
+import { Task } from '../../types/types'
 import './done.css'
 import { NavLink } from 'react-router-dom'
 import BookmarkIcon from '@mui/icons-material/Bookmark';
-import { useMutation } from '@tanstack/react-query';
-import { getDoneTasks } from '../../../utils/utils';
-import { IconButton } from '@mui/material';
+import {IconButton } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
 
+interface DoneProps {
+  tasks: Task[]
 
+}
 
-export default function Done() {
-  const [doneTasks, setDoneTasks] = useState<Task[]>([])
+export default function Done(props:DoneProps) {
   const [description, setDescription] = useState('')
 
 
-  const tasksMutation = useMutation<TaskDoneList, Error>({ // Mutación que obtiene las tareas completadas del usuario
-    mutationFn: getDoneTasks,
-    onSuccess:(data:TaskDoneList)=>{
-      setDoneTasks(data.tasks)
-    }
-  })
-
-// mas adelante hacemos la funcionalidad de roll-back
- 
-  useEffect(()=>{
-    function fetchData() {
-      tasksMutation.mutate()
-      
-    }
-    fetchData()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[])
+  // Mas adelante hacemos la funcionalidad de roll-back
   
   const [trigger, setTrigger] = useState(false)
   return (
     <div className="doneContainer"> { /** El componente Done contendrá los botones para ir a las asignaturas y topics, y las tareas
     que están marcadas como completadas */}
+   
       <div className="doneButtonContainer">
         {/* Aquí dentro irán los botones tal cual como están en el figma*/}
         <NavLink to='/dashboard/subjects' className="subjectButton">
@@ -64,7 +49,8 @@ export default function Done() {
             <div className="doneTasksContainer">
               {/** Aquí usando map, irán las tareas que llegan mediante las props */}
               {
-                doneTasks.map((task: Task) => {
+                props.tasks && props.tasks.length > 0 ?
+                props.tasks.map((task: Task) => {
                   return (
                     <div className='taskDescriptionContainer'>
                       <div className='taskContainer' key={task.id}>
@@ -99,7 +85,10 @@ export default function Done() {
                     </div>
                     
                   )
-                })
+                }):
+                <div>
+                  <p style={{textAlign:'center'}}>There are no done tasks</p>
+                </div>
               }
             </div>
 
