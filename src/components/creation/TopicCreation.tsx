@@ -1,12 +1,34 @@
-import { Button, Dialog, DialogActions, DialogContent, Fab, TextField } from "@mui/material";
+import { Alert, Button, Dialog, DialogActions, DialogContent, Fab, TextField } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import { useState } from "react";
 import './topicCreation.css'
+import { Topic, TopicCreationFileds, TopicCreationResponse } from "../types/types";
+import { useMutation } from "@tanstack/react-query";
+import { createTopic } from "../../utils/utils";
 
-export default function TopicCreation() {
+
+interface TopicCreationProps {
+    handleCreation: (topic: Topic) => void
+}
+
+export default function TopicCreation(props: TopicCreationProps) {
     const [open, setOpen] = useState(false);
     const [title, setTitle] = useState<string>('')
     const [color, setColor] = useState<string>('#F88114')
+    const [alert, setAlert] = useState(false)
+
+    const createTopicMutation = useMutation<TopicCreationResponse, Error, TopicCreationFileds>({
+        mutationFn: createTopic,
+        onSuccess: (data: TopicCreationResponse) => {
+            props.handleCreation(data.topic)
+            resetValues()
+            handleClose()
+        },
+        onError: () => {
+            setAlert(true)
+        }
+    })
+
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -14,8 +36,8 @@ export default function TopicCreation() {
         setOpen(false);
     };
     const handleCreate = () => {
-        console.log({
-            title, color
+        createTopicMutation.mutate({
+            tittle: title, color
         });
         resetValues()
         handleClose()
@@ -29,11 +51,15 @@ export default function TopicCreation() {
             <Fab size="small" onClick={handleClickOpen}><AddIcon /></Fab>
             <Dialog open={open} onClose={handleClose} sx={{ backdropFilter: 'blur(2px)' }}
             >
-                <div style={{border:'1px solid #666', borderRadius:'6px', overflow:'hidden'}}>
+                <div style={{ border: '1px solid #666', borderRadius: '6px', overflow: 'hidden' }}>
                     <DialogContent sx={{
-                    backgroundColor: '#0F0F0F',
-                    display: 'flex', flexDirection: 'column', alignItems: 'center', padding:'30px', height: '150px'
-                }}>
+                        backgroundColor: '#0F0F0F',
+                        display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '30px', height: '150px'
+                    }}>
+                        {
+                            alert && <Alert severity="error" onClose={() => setAlert(false)}>There was an error, try again later</Alert>
+
+                        }
                         <TextField placeholder="New Topic" value={title} onChange={(e) => setTitle(e.target.value)} variant="standard"
                         ></TextField>
                         <div className="colorContainer">
@@ -49,7 +75,7 @@ export default function TopicCreation() {
                     </DialogActions>
 
                 </div>
-                
+
             </Dialog>
         </div>
     )

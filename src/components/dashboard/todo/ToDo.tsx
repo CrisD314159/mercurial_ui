@@ -12,52 +12,53 @@ import { Alert } from '@mui/material';
 
 
 
-interface TodoProps{
+interface TodoProps {
   tasks: Task[],
-  handletaskCreation: (task:Task) => void,
-  filterTasks: (subjectId:string) => void,
-  markAsDone: (taskId:string) => void,
-  deleteTask: (taskId:string) => void,
+  handletaskCreation: (task: Task) => void,
+  filterTasks: (subjectId: string) => void,
+  markAsDone: (taskId: string) => void,
+  deleteTask: (taskId: string) => void,
+
 
 }
 
 
 
-export default function ToDo(props: TodoProps){ 
+export default function ToDo(props: TodoProps) {
   const navigate = useNavigate()
   const [subjects, setSubjects] = useState<Subject[]>([]) // Estado que contendrá las materias del usuario
   const [isLoading, setIsLoading] = useState(true) // Estado que indica si la página está cargando
   const [topics, setTopics] = useState<Topic[]>([]) // Estado que contendrá los topics del usuario
   const [alert, setAlert] = useState(false) // Estado que indica si hay una alerta en la página
- 
+
 
 
   const subjectsMutation = useMutation<SubjectList, Error>({
     mutationFn: getSubjects,
-    onSuccess:(data:SubjectList)=>{
+    onSuccess: (data: SubjectList) => {
       setSubjects(data.subjects)
     },
-    onError:(error:Error)=>{
-      if(error.message === 'Unauthorized'){
+    onError: (error: Error) => {
+      if (error.message === 'Unauthorized') {
         logout()
         localStorage.clear()
         navigate('/')
 
-      }else{
+      } else {
         setAlert(true)
       }
-      
-      
+
+
     }
   })
 
   const topicsMutation = useMutation<TopicList, Error>({
     mutationFn: getTopics,
-    onSuccess:(data:TopicList)=>{
+    onSuccess: (data: TopicList) => {
       setTopics(data.topic)
     },
-    onError:(error:Error)=>{
-      if(error.message === 'Unauthorized'){
+    onError: (error: Error) => {
+      if (error.message === 'Unauthorized') {
         logout()
         localStorage.clear()
         navigate('/')
@@ -65,88 +66,88 @@ export default function ToDo(props: TodoProps){
     }
   })
 
-  const handleTaskCreation = (task:Task)=>{ // Función que se encarga de añadir una tarea a la lista de tareas
-   props.handletaskCreation(task)
+  const handleTaskCreation = (task: Task) => { // Función que se encarga de añadir una tarea a la lista de tareas
+    props.handletaskCreation(task)
   }
 
-  const filterTasks = (subjectId:string)=>{ 
+  const filterTasks = (subjectId: string) => {
     // Función que se encarga de filtrar las tareas por asignatura
     props.filterTasks(subjectId)
 
   }
 
-  const markAsDone = (taskId:string)=>{ // Función que se encarga de marcar una tarea como completada
+  const markAsDone = (taskId: string) => { // Función que se encarga de marcar una tarea como completada
     props.markAsDone(taskId)
   }
 
-  const deleteTask = (taskId:string)=>{ // Función que se encarga de eliminar una tarea
+  const deleteTask = (taskId: string) => { // Función que se encarga de eliminar una tarea
     props.deleteTask(taskId)
   }
- 
-  
 
-  useEffect(()=>{ // Hook de react que se ejecuta cuando el componente se monta
+
+
+  useEffect(() => { // Hook de react que se ejecuta cuando el componente se monta
     // Necesitamos hacer las peticiones usando useEffect, ya que no podemos hacer peticiones en el cuerpo del componente
     function fetchData() { // Función que se encarga de hacer las peticiones a la API
       subjectsMutation.mutate(),
-      topicsMutation.mutate(),
-      setIsLoading(false)
-      
+        topicsMutation.mutate(),
+        setIsLoading(false)
+
     }
     fetchData() // Llamamos a la función fetchData
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[]) // Importante: debemos pasar un array vacío como segundo argumento para que useEffect se ejecute solo una vez 
- 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []) // Importante: debemos pasar un array vacío como segundo argumento para que useEffect se ejecute solo una vez 
 
-  if(isLoading){ // Si la página está cargando, entonces mostramos el componente LoadingComponent
-    return <LoadingComponent/>
+
+  if (isLoading) { // Si la página está cargando, entonces mostramos el componente LoadingComponent
+    return <LoadingComponent />
   }
-  
 
-  return(
+
+  return (
     <div>
-        {
+      {
         alert && (
-          <Alert severity="error" onClose={()=>{setAlert(false)}}>There was an error with the content</Alert>
+          <Alert severity="error" onClose={() => { setAlert(false) }}>There was an error with the content</Alert>
         )
       }
-      
+
       <div className="todoContainer">
-         {/* Contenedor de las materias del usuario */}
-         <div className="subjectsSlider">
-            { subjects && subjects.length > 0 && (
-              <SubjectSlider subjects={subjects} filterTasks= {filterTasks}/>
-            )}
+        {/* Contenedor de las materias del usuario */}
+        <div className="subjectsSlider">
+          {subjects && subjects.length > 0 && (
+            <SubjectSlider subjects={subjects} filterTasks={filterTasks} />
+          )}
+        </div>
+        <div className="createMenu">
+          {subjects && subjects.length > 0 && topics && topics.length > 0 && (
+            <TaskCreation subjects={subjects} topics={topics} handleTaskCreation={handleTaskCreation} />
+          )}
+          <div className='mainTittleContainer'>
+            <h1 className='todoTittle'>To-Do</h1>
           </div>
-          <div className="createMenu">
-            {subjects && subjects.length > 0 && topics && topics.length > 0 && (
-              <TaskCreation subjects={subjects} topics={topics} handleTaskCreation={handleTaskCreation} />
-            )}
-            <div className='mainTittleContainer'>
-              <h1 className='todoTittle'>To-Do</h1>
-            </div>
-          </div>
+        </div>
 
 
-          {/* Contenedor de las tareas del usuario o la materia seleccionada */}
-          <div className='mainTasksContainer'>
-            {
-              // Decidi hacer un componente TaskContainer para poder renderizar las tareas de una forma más ordenada
-              // ya que se abulta mucho el componente ToDo
-              props.tasks && props.tasks.length > 0 ? (
-                <TaskContainer tasks={props.tasks} deletetask={deleteTask} markAsDone= {markAsDone}/>
-              ):
+        {/* Contenedor de las tareas del usuario o la materia seleccionada */}
+        <div className='mainTasksContainer'>
+          {
+            // Decidi hacer un componente TaskContainer para poder renderizar las tareas de una forma más ordenada
+            // ya que se abulta mucho el componente ToDo
+            props.tasks && props.tasks.length > 0 ? (
+              <TaskContainer tasks={props.tasks} deletetask={deleteTask} markAsDone={markAsDone} />
+            ) :
               <div className='tasksContainer'>
                 <p>There are not pending tasks right now</p>
               </div>
-              
-            }
-            
 
-          </div>
-        
+          }
+
+
+        </div>
+
       </div>
-      
+
     </div>
   )
 }

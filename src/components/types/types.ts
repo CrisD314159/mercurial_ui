@@ -1,3 +1,4 @@
+import { Topic } from '@mui/icons-material';
 export interface Subject{
   id: string,
   name: string,
@@ -115,4 +116,16 @@ export interface SubjectCreationResponse{
   message: string,
   subject: Subject
 
+}
+
+export interface TopicCreationFileds{
+  "tittle": string,
+  "color": string
+  
+}
+
+export interface TopicCreationResponse{
+  success: boolean,
+  message: string,
+  topic: Topic
 }

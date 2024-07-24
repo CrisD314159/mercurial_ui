@@ -1,4 +1,4 @@
-import { GeneralResponse, LogOutResponse, SignUpFields, SubjectCreationFileds, SubjectCreationResponse, TaskCreationFileds, TaskCreationResponse } from "../components/types/types"
+import { GeneralResponse, LogOutResponse, SignUpFields, SubjectCreationFileds, SubjectCreationResponse, TaskCreationFileds, TaskCreationResponse, TopicCreationFileds, TopicCreationResponse } from "../components/types/types"
 
 export function getImageFromLocalStorage() {
   if (localStorage.getItem('userImage')) {
@@ -219,4 +219,40 @@ export async function createSubject(subject:SubjectCreationFileds) : Promise<Sub
     
   }
   
+}
+
+export async function createTopic
+(topic:TopicCreationFileds) : Promise<TopicCreationResponse>{
+try{
+  const response = await fetch('http://localhost:8080/topics',{
+    method:'POST',
+    headers:{
+      'content-type':'application/json'
+    },
+    body: JSON.stringify(topic),
+    credentials:'include'
+
+  })
+  if(response.status === 401){
+    throw new Error('Unauthorized')
+  }
+  return response.json()
+} catch (error) {
+  throw new Error('There was a error with the API')
+  } 
+}
+
+export async function markAsRollBackTask(taskId:string): Promise<GeneralResponse>{
+  try {
+    const response = await fetch(`http://localhost:8080/tasks/mark/rollback/${taskId}`,{
+      method:'PUT',
+      credentials:'include'
+    })
+    if(response.status === 401){
+      throw new Error('Unauthorized')
+    }
+    return response.json()
+  } catch (error) {
+    throw new Error('There was a error with the API')
+  }
 }
