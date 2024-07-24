@@ -2,19 +2,21 @@ import Header from "../../components/Header";
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import { Alert, Button, Fab } from "@mui/material";
 import { NavLink, useNavigate } from "react-router-dom";
-import { Topic, TopicList } from "../../components/types/types";
+import { GeneralResponse, Topic, TopicList } from "../../components/types/types";
 import ModeEditRoundedIcon from '@mui/icons-material/ModeEditRounded';
 import DeleteIcon from '@mui/icons-material/Delete';
 import './topics.css'
 import TopicCreation from "../../components/creation/TopicCreation";
 import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { getTopics, logout } from "../../utils/utils";
+import { deleteTopic, getTopics, logout } from "../../utils/utils";
 
 export default function Topics() {
   const navigate = useNavigate()
   const [topics, setTopics] = useState<Topic[]>([])
   const [alert, setAlert] = useState(false)
+  const [alertCont, setAlertCont] = useState('There was an error with the content loading')
+  const [id, setId] = useState('')
 
   const topicsMutation = useMutation<TopicList, Error>({
     mutationFn: getTopics,
@@ -33,8 +35,30 @@ export default function Topics() {
     }
   })
 
+  const deleteTopicMutation = useMutation<GeneralResponse, Error, string>({
+    mutationFn:deleteTopic,
+    onSuccess:()=>{
+      setTopics(topics.filter((topic: Topic) => topic.id !== id))
+    },
+    onError:(error:Error)=>{
+      if(error.message === 'Unauthorized'){
+        logout()
+        localStorage.clear()
+        navigate('/')
+      }else{
+        setAlertCont('There was an error deleting the topic, the may have pending tasks')
+        setAlert(true)
+      }
+    }
+  })
+
+  const handleDelete = (topicId: string) => {
+    setId(topicId)
+    deleteTopicMutation.mutate(topicId)
+  }
+
   const handleCreation = (Topic: Topic) => {
-    if (topics) {
+    if (topics && topics.length > 0) {
       setTopics([...topics, Topic])
     } else {
       setTopics([Topic])
@@ -54,7 +78,7 @@ export default function Topics() {
 
       <Header />
       {
-        alert && <Alert severity="error" onClose={() => setAlert(false)}>There was an error with the content loading</Alert>
+        alert && <Alert severity="error" onClose={() => setAlert(false)}>{alertCont}</Alert>
       }
 
       <div className="mainTopicsContainer">
@@ -82,7 +106,7 @@ export default function Topics() {
                     </div>
                     <div className="topicButtonContainer">
                       <Button size='small'><ModeEditRoundedIcon></ModeEditRoundedIcon></Button>
-                      <Button size='small'> <DeleteIcon /> </Button>
+                      <Button size='small' onClick={()=>{handleDelete(topic.id)}}> <DeleteIcon /> </Button>
                     </div>
 
                   </div>

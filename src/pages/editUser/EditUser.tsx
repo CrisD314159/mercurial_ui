@@ -1,5 +1,4 @@
 import './editUser.css'
-import json from '../../../public/dataset.json'
 import Header from '../../components/Header';
 import { Button, TextField } from '@mui/material';
 import { useState } from 'react';
@@ -7,6 +6,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { styled } from '@mui/material/styles';
 import { NavLink } from 'react-router-dom';
 import PasswordInput from '../../components/creation/PasswordInput';
+import { getImageFromLocalStorage } from '../../utils/utils';
 
 
 const VisuallyHiddenInput = styled('input')({
@@ -21,11 +21,11 @@ const VisuallyHiddenInput = styled('input')({
   width: 1,
 });
 export default function EditUser() {
-  const user = json.users.find((user) => user.id === 1)
-  const [name, setName] = useState(user?.name)
-  const [email, setEmail] = useState(user?.email)
-  const [username, setUsername] = useState(user?.name)
-  const [password, setPassword] = useState(user ? user.password : '')
+  
+  const [name, setName] = useState('Pedro')
+  const [email, setEmail] = useState('Pedro')
+  const [username, setUsername] = useState('pedro123')
+  const [password, setPassword] = useState('123456')
 
 
   // Lo que hace es que cuando se presiona el botón de save, se imprimen los valores de los campos en la consola
@@ -38,13 +38,13 @@ export default function EditUser() {
 
   return (
     <div>
-      < Header picture="https://icons.veryicon.com/png/o/miscellaneous/two-color-icon-library/user-286.png" />
+      < Header/>
       {
-        user ?
+        name ?
           <div className='mainUserCardContainer'>
             <div className='editUserCard'>
               <div className='editProfileImageContainer'>
-                <div className='profileImageContainerUser' style={{ backgroundImage: `url("${user.picture}")` }}></div>
+                <div className='profileImageContainerUser' style={{ backgroundImage: `url("${getImageFromLocalStorage()}")` }}></div>
                 <Button
                   component="label"
                   role={undefined}

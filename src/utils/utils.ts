@@ -244,7 +244,7 @@ try{
 
 export async function markAsRollBackTask(taskId:string): Promise<GeneralResponse>{
   try {
-    const response = await fetch(`http://localhost:8080/tasks/mark/rollback/${taskId}`,{
+    const response = await fetch(`http://localhost:8080/tasks/roll/back/${taskId}`,{
       method:'PUT',
       credentials:'include'
     })
@@ -255,4 +255,35 @@ export async function markAsRollBackTask(taskId:string): Promise<GeneralResponse
   } catch (error) {
     throw new Error('There was a error with the API')
   }
+}
+
+export async function deleteSubject(id:string) : Promise<GeneralResponse>{
+  try {
+    const response = await fetch(`http://localhost:8080/subjects/${id}`,{
+      method:'DELETE',
+      credentials:'include'
+    })
+    if(response.status === 401){
+      throw new Error('Unauthorized')
+    }
+    return response.json()
+  } catch (error) {
+    throw new Error('There was a error with the API')
+  }
+  
+}
+export async function deleteTopic(id:string) : Promise<GeneralResponse>{
+  try {
+    const response = await fetch(`http://localhost:8080/topics/${id}`,{
+      method:'DELETE',
+      credentials:'include'
+    })
+    if(response.status === 401){
+      throw new Error('Unauthorized')
+    }
+    return response.json()
+  } catch (error) {
+    throw new Error('There was a error with the API')
+  }
+  
 }

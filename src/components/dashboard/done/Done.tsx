@@ -1,10 +1,12 @@
 import { useState } from 'react'
-import { Task } from '../../types/types'
+import { GeneralResponse, Task } from '../../types/types'
 import './done.css'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import BookmarkIcon from '@mui/icons-material/Bookmark';
-import { IconButton } from '@mui/material';
+import { Alert, IconButton } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
+import { useMutation } from '@tanstack/react-query';
+import { logout, markAsRollBackTask } from '../../../utils/utils';
 
 interface DoneProps {
   tasks: Task[],
@@ -13,18 +15,45 @@ interface DoneProps {
 }
 
 export default function Done(props: DoneProps) {
+  const navigate = useNavigate()
   const [description, setDescription] = useState('')
+  const [id, setId] = useState('')
+  const [alert, setAlert] = useState(false)
 
 
   // Mas adelante hacemos la funcionalidad de roll-back
+  const rollback = useMutation<GeneralResponse, Error, string>({
+    mutationFn:markAsRollBackTask,
+    onSuccess:()=>{
+      props.markAsRollBack(id)
+    },
+    onError:(error:Error)=>{
+      if(error.message === 'Unauthorized'){
+        logout()
+        localStorage.clear()
+        navigate('/')
+
+      }else{
+        setAlert(true)
+        console.log(error);
+
+      }
+    }
+
+  })
 
   const [trigger, setTrigger] = useState(false)
-  const markAsRollBack = (taskId: string) => {
-    props.markAsRollBack(taskId)
+  const rollBackTask = (taskId: string) => {
+    setId(taskId)
+    rollback.mutate(taskId)
+
   }
   return (
     <div className="doneContainer"> { /** El componente Done contendrá los botones para ir a las asignaturas y topics, y las tareas
     que están marcadas como completadas */}
+    {
+          alert && <Alert severity="error" onClose={() => setAlert(false)}>There was an error with the content loading</Alert>
+        }
 
       <div className="doneButtonContainer">
         {/* Aquí dentro irán los botones tal cual como están en el figma*/}
@@ -76,8 +105,8 @@ export default function Done(props: DoneProps) {
                             <p className='subject'>{task.subjectname}</p>
                           </div>
                           <p className='state'>Done</p>
-                          <p className='topicDone'>{task.topictittle}</p>
-                          <button onClick={() => markAsRollBack(task.id)} className='roll_backButton'>Roll-back</button>
+                          <p className='topicDone' style={{color:`${task.topiccolor}`}}>{task.topictittle}</p>
+                          <button onClick={() => rollBackTask(task.id)} className='roll_backButton'>Roll-back</button>
                         </div>
                         {
                           description === task.id ?

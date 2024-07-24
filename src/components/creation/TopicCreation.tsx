@@ -14,7 +14,7 @@ interface TopicCreationProps {
 export default function TopicCreation(props: TopicCreationProps) {
     const [open, setOpen] = useState(false);
     const [title, setTitle] = useState<string>('')
-    const [color, setColor] = useState<string>('#F88114')
+    const [color, setColor] = useState<string>('#FB2576')
     const [alert, setAlert] = useState(false)
 
     const createTopicMutation = useMutation<TopicCreationResponse, Error, TopicCreationFileds>({
@@ -36,6 +36,7 @@ export default function TopicCreation(props: TopicCreationProps) {
         setOpen(false);
     };
     const handleCreate = () => {
+        if (title.length === 0) return
         createTopicMutation.mutate({
             tittle: title, color
         });
@@ -61,12 +62,13 @@ export default function TopicCreation(props: TopicCreationProps) {
 
                         }
                         <TextField placeholder="New Topic" value={title} onChange={(e) => setTitle(e.target.value)} variant="standard"
+                        required inputProps={{ maxLength: 12 }}
                         ></TextField>
                         <div className="colorContainer">
                             <label>
                                 Topic color:
                             </label>
-                            <input type="color" value={color} onChange={(e) => setColor(e.target.value)}></input>
+                            <input type="color" value={color} onChange={(e) => setColor(e.target.value)} required></input>
                         </div>
                     </DialogContent>
                     <DialogActions sx={{ backgroundColor: '#0F0F0F', display: "flex", justifyContent: 'space-around', paddingBottom: '50px' }}>

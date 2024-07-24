@@ -4,18 +4,20 @@ import './subjects.css'
 import { NavLink, useNavigate } from "react-router-dom";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Alert, Button, Fab } from "@mui/material";
-import { Subject, SubjectList } from "../../components/types/types";
+import { GeneralResponse, Subject, SubjectList } from "../../components/types/types";
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import ModeEditRoundedIcon from '@mui/icons-material/ModeEditRounded';
 import SubjectCreation from "../../components/creation/SubjectCreation";
 import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { getSubjects, logout } from "../../utils/utils";
+import { deleteSubject, getSubjects, logout } from "../../utils/utils";
 
 export default function Subjects() {
   const navigate = useNavigate()
   const [subjects, setSubjects] = useState<Subject[]>([])
   const [alert, setAlert] = useState(false) // Estado que indica si hay una alerta en la página
+  const [alertCont, setAlertCont] = useState('There was an error with the content loading') // Estado que indica si hay una alerta en la página
+  const [id, setId] = useState('') // Estado que indica si hay una alerta en la página
 
   const subjectsMutation = useMutation<SubjectList, Error>({
     mutationFn: getSubjects,
@@ -34,13 +36,36 @@ export default function Subjects() {
     }
   })
 
+  const subjectDeleteMutation= useMutation<GeneralResponse, Error, string>({
+    mutationFn: deleteSubject,
+    onSuccess: ()=>{
+      setSubjects(subjects.filter((subject: Subject) => subject.id !== id))
+    },
+    onError:(error:Error)=>{
+      if(error.message === 'Unauthorized'){
+        logout()
+        localStorage.clear()
+        navigate('/')
+      }else{
+    
+        setAlertCont('There was an error deleting the subject, the may have pending tasks')
+        setAlert(true)  
+    }
+  }
+  })
+
   const handleCreation = (Subject: Subject)=>{
-    if(subjects){
+    if(subjects && subjects.length > 0){
       setSubjects([...subjects, Subject])
     }else{
       setSubjects([Subject])
     }
     
+  }
+  const handleDelete = (id: string)=>{
+    setId(id)
+    subjectDeleteMutation.mutate(id)
+
   }
 
   useEffect(()=>{
@@ -57,7 +82,7 @@ export default function Subjects() {
 
       <Header  />
       {
-         alert && <Alert severity="error" onClose={()=> setAlert(false)}>There was an error with the content loading</Alert>
+         alert && <Alert severity="error" onClose={()=> setAlert(false)}  >{alertCont}</Alert>
        }
 
       <div className="mainSubjectsContainer">
@@ -88,7 +113,7 @@ export default function Subjects() {
                   </div>
                   <div className='subjectButtonContainer'>
                     <Button size='small'><ModeEditRoundedIcon></ModeEditRoundedIcon></Button>
-                    <Button size='small'> <DeleteIcon /> </Button>
+                    <Button size='small' onClick={()=>handleDelete(subject.id)}> <DeleteIcon /> </Button>
                   </div>
                 </div>
               )

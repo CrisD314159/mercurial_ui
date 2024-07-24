@@ -167,7 +167,6 @@ h3{
 .topic{
   font-size: 12px;
   font-weight: 300;
-  color: #a7ec04; /* especifica el color del texto */
   margin: 0 30px;
   position: absolute;
   left: 45%;
@@ -175,7 +174,8 @@ h3{
   width: 10%;
 
   @media screen and (max-width: 768px) {
-    left: 45%;
+    left: 42%;
+    font-size: 10px;
     
   }
 }

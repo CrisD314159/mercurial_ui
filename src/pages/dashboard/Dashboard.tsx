@@ -55,9 +55,14 @@ export default function Dashboard() {
   })
 
   const handleTaskCreation = (task: Task) => { // Función que se encarga de añadir una tarea a la lista de tareas
-    console.log(task);
-    setTasks([...tasks, task]) // Añadimos la tarea al estado
-    setFilterdTasks([...tasks, task]) // Añadimos la tarea al estado
+    if(tasks && tasks.length> 0){
+      setTasks([...tasks, task]) // Añadimos la tarea al estado
+      setFilterdTasks([...tasks, task]) // Añadimos la tarea al estado
+
+    }else{
+      setTasks([task]) // Añadimos la tarea al estado
+      setFilterdTasks([task]) // Añadimos la tarea al estado
+    }
   }
 
   const filterTasks = (subjectId: string) => {
@@ -76,11 +81,17 @@ export default function Dashboard() {
     if (taskDone) {  // Si la tarea existe, entonces la añadimos al array de tareas completadas y la eliminamos del array de tareas pendientes
       setTasks(tasks.filter(task => task.id !== taskId)) // Eliminamos la tarea del array de tareas pendientes
       setFilterdTasks(tasks.filter(task => task.id !== taskId)) // Eliminamos la tarea del array de tareas pendientes filtradas
-      setDoneTasks([...donetasks, taskDone]) // Añadimos la tarea al array de tareas completadas
+      if(donetasks && donetasks.length> 0){
+        setDoneTasks([...donetasks, taskDone]) // Añadimos la tarea al array de tareas completadas
       // El  procedimiento es parecido para el metodo de rolback, solo que se hace al contrario
       // Había un problema con el markAsDone, ya que no se estaba eliminando la tarea del array de tareas pendientes
       // El problema era en el back, que devolvía un codigo 204, este codigo no devolvía nada de la api, 
       // Por lo que aqui en el front no se sabia si ya estaba marcada o no
+
+      }else{
+        setDoneTasks([taskDone])
+      }
+      
 
     }
   }
@@ -94,8 +105,14 @@ export default function Dashboard() {
     const taskRollBack = donetasks.find(task => task.id === taskId)
     if (taskRollBack) {
       setDoneTasks(donetasks.filter(task => task.id !== taskId))
-      setTasks([...tasks, taskRollBack])
-      setFilterdTasks([...tasks, taskRollBack])
+      if (tasks && tasks.length > 0){
+        setTasks([...tasks, taskRollBack])
+        setFilterdTasks([...tasks, taskRollBack])
+      }else{
+        setTasks([taskRollBack])
+        setFilterdTasks([taskRollBack])
+      }
+      
     }
   }
 

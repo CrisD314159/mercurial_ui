@@ -19,6 +19,7 @@ export interface Task{
   subjectname:string,
   topicid: string,
   topictittle: string,
+  topiccolor: string,
 }
 
 export interface Topic{

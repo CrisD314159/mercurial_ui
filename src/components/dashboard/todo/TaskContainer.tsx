@@ -1,3 +1,4 @@
+import './todo.css'
 import { useState } from "react"
 import { GeneralResponse, Task } from "../../types/types"
 import DoneIcon from '@mui/icons-material/Done';
@@ -76,7 +77,7 @@ export default function TaskContainer(props: TaskProps) {
                         <p className='subject'>{task.subjectname}</p> { /** Aquí luego pondremos el nombre de la materia, no su id */}
                       </div>
                       <div>
-                        <p className='topic'>{task.topictittle}</p> { /** Aquí luego pondremos el nombre del topic, no su id */}
+                        <p className='topic' style={{color:`${task.topiccolor}`}}>{task.topictittle}</p> { /** Aquí luego pondremos el nombre del topic, no su id */}
                       </div>
                       <div className='buttonContainer'>
                         <Fab size='small' className='doneButton button'
