@@ -3,13 +3,13 @@ import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import { Alert, Button, Fab } from "@mui/material";
 import { NavLink, useNavigate } from "react-router-dom";
 import { GeneralResponse, Topic, TopicList } from "../../components/types/types";
-import ModeEditRoundedIcon from '@mui/icons-material/ModeEditRounded';
 import DeleteIcon from '@mui/icons-material/Delete';
 import './topics.css'
 import TopicCreation from "../../components/creation/TopicCreation";
 import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { deleteTopic, getTopics, logout } from "../../utils/utils";
+import EditTopic from "../../components/editForms/EditTopic";
 
 export default function Topics() {
   const navigate = useNavigate()
@@ -65,6 +65,8 @@ export default function Topics() {
     }
   }
 
+
+
   useEffect(() => {
     if (localStorage.getItem('userImage') === null) {
       navigate('/')
@@ -105,7 +107,7 @@ export default function Topics() {
                       <h3 style={{ color: `${topic.color}` }}>{topic.tittle}</h3>
                     </div>
                     <div className="topicButtonContainer">
-                      <Button size='small'><ModeEditRoundedIcon></ModeEditRoundedIcon></Button>
+                      <EditTopic topicColor={topic.color} topicName={topic.tittle}  topicId={topic.id}/>
                       <Button size='small' onClick={()=>{handleDelete(topic.id)}}> <DeleteIcon /> </Button>
                     </div>
 

@@ -1,12 +1,14 @@
 import './editUser.css'
 import Header from '../../components/Header';
 import { Button, TextField } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { styled } from '@mui/material/styles';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import PasswordInput from '../../components/creation/PasswordInput';
-import { getImageFromLocalStorage } from '../../utils/utils';
+import { getUser, logout, updateUser } from '../../utils/utils';
+import { GeneralResponse, GetUserResponse, UserEditFields } from '../../components/types/types';
+import { useMutation } from '@tanstack/react-query';
 
 
 const VisuallyHiddenInput = styled('input')({
@@ -21,19 +23,53 @@ const VisuallyHiddenInput = styled('input')({
   width: 1,
 });
 export default function EditUser() {
+  const navigate = useNavigate()
   
-  const [name, setName] = useState('Pedro')
-  const [email, setEmail] = useState('Pedro')
-  const [username, setUsername] = useState('pedro123')
-  const [password, setPassword] = useState('123456')
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [image, setImage] = useState('')
+
+  const userMutation = useMutation<GetUserResponse, Error>({
+      mutationFn: getUser,
+      onSuccess(data:GetUserResponse){
+          setName(data.user.name)
+          setEmail(data.user.email)
+          setUsername(data.user.username)
+          setPassword(data.user.password)
+          setImage(data.user.image)
+
+      }
+  })
+
+  const userEditMutation = useMutation<GeneralResponse, Error, UserEditFields>({
+    mutationFn: updateUser,
+    onSuccess:(data:GeneralResponse)=>{
+      console.log(data);
+    },
+    onError:(error:Error)=>{
+      if(error.message === 'Unauthorized'){
+        logout()
+        localStorage.clear()
+        navigate('/')
+      }else{
+        console.log('Error updating the user')
+      
+      }
+    }
+  })
+
+  useEffect(()=>{
+      userMutation.mutate()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
 
   // Lo que hace es que cuando se presiona el botón de save, se imprimen los valores de los campos en la consola
   // Cuando hagamos la integración con la API, aquí se hará la petición PUT
   const handleSubmit = () => {
-    console.log({
-      name, email, username, password
-    });
+    userEditMutation.mutate({name, username, password})
   }
 
   return (
@@ -44,7 +80,7 @@ export default function EditUser() {
           <div className='mainUserCardContainer'>
             <div className='editUserCard'>
               <div className='editProfileImageContainer'>
-                <div className='profileImageContainerUser' style={{ backgroundImage: `url("${getImageFromLocalStorage()}")` }}></div>
+                <div className='profileImageContainerUser' style={{ backgroundImage: `url("${image}")` }}></div>
                 <Button
                   component="label"
                   role={undefined}

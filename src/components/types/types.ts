@@ -34,8 +34,9 @@ export interface User{
   id: number,
   name: string,
   email: string,
+  username: string,
   password: string
-  picture: string
+  image: string
 }
 
 
@@ -129,4 +130,34 @@ export interface TopicCreationResponse{
   success: boolean,
   message: string,
   topic: Topic
+}
+
+export interface SubjectUpdateFileds{
+  id: string,
+  name: string,
+  color: string
+}
+
+export interface TopicUpdateFileds{
+  id: string,
+  tittle: string,
+  color: string
+}
+export interface TaskUpdateFileds{
+  id: string,
+  tittle: string,
+  description: string
+}
+export interface TaskUpdateResponse{
+  success: boolean,
+  message: string,
+}
+
+export interface GetUserResponse{
+  user: User
+}
+export interface UserEditFields{
+  name: string,
+  username:string,
+  password:string
 }

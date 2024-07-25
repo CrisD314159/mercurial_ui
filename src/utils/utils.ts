@@ -1,4 +1,4 @@
-import { GeneralResponse, LogOutResponse, SignUpFields, SubjectCreationFileds, SubjectCreationResponse, TaskCreationFileds, TaskCreationResponse, TopicCreationFileds, TopicCreationResponse } from "../components/types/types"
+import { GeneralResponse, GetUserResponse, LogOutResponse, SignUpFields, SubjectCreationFileds, SubjectCreationResponse, SubjectUpdateFileds, TaskCreationFileds, TaskCreationResponse, TaskUpdateFileds, TaskUpdateResponse, TopicCreationFileds, TopicCreationResponse, TopicUpdateFileds, UserEditFields} from "../components/types/types"
 
 export function getImageFromLocalStorage() {
   if (localStorage.getItem('userImage')) {
@@ -286,4 +286,116 @@ export async function deleteTopic(id:string) : Promise<GeneralResponse>{
     throw new Error('There was a error with the API')
   }
   
+}
+
+export async function updateSubject(subject: SubjectUpdateFileds) : Promise<SubjectCreationResponse>{
+  try {
+    const response = await fetch(`http://localhost:8080/subjects/${subject.id}`, {
+      method:'PUT',
+      headers:{
+        'content-type':'application/json'
+      },
+      credentials:'include',
+      body: JSON.stringify(subject)
+    })
+
+    if(response.status === 401){
+      throw new Error('Unauthorized')
+    }
+    return response.json()
+  } catch (error) {
+    throw new Error('There was a error with the API')
+    
+  }
+}
+
+export async function updateTopic(topic: TopicUpdateFileds) : Promise<TopicCreationResponse>{
+  try {
+    const response = await fetch(`http://localhost:8080/topics/${topic.id}`, {
+      method:'PUT',
+      headers:{
+        'content-type':'application/json'
+      },
+      credentials:'include',
+      body: JSON.stringify(topic)
+    })
+
+    if(response.status === 401){
+      throw new Error('Unauthorized')
+    }
+    return response.json()
+  } catch (error) {
+    throw new Error('There was a error with the API')
+    
+  }
+}
+export async function updateTask(task: TaskUpdateFileds) : Promise<TaskUpdateResponse>{
+  try {
+    const response = await fetch(`http://localhost:8080/tasks/${task.id}`, {
+      method:'PUT',
+      headers:{
+        'content-type':'application/json'
+      },
+      credentials:'include',
+      body: JSON.stringify(task)
+    })
+
+    if(response.status === 401){
+      throw new Error('Unauthorized')
+    }
+    return response.json()
+  } catch (error) {
+    throw new Error('There was a error with the API')
+    
+  }
+}
+
+export async function getUser() : Promise<GetUserResponse>{
+  try {
+    const response = await fetch('http://localhost:8080/users',{
+      method:'GET',
+      credentials:'include'
+    })
+    if(response.status === 401){
+      throw new Error('Unauthorized')
+    }
+    return response.json()
+    
+  } catch (error) {
+    throw new Error('There was a error with the API')
+    
+  }
+}
+export async function deleteUser() : Promise<GeneralResponse>{
+  try {
+    const response = await fetch('http://localhost:8080/users',{
+      method:'DELETE',
+      credentials:'include'
+    })
+    if(response.status === 401){
+      throw new Error('Unauthorized')
+    }
+    return response.json()
+    
+  } catch (error) {
+    throw new Error('There was a error with the API')
+    
+  }
+}
+export async function updateUser(user:UserEditFields ) : Promise<GeneralResponse>{
+  try {
+    const response = await fetch('http://localhost:8080/users',{
+      method:'PUT',
+      credentials:'include',
+      body: JSON.stringify(user),
+    })
+    if(response.status === 401){
+      throw new Error('Unauthorized')
+    }
+    return response.json()
+    
+  } catch (error) {
+    throw new Error('There was a error with the API')
+    
+  }
 }

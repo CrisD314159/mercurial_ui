@@ -6,11 +6,12 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Alert, Button, Fab } from "@mui/material";
 import { GeneralResponse, Subject, SubjectList } from "../../components/types/types";
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
-import ModeEditRoundedIcon from '@mui/icons-material/ModeEditRounded';
 import SubjectCreation from "../../components/creation/SubjectCreation";
 import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { deleteSubject, getSubjects, logout } from "../../utils/utils";
+import EditSubject from "../../components/editForms/EditSubject";
+
 
 export default function Subjects() {
   const navigate = useNavigate()
@@ -67,6 +68,11 @@ export default function Subjects() {
     subjectDeleteMutation.mutate(id)
 
   }
+  const handleEdit = (subject: Subject)=>{
+    console.log(subject);
+    setSubjects(subjects.map((sub: Subject)=> sub.id === subject.id ? subject : sub))
+    
+  }
 
   useEffect(()=>{
     if(localStorage.getItem('userImage') === null){
@@ -112,7 +118,7 @@ export default function Subjects() {
                     <h3 className='subjectCardTittle'>{subject.name}</h3>
                   </div>
                   <div className='subjectButtonContainer'>
-                    <Button size='small'><ModeEditRoundedIcon></ModeEditRoundedIcon></Button>
+                    <EditSubject subjectId={subject.id} subjectName={subject.name} handleEdit={handleEdit}/>
                     <Button size='small' onClick={()=>handleDelete(subject.id)}> <DeleteIcon /> </Button>
                   </div>
                 </div>

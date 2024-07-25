@@ -1,49 +1,56 @@
-import { Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle, Fab, SelectChangeEvent, TextField } from "@mui/material";
+import { Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle, Fab,  TextField } from "@mui/material";
 import { useState } from "react";
-import AddIcon from '@mui/icons-material/Add';
-import { Subject, Task, TaskCreationFileds, TaskCreationResponse, Topic } from "../types/types";
-import SelectMenu from "./SelectMenu";
+import {  TaskUpdateFileds, TaskUpdateResponse,} from "../types/types";
+
 import { useMutation } from "@tanstack/react-query";
-import { createTask } from "../../utils/utils";
+import { logout, updateTask } from "../../utils/utils";
+import ModeEditRoundedIcon from '@mui/icons-material/ModeEditRounded';
+import { useNavigate } from "react-router-dom";
+
 
 
 interface TaskCreationProps {
-  subjects: Subject[],
-  topics: Topic[],
-  handleTaskCreation: (task:Task) => void
-}
-interface selectMenuProps {
-  id:string,
-  name:string
-}
+  topicId: string,
+  subjectId: string
+  topicName: string,
+  subjectName: string
+  title: string,
+  description: string,
+  taskId: string
+,}
 
 
-export default function TaskCreation(props: TaskCreationProps) {
+export default function EditTask(props: TaskCreationProps) {
+  const navigate = useNavigate()
   const [error, setError] = useState(false)
   const [alert, setAlert] = useState(false) // Estado que indica si hay una alerta en la página
 
  
   const [open, setOpen] = useState(false);
   // Estos dos son los valores de los select
-  const [subject, setSubject] = useState<string>(props.subjects[0].id ?? '')
-  const [topic, setTopic] = useState<string>(props.topics[0].id ?? '')
-  const [title, setTitle] = useState<string>('')
-  const [description, setDescription] = useState<string>('')
+  const [title, setTitle] = useState<string>(props.title)
+  const [description, setDescription] = useState<string>(props.description)
 
   // La lista de las materias y el de los temas se convierten en un array objeto con id y name esto para poder hacer mejor la peticion
-  const [subjects] = useState<selectMenuProps[]>(props.subjects.map((subject: Subject) => ({id:subject.id, name:subject.name})))
-  const [topics] = useState<selectMenuProps[]>(props.topics.map((topic: Topic) => ({id:topic.id, name:topic.tittle}) ))
 
 
-  const taskCreationMutation = useMutation<TaskCreationResponse, Error, TaskCreationFileds>({
-    mutationFn: createTask,
-    onSuccess: (data: TaskCreationResponse)=>{
-      props.handleTaskCreation(data.task) // Aquí se envía la tarea al componente padre para que la añada a la lista de tareas
+  const taskEditMutation = useMutation<TaskUpdateResponse, Error, TaskUpdateFileds>({
+    mutationFn: updateTask,
+    onSuccess: ()=>{
+      window.location.reload()
+      //props.handleTaskCreation(data.task) // Aquí se envía la tarea al componente padre para que la añada a la lista de tareas
       resetValues() // Reseteamos los valores de los inputs
       handleClose() // Cerramos el modal
     },
-    onError:()=>{
-      setAlert(true)
+    onError:(error:Error)=>{
+      if(error.message === 'Unauthorized'){
+        logout()
+        localStorage.clear()
+        navigate('/')
+
+      }else{
+        setAlert(true)
+      }
     }
   })
 
@@ -51,33 +58,25 @@ export default function TaskCreation(props: TaskCreationProps) {
     setOpen(true);
   };
 
-  const handleSelectSubject = (event: SelectChangeEvent) => {
-    setSubject(event.target.value);
-  }
-  const handleSelectTopic = (event: SelectChangeEvent) => {
-    setTopic(event.target.value);
-  }
 
   const handleClose = () => {
     setOpen(false);
   };
   const handleCreate = () => {
-    if(title === '' || subject === '' || topic === ''){
+    if(title === ''){
       setError(true)
     }else{
-      taskCreationMutation.mutate({tittle:title, description, subjectId:subject, topicId:topic})
+      taskEditMutation.mutate({ id:props.taskId, tittle:title, description })
     }
   };
 
   const resetValues = () => {
     setTitle('')
     setDescription('')
-    setSubject(props.subjects[0].id ?? '')
-    setTopic(props.topics[0].id)
   }
   return (
     <div>
-      <Fab size="small" onClick={handleClickOpen}><AddIcon /></Fab>
+      <Fab size="small" onClick={handleClickOpen}><ModeEditRoundedIcon/></Fab>
       <Dialog open={open} onClose={handleClose} sx={{ backdropFilter: 'blur(2px)'  }} aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description">
           <div style={{border:'1px solid #666', borderRadius:'6px', overflow:'hidden'}}>
@@ -91,8 +90,8 @@ export default function TaskCreation(props: TaskCreationProps) {
             <form action="">
               <div style={{ width: '90%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <div style={{ margin: '30px' }}>
-                  <SelectMenu handleSelect={handleSelectSubject} option={subject} options={subjects} title="Subjects" disabled={false} />
-                  <SelectMenu handleSelect={handleSelectTopic} option={topic} options={topics} title="Topics" disabled={false} />
+               <TextField sx={{ m: 1, width: '100%' }} value={props.subjectName} label='Subject' type='text' variant='outlined' disabled/>
+               <TextField sx={{ m: 1, width: '100%' }} value={props.topicName}  label='Topic' type='text' variant='outlined' disabled/>
                 </div>
                 <TextField sx={{ m: 1, width: '100%' }} value={description} onChange={(e) => setDescription(e.target.value)} label='Description' type='text' variant='outlined' multiline maxRows={4} error={error}  inputProps={{maxLength: 50}}/>
 
@@ -103,7 +102,7 @@ export default function TaskCreation(props: TaskCreationProps) {
           </DialogContent>
           <DialogActions sx={{ backgroundColor: '#0F0F0F', display: 'flex', justifyContent: 'space-around', paddingBottom: '50px' }}>
             <Button onClick={handleClose} variant="outlined" color="error">Cancel</Button>
-            <Button onClick={handleCreate} variant="outlined" color="success">Create</Button>
+            <Button onClick={handleCreate} variant="outlined" color="success">Update</Button>
 
           </DialogActions>
           </div>

@@ -4,7 +4,8 @@ interface SelectProps{
   title: string,
   option: string,
   handleSelect: (event: SelectChangeEvent) => void,
-  options: selectMenuProps[]
+  options: selectMenuProps[],
+  disabled: boolean
 
 
 }
@@ -17,7 +18,7 @@ export default function SelectMenu(props:SelectProps) {
 
 
   return(
-    <FormControl sx={{width:'210px', marginRight:'30px', marginBottom:'20px', m:1}}>
+    <FormControl sx={{ marginRight:'30px', marginBottom:'20px', m: 1, width: '100%'}} >
     <InputLabel id="demo-simple-select-label">{title}</InputLabel>
     <Select
       labelId="demo-simple-select-label"
@@ -25,6 +26,8 @@ export default function SelectMenu(props:SelectProps) {
       value={option}
       label="Age"
       onChange={handleSelect}
+      disabled={props.disabled}
+      
     >
       {
         options.map((option: selectMenuProps, index)=>{

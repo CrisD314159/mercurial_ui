@@ -8,6 +8,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import {  Fab, IconButton } from '@mui/material';
 import { useMutation } from "@tanstack/react-query";
 import { deleteTask, markAsDoneTask } from "../../../utils/utils";
+import EditTask from '../../editForms/EditTask';
 interface TaskProps{
   tasks: Task[]
   deletetask: (taskId:string) => void
@@ -87,6 +88,7 @@ export default function TaskContainer(props: TaskProps) {
                         > <DoneIcon/> </Fab> {/** Añadiremos un evento a este botón el cual permite marcar la 
                          * tarea como completada 
                          */}
+                         <EditTask description={task.description} subjectId={task.subjectid} title={task.tittle} taskId={task.id} topicId={task.topicid} subjectName={task.subjectname} topicName={task.topictittle}/>
                         <Fab size='small' color='error' className='deleteButton button' onClick={()=>{
                           handleDelete(task.id)
                         }}> <DeleteIcon/> </Fab> {/** Añadiremos un evento a este botón el cual permite eliminar la tarea  */}
