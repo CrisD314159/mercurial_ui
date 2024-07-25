@@ -5,7 +5,8 @@ import { useState } from 'react';
 
 interface PasswordInputProps {
     password: string,
-    setPassword: (password: string) => void
+    setPassword: (password: string) => void,
+    required:boolean
 }
 
 
@@ -18,10 +19,10 @@ export default function PasswordInput(props: PasswordInputProps) {
         event.preventDefault();
     };
     return (
-        <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined" required>
-            <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+        <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined" required={props.required}>
+            <InputLabel htmlFor="outlined-adornment-password">New Password</InputLabel>
             <OutlinedInput
-                required
+                required={props.required}
                 defaultValue={password}
                 id="outlined-adornment-password"
                 type={showPassword ? 'text' : 'password'}

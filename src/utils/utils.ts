@@ -1,4 +1,4 @@
-import { GeneralResponse, GetUserResponse, LogOutResponse, SignUpFields, SubjectCreationFileds, SubjectCreationResponse, SubjectUpdateFileds, TaskCreationFileds, TaskCreationResponse, TaskUpdateFileds, TaskUpdateResponse, TopicCreationFileds, TopicCreationResponse, TopicUpdateFileds, UserEditFields} from "../components/types/types"
+import { GeneralResponse, GetUserResponse, ImageResponse, LoginCredentials, LoginResponse, LogOutResponse, SignUpFields, SubjectCreationFileds, SubjectCreationResponse, SubjectUpdateFileds, TaskCreationFileds, TaskCreationResponse, TaskUpdateFileds, TaskUpdateResponse, TopicCreationFileds, TopicCreationResponse, TopicUpdateFileds, UserEditFields} from "../components/types/types"
 
 export function getImageFromLocalStorage() {
   if (localStorage.getItem('userImage')) {
@@ -9,6 +9,27 @@ export function getImageFromLocalStorage() {
 
 
 // Api Queries
+
+export async function login(credentials: LoginCredentials) : Promise<LoginResponse> {
+  try {
+    const response = await fetch('http://localhost:8080/login',{
+      method:'POST', // método de la petición
+      headers: {
+        'Content-Type': 'application/json' // cabecera de la petición
+      },
+      credentials:'include', // incluir cookies en la petición, para poder recibir la cookie de sesión desde la API
+      body: JSON.stringify(credentials) // cuerpo de la petición, convertimos el objeto a JSON usando JSON.stringify()
+    })
+    return response.json() // retornamos la respuesta en formato JSON
+    
+  } catch (error) {
+    throw new Error('There was a error with the API') // lanzamos un error si la respuesta de la API no es correcta
+    
+  }
+  
+
+
+}
 
 export async function getTasks() {
 
@@ -387,6 +408,9 @@ export async function updateUser(user:UserEditFields ) : Promise<GeneralResponse
     const response = await fetch('http://localhost:8080/users',{
       method:'PUT',
       credentials:'include',
+      headers:{
+        'content-type':'application/json'
+      },
       body: JSON.stringify(user),
     })
     if(response.status === 401){
@@ -398,4 +422,25 @@ export async function updateUser(user:UserEditFields ) : Promise<GeneralResponse
     throw new Error('There was a error with the API')
     
   }
+}
+
+export async function uploadImage(image:File) : Promise<ImageResponse>{
+
+  try{
+      const formData = new FormData();
+      formData.append('image', image);
+      const response = await fetch('https://star-api-production.up.railway.app/images/upload',{
+          method:'POST',
+          body:formData,
+      })
+      if(response.status === 401){
+          throw new Error('Unauthorized')
+      }
+      return response.json()
+
+  }catch(error){
+      throw new Error("There was an error with the API")
+  }
+ 
+ 
 }

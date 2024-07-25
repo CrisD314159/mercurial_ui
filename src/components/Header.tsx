@@ -69,7 +69,7 @@ export default function Header() {
       </div>
       <nav className='nav'>
         <ul className='navList'>
-          <li className='listItem'><Button variant='contained' color='primary' className='logoutButton' onClick={handleLogout}><ExitToAppIcon /></Button></li>
+          <li className='listItem'><Button variant='outlined' color='secondary' className='logoutButton' onClick={handleLogout}><ExitToAppIcon /></Button></li>
           <li className='listItem'>
             <NavLink to={'/userSettings'}>
               <Avatar src={image} alt='userImage' className='avatar' />

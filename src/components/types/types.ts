@@ -159,5 +159,11 @@ export interface GetUserResponse{
 export interface UserEditFields{
   name: string,
   username:string,
-  password:string
+  password?:string ,
+  image?: string 
+}
+export interface ImageResponse{
+  success: boolean,
+  message:string,
+  url:string
 }

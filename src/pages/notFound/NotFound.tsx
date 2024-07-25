@@ -5,7 +5,7 @@ export default function NotFound() {
     return (
         <div className="notFoundContainer">
             <div className="image404">
-                <img src="src\assets\pngegg.png" alt="imageNotFound" />
+                <img src="\pngegg.png" alt="imageNotFound" />
             </div>
             <div className="infoContainer">
                 <h2>There's NOTHING here...</h2>

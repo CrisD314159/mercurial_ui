@@ -81,15 +81,15 @@ export default function TaskContainer(props: TaskProps) {
                         <p className='topic' style={{color:`${task.topiccolor}`}}>{task.topictittle}</p> { /** Aquí luego pondremos el nombre del topic, no su id */}
                       </div>
                       <div className='buttonContainer'>
-                        <Fab size='small' className='doneButton button'
+                        <Fab size='small' className='doneButton button' color='success'
                         onClick={()=>{
                           handleMarkAsDone(task.id)
                         }}
                         > <DoneIcon/> </Fab> {/** Añadiremos un evento a este botón el cual permite marcar la 
                          * tarea como completada 
                          */}
-                         <EditTask description={task.description} subjectId={task.subjectid} title={task.tittle} taskId={task.id} topicId={task.topicid} subjectName={task.subjectname} topicName={task.topictittle}/>
-                        <Fab size='small' color='error' className='deleteButton button' onClick={()=>{
+                         <EditTask  description={task.description} subjectId={task.subjectid} title={task.tittle} taskId={task.id} topicId={task.topicid} subjectName={task.subjectname} topicName={task.topictittle}/>
+                        <Fab size='small' color='secondary' className='deleteButton button' onClick={()=>{
                           handleDelete(task.id)
                         }}> <DeleteIcon/> </Fab> {/** Añadiremos un evento a este botón el cual permite eliminar la tarea  */}
                       </div>

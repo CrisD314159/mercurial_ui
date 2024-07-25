@@ -1,4 +1,4 @@
-import { Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle, Fab,  TextField } from "@mui/material";
+import { Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle, Fab, TextField } from "@mui/material";
 import { useState } from "react";
 import {  TaskUpdateFileds, TaskUpdateResponse,} from "../types/types";
 
@@ -76,7 +76,7 @@ export default function EditTask(props: TaskCreationProps) {
   }
   return (
     <div>
-      <Fab size="small" onClick={handleClickOpen}><ModeEditRoundedIcon/></Fab>
+      <Fab color="info"  size="small" onClick={handleClickOpen}><ModeEditRoundedIcon/></Fab>
       <Dialog open={open} onClose={handleClose} sx={{ backdropFilter: 'blur(2px)'  }} aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description">
           <div style={{border:'1px solid #666', borderRadius:'6px', overflow:'hidden'}}>

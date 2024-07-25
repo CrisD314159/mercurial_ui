@@ -1,38 +1,22 @@
-import { TextField } from "@mui/material";
+import { Alert, TextField } from "@mui/material";
 import './login.css'
 import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { LoginCredentials, LoginResponse } from "../../components/types/types";
+import { login } from "../../utils/utils";
 
 
 
-async function login(credentials: LoginCredentials) : Promise<LoginResponse> {
-  try {
-    const response = await fetch('http://localhost:8080/login',{
-      method:'POST', // método de la petición
-      headers: {
-        'Content-Type': 'application/json' // cabecera de la petición
-      },
-      credentials:'include', // incluir cookies en la petición, para poder recibir la cookie de sesión desde la API
-      body: JSON.stringify(credentials) // cuerpo de la petición, convertimos el objeto a JSON usando JSON.stringify()
-    })
-    return response.json() // retornamos la respuesta en formato JSON
-    
-  } catch (error) {
-    throw new Error('There was a error with the API') // lanzamos un error si la respuesta de la API no es correcta
-    
-  }
-  
 
-
-}
 
 
 
 export default function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [alert, setAlert] = useState(false)
+  const [alertCont, setAlertCont] = useState('')
   const navigate = useNavigate() // hook de react-router-dom para redirigir al usuario a otra ruta
 
   useEffect(()=>{
@@ -66,11 +50,14 @@ export default function Login() {
     // LoginCredentials es el tipo de dato que recibirá la función login
     mutationFn: login, // función que se ejecutará al llamar a mutation.mutate()
     onSuccess: (data: LoginResponse)=>{ // función que se ejecutará si la petición es exitosa
+      if(data.success === false) throw new Error(data.message) // si la petición es exitosa pero el servidor retorna un mensaje de error, entonces lanzamos un error
       localStorage.setItem('userImage', data.data.userImage ) // guardamos la imagen de usuario en el localStorage
       navigate('/dashboard') // redirigimos al usuario al dashboard
     },
-    onError: (error: Error)=>{ // función que se ejecutará si la petición falla
-      alert(error.message) // mostramos un mensaje de error
+    onError: (error: Error)=>{
+      setAlertCont(error.message) // mensaje que se mostrará en la alerta
+      setAlert(true) // función que se ejecutará si la petición falla
+      
     }
   })
 
@@ -80,8 +67,12 @@ export default function Login() {
   }
   return (
     <div className="mainLoginContainer">
+      
       <div className="backgroundContainerLogin">
+     
         <div className="formContainerLogin">
+          
+       
           <div className="imageContainer">
             <img src="/mercurialLogo.png" alt="" className="imageLogo" />
           </div>
@@ -93,6 +84,9 @@ export default function Login() {
             <TextField required label="Password" type="password" variant="outlined" value={password} onChange={(e)=>{setPassword(e.target.value)}}/>
             <button className="loginButton">Log In</button>
             <NavLink to="/SignUp" className="signUp">Sign Up</NavLink>
+            {
+        alert && <Alert  severity="warning" onClose={()=>{setAlert(false)}} sx={{m:2}} >{alertCont}</Alert>
+      }
 
           </form>
 

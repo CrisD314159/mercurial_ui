@@ -1,12 +1,12 @@
 import Header from "../../components/Header";
-import ModeEditRoundedIcon from '@mui/icons-material/ModeEditRounded';
 import './userSettings.css'
-import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getUser } from "../../utils/utils";
 import { useMutation } from "@tanstack/react-query";
 import { GetUserResponse, User } from "../../components/types/types";
 import DeleteAlert from "../../components/deleteAlert/DeleteAlert";
+import EditUser from "../editUser/EditUser";
+import { Avatar } from "@mui/material";
 
 export default function UserSettings() {
     // const [delete, setDelete] = useState(false)
@@ -31,9 +31,7 @@ export default function UserSettings() {
 
                 {user ? (
                     <div className="userCard">
-                        <div className='profileImageContainerUser' style={{ backgroundImage: `url("${user.image}")` }}>
-
-                        </div>
+                        <Avatar className="avatarUser" src={user.image} alt={user.name} sx={{ width: 180, height: 180 }} style={{margin:'30px'}} />
                         <div className="dataUserContainer">
                             <h3 className="nameUser">
                                 {user.name}
@@ -51,13 +49,7 @@ export default function UserSettings() {
                             </p>
                         </div>
                         <div className="buttonUser">
-                            <NavLink to={'/userSettings/editUser'} className="editButton userButton">
-                                <button className="editButton userButton">
-                                    <p className="editButtonText">Edit profile </p>
-                                    <ModeEditRoundedIcon></ModeEditRoundedIcon>
-                                </button>
-                            </NavLink>
-                            
+                            <EditUser user={user}/>
                             <DeleteAlert/>
                         </div>
                     </div>
