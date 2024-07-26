@@ -44,7 +44,7 @@ export default function UserSettings() {
                             </p>
                             <p>
                                 Password:
-                                <input className="dataUserPassword" type="password" defaultValue={user.name} disabled>
+                                <input className="dataUserPassword" type="password" defaultValue={"password"} disabled>
                                 </input>
                             </p>
                         </div>

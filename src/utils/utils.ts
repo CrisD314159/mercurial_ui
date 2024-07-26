@@ -441,6 +441,18 @@ export async function uploadImage(image:File) : Promise<ImageResponse>{
   }catch(error){
       throw new Error("There was an error with the API")
   }
- 
- 
+}
+
+export async function verifyUser(id:string) : Promise<GeneralResponse>{
+
+  try{
+      const response = await fetch(`http://localhost:8080/users/account/verify/${id}`,{
+          method:'PUT',
+      })
+    
+      return response.json()
+
+  }catch(error){
+      throw new Error("There was an error with the API")
+  }
 }
