@@ -84,6 +84,7 @@ export default function Login() {
             <TextField required label="Password" type="password" variant="outlined" value={password} onChange={(e)=>{setPassword(e.target.value)}}/>
             <button className="loginButton">Log In</button>
             <NavLink to="/SignUp" className="signUp">Sign Up</NavLink>
+            <NavLink to="/users/recover/password/email" className="signUp">Forgot your password?</NavLink>
             {
         alert && <Alert  severity="warning" onClose={()=>{setAlert(false)}} sx={{m:2}} >{alertCont}</Alert>
       }
@@ -92,6 +93,8 @@ export default function Login() {
 
         </div>
       </div>
+      <footer className="loginFooter">Created by 
+        <a href="" className="loginLink"> Allison Hincapié   </a>  | <a href="https://www.linkedin.com/in/cristian-david-vargas-loaiza-982314271/" className="loginLink"> Cristian David Vargas </a></footer>
     </div>
   )
 

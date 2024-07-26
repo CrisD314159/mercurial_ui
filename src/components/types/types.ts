@@ -167,3 +167,17 @@ export interface ImageResponse{
   message:string,
   url:string
 }
+export interface ResetPasswordFileds{
+  token: string,
+  email:string,
+  password:string
+}
+export interface ResetPasswordToken{
+  success: boolean,
+  message: string,
+  response: {
+    id:string,
+    user_id: string,
+    user_email: string,
+  }
+}

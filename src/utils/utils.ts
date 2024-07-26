@@ -1,4 +1,4 @@
-import { GeneralResponse, GetUserResponse, ImageResponse, LoginCredentials, LoginResponse, LogOutResponse, SignUpFields, SubjectCreationFileds, SubjectCreationResponse, SubjectUpdateFileds, TaskCreationFileds, TaskCreationResponse, TaskUpdateFileds, TaskUpdateResponse, TopicCreationFileds, TopicCreationResponse, TopicUpdateFileds, UserEditFields} from "../components/types/types"
+import { GeneralResponse, GetUserResponse, ImageResponse, LoginCredentials, LoginResponse, LogOutResponse, ResetPasswordFileds, ResetPasswordToken, SignUpFields, SubjectCreationFileds, SubjectCreationResponse, SubjectUpdateFileds, TaskCreationFileds, TaskCreationResponse, TaskUpdateFileds, TaskUpdateResponse, TopicCreationFileds, TopicCreationResponse, TopicUpdateFileds, UserEditFields} from "../components/types/types"
 
 export function getImageFromLocalStorage() {
   if (localStorage.getItem('userImage')) {
@@ -444,10 +444,54 @@ export async function uploadImage(image:File) : Promise<ImageResponse>{
 }
 
 export async function verifyUser(id:string) : Promise<GeneralResponse>{
-
   try{
       const response = await fetch(`http://localhost:8080/users/account/verify/${id}`,{
           method:'PUT',
+      })
+    
+      return response.json()
+
+  }catch(error){
+      throw new Error("There was an error with the API")
+  }
+}
+export async function sendPasswordEmail(email:string) : Promise<GeneralResponse>{
+  try{
+      const response = await fetch('http://localhost:8080/users/password/change/email',{
+          method:'POST',
+          headers:{
+              'content-type':'application/json'
+          },
+          body:JSON.stringify({email})
+      })
+    
+      return response.json()
+
+  }catch(error){
+      throw new Error("There was an error with the API")
+  }
+}
+
+export async function resetPassword(fields:ResetPasswordFileds) : Promise<GeneralResponse>{
+  try{
+      const response = await fetch('http://localhost:8080/users/password/change',{
+          method:'PUT',
+          headers:{
+              'content-type':'application/json'
+          },
+          body:JSON.stringify(fields)
+      })
+    
+      return response.json()
+
+  }catch(error){
+      throw new Error("There was an error with the API")
+  }
+}
+export async function getResetToken(token:string) : Promise<ResetPasswordToken>{
+  try{
+      const response = await fetch(`http://localhost:8080/users/password/change/${token}`,{
+          method:'GET'
       })
     
       return response.json()

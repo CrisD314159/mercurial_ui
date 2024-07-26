@@ -12,6 +12,8 @@ import UserSettings from './pages/userSettings/userSettings.tsx'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import NotFound from './pages/notFound/NotFound.tsx'
 import VerificationPage from './pages/verification/VerificationPage.tsx'
+import SendRecoverEmail from './pages/passwordEmailSender/SendRecoverEmail.tsx'
+import PasswordRecover from './pages/passwordRecover/PasswordRecover.tsx'
 
 const theme = createTheme({
   palette: {
@@ -66,6 +68,14 @@ const router = createBrowserRouter([
     path:'/users/verify/user/:id',
     element: <VerificationPage/>
 
+  },
+  {
+    path:'/users/recover/password/email',
+    element: <SendRecoverEmail/>
+  },
+  {
+    path:'/users/reset/password/:id',
+    element: <PasswordRecover/>
   },
   {
     path: '*',
