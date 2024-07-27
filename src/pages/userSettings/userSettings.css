@@ -1,0 +1,84 @@
+.userCard{
+    width: 600px;
+    height: 500px;
+    border:  1px solid #666;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    background-color: #131212;
+    overflow: hidden;
+    margin-top: 50px;
+    @media screen and (max-width: 768px){
+        width: 90%;
+        height: 100%;
+        margin: 0;
+        height: 550px;
+        
+      }
+
+}
+
+.mainUserSettingsContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.profileImageContainerUser{
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin: 30px auto;
+    background-size: cover;
+    background-repeat: no-repeat;
+    
+}
+
+.buttonUser{
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    
+}
+
+.editButton{
+    background-color: #1E1E1E;
+    color: white;
+}
+
+.deleteButton{
+    background-color: #770f0fb1;
+    color: white;
+}
+
+.userButton{
+    text-decoration: none;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: none;
+    transition: all 0.3s;
+}
+
+.userButton:hover{
+    transform: translate(0, -2px);
+}
+
+.nameUser{
+    text-align: center;
+    margin: 10px 0;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+
+.dataUserPassword{
+    color: white;
+    background-color: transparent;
+    border: none;
+    margin-left: 5px;
+}
+

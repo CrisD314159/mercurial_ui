@@ -1,0 +1,30 @@
+.verificationContMain{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #0d0d0d;
+}
+
+.verificationCont{
+  width: 400px;
+  height: 400px;
+  background-color: #bf0069;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.verificationTitle{
+  color: white;
+  font-size: 30px;
+  font-weight: 300;
+}
+.verificationText{
+  color: white;
+  font-size: 15px;
+  font-weight: 300;
+  margin-top: 10px;
+}

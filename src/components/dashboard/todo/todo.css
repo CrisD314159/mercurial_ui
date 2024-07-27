@@ -1,0 +1,221 @@
+.todoContainer{
+  height: 100%; /* especifica la altura del elemento */
+  width: 50vw; /* especifica el ancho del elemento */
+  display: flex;
+  flex-direction: column; /* especifica la dirección de los elementos hijos */
+  align-items: center; /* especifica la alineación de los elementos hijos */
+  justify-content: center;
+  border-right: 1px dotted #3d3d3d; /* especifica el borde derecho del elemento */
+
+  @media screen and (max-width: 768px) { /* especifica un media query para pantallas de 768px o menos */
+    width: 100vw; /* especifica el ancho del elemento */
+    border-right: none;
+
+ 
+    
+  }
+
+}
+
+.subjectsSlider{
+  width: 95%;
+
+}
+
+.createMenu {
+  padding: 0 70px; /* especifica el relleno interno del elemento */
+  width: 100%; /* especifica el ancho del elemento */
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+  @media screen and (max-width: 768px) {
+    padding:0 ;
+    
+  }
+
+
+}
+
+.createButton{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%; /* especifica la redondeo de los bordes del elemento */
+  font-size: 30px; /* especifica el tamaño de la fuente del texto */
+  border: none;
+  transition: all 0.3s; /* con esto habilitamos una transición de 0.3 segundos para todos los cambios de propiedades, queda como una animación */
+
+
+}
+
+.createButton:hover{
+  background-color: #e2e2e2; /* especifica el color de fondo del elemento */
+  transform: translate(0, -3px); /* especifica una transformación 2D, el translate es un metodo que mueve el elemento en el eje X Y
+  translate (X, Y) -> X: mueve el elemento en el eje X, Y: mueve el elemento en el eje Y */
+
+  cursor: pointer; /* especifica el cursor del mouse cuando pasa sobre el elemento (Que se ponga la manito) */
+}
+
+.mainTittleContainer{
+  width: 85%;
+  border: 1px solid #666; /* especifica el borde del elemento sintaxis: 
+  border: grosor tipoDeBorde colorBorde */
+  height: 40px;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px #740CF9; /* especifica una sombra para el elemento, la sintaxis es: 
+  box-shadow: ejeX ejeY difuminado color */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.todoTittle{
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.tasksContainer{
+  margin: 30px 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y:auto;
+  position: relative;
+  height: 100%;
+  scrollbar-width: none; /* especifica el ancho de la barra de desplazamiento */
+
+  &:-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.taskDescriptionContainer{
+  margin-bottom: 30px;
+  width: 90%;
+
+  @media screen and (max-width: 768px) {
+    width: 97%;
+    
+  }
+
+}
+.descriptionContainer{
+  height: 100px;
+  width: 100%;
+  border-radius: 30px;
+  margin-top: 5px;
+  border: 1px solid #666;
+  overflow: scroll;
+
+
+
+}
+.description{
+  font-size: 14px;
+  font-weight: 300;
+  padding-left: 10px;
+
+}
+.taskContainer{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border: 1px solid #666;
+    border-radius: 40px;
+    height: 80px;
+    position: relative;
+
+    @media screen and (max-width: 768px) {
+      width: 100%;
+      
+    }
+}
+
+.iconContainer{
+  width: 40px;
+  margin: 0 20px;
+
+}
+
+.titleContainer{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 30%;
+
+  @media screen and (max-width: 768px) {
+    width: 25%;
+    
+  }
+}
+
+.title{
+  font-size: 14px;
+  font-weight: 500;
+}
+.subject{
+  font-size: 12px;
+  font-weight: 300;
+}
+
+h3{
+  margin: 0;
+}
+
+.topic{
+  font-size: 12px;
+  font-weight: 300;
+  margin: 0 30px;
+  position: absolute;
+  left: 45%;
+  bottom: 40%;
+  width: 10%;
+
+  @media screen and (max-width: 768px) {
+    left: 40%;
+    font-size: 9px;
+    
+  }
+}
+
+.buttonContainer{
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 37%;
+  position: absolute;
+  right: 0;
+
+  
+}
+
+.button{
+  width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  border-radius: 50%;
+  font-size: 20px;
+}
+
+
+.doneButton{
+  border: 1px solid #1712FF;
+
+}
+
+.deleteButton{
+  border: 1px solid #FF1212;
+}
+
+.mainTasksContainer{
+  height: 530px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}

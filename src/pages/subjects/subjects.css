@@ -1,0 +1,101 @@
+.topicButton{
+  width: 140px;
+  height: 40px;
+  background-color: #e2e2e2;
+  font-size: 16px;
+  border: 1px solid #6666;
+  border-radius: 40px;
+  transition: all 0.3s;
+
+
+}
+
+.topicButton:hover{
+  background-color: #e2e2e2;
+  transform: translate(0, -3px);
+  animation: gradient 5s ease infinite; /* Define la animación */
+  background: linear-gradient(45deg, #f800f0b1, #fe38f8e6, #2d03d2bc, #1d0092bc); /* Define el gradiente */
+  background-size: 200% 200%; /* Asegura que el gradiente sea lo suficientemente grande */
+  color: white;
+  cursor: pointer;
+}
+
+@keyframes gradient { /* Define la animación */
+	0% {
+		background-position: 0% 50%; /* Define la posición inicial del fondo */
+	}
+	50% {
+		background-position: 100% 50%; /* Define la posición final del fondo */
+	}
+	100% {
+		background-position: 0% 50%; /* Define la posición inicial del fondo, es decir, para que se poonga en bucle*/
+	}
+}
+
+
+.mainSubjectsContainer{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.backButtonContainer{
+  width: 100%;
+}
+
+.buttonBack{
+  padding: 0 20px;
+}
+
+.subjectMenuContainer{
+  display: flex;
+  width: 40%;
+  @media  screen and (max-width: 768px){
+    width: auto;
+    margin-top: 30px;
+    
+}
+
+}
+
+.menuButton{
+  margin: 0 30px;
+}
+
+.subjectsContainer{
+  display: flex;
+  width: 60%;
+  flex-wrap: wrap;
+  padding: 10px 5px;
+  margin: 30px auto;
+  @media  screen and (max-width: 668px){
+    width: auto;
+    justify-content: center;
+    
+}
+  
+}
+
+.subjectCard{
+  width: 200px;
+  height: 120px;
+  border: 1px solid #666;
+  margin: 20px 20px;
+  position: relative;
+  padding: 10px 20px;
+  border-radius: 6px;
+}
+
+.subjectButtonContainer{
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  position: absolute;
+  bottom: 0;
+  padding: 10px 0;
+}
+
+.subjectCardTittle{
+  font-size: 1.1rem;
+}
