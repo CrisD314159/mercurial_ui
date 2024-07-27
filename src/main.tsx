@@ -40,49 +40,17 @@ const theme = createTheme({
 const queryClient = new QueryClient() // Creamos una instancia de la clase QueryClient para poder usarla en toda la aplicación
 
 const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <Login />
-  },
-  {
-    path: '/dashboard',
-    element: <Dashboard />
-  },
-  {
-    path: '/signUp',
-    element: <SignUp />
-  },
-  {
-    path: '/dashboard/subjects',
-    element: <Subjects />
-  },
-  {
-    path: '/dashboard/topics',
-    element: <Topics />
-  },
-  {
-    path: '/userSettings',
-    element: <UserSettings />
-  },
-  {
-    path:'/users/verify/user/:id',
-    element: <VerificationPage/>
-
-  },
-  {
-    path:'/users/recover/password/email',
-    element: <SendRecoverEmail/>
-  },
-  {
-    path:'/users/reset/password/:id',
-    element: <PasswordRecover/>
-  },
-  {
-    path: '*',
-    element: <NotFound/>
-  }
-
-])
+  { path: '/', element: <Login /> },
+  { path: '/dashboard', element: <Dashboard /> },
+  { path: '/signUp', element: <SignUp /> },
+  { path: '/dashboard/subjects', element: <Subjects /> },
+  { path: '/dashboard/topics', element: <Topics /> },
+  { path: '/userSettings', element: <UserSettings /> },
+  { path:'/users/verify/user/:id', element: <VerificationPage /> },
+  { path:'/users/recover/password/email', element: <SendRecoverEmail /> },
+  { path:'/users/reset/password/:id', element: <PasswordRecover /> },
+  { path: '*', element: <NotFound /> }
+]);
 
 // Envolvemos toda la aplicación en el componente QueryClientProvider para que todas las páginas de la app tengan acceso a la instancia de QueryClient
 
