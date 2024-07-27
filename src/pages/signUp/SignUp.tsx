@@ -87,7 +87,7 @@ export default function SignUp() {
                                     setUsername(e.target.value);
                                 }}
                             />
-                            <PasswordInput password={password} setPassword={setPassword}></PasswordInput>
+                            <PasswordInput password={password} setPassword={setPassword} required></PasswordInput>
                         </div>
 
                         <button className="signUpButton">Sign Up</button>

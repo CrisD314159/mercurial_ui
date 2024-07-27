@@ -94,7 +94,7 @@ export default function Login() {
         </div>
       </div>
       <footer className="loginFooter">Created by 
-        <a href="" className="loginLink"> Allison Hincapié   </a>  | <a href="https://www.linkedin.com/in/cristian-david-vargas-loaiza-982314271/" className="loginLink"> Cristian David Vargas </a></footer>
+        <a href="https://www.linkedin.com/in/allison-hincapie-ab7a76313/" className="loginLink"> Allison Hincapié   </a>  | <a href="https://www.linkedin.com/in/cristian-david-vargas-loaiza-982314271/" className="loginLink"> Cristian David Vargas </a></footer>
     </div>
   )
 

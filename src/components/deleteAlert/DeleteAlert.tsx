@@ -9,13 +9,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useMutation } from '@tanstack/react-query';
 import { GeneralResponse } from '../types/types';
 import { deleteUser, logout } from '../../utils/utils';
-import { log } from 'console';
 import { useNavigate } from 'react-router-dom';
 
-interface AlertProps{
-  title: string,
-  message: string,
-}
 
 export default function DeleteAlert() {
   const navigate = useNavigate()
