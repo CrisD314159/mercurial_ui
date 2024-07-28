@@ -43,7 +43,8 @@ export interface User{
 export interface LoginResponse{
   success: boolean,
   message: string,
-  data : LoginData
+  data : LoginData,
+  token: string
 
 }
 
@@ -96,10 +97,11 @@ export interface TopicList{
 }
 
 export interface TaskCreationFileds{
-  "tittle": string,
-  "description": string,
-  "subjectId": string,
-  "topicId": string
+  tittle: string,
+  description: string,
+  subjectId: string,
+  topicId: string,
+  token: string
 }
 
 export interface TaskCreationResponse{
@@ -109,8 +111,9 @@ export interface TaskCreationResponse{
 
 }
 export interface SubjectCreationFileds{
-  "name": string,
-  "color": string
+  name: string,
+  color: string,
+  token: string
 }
 
 export interface SubjectCreationResponse{
@@ -121,8 +124,9 @@ export interface SubjectCreationResponse{
 }
 
 export interface TopicCreationFileds{
-  "tittle": string,
-  "color": string
+  tittle: string,
+  color: string,
+  token: string
   
 }
 
@@ -135,18 +139,21 @@ export interface TopicCreationResponse{
 export interface SubjectUpdateFileds{
   id: string,
   name: string,
-  color: string
+  color: string,
+  token: string
 }
 
 export interface TopicUpdateFileds{
   id: string,
   tittle: string,
-  color: string
+  color: string,
+  token: string
 }
 export interface TaskUpdateFileds{
   id: string,
   tittle: string,
-  description: string
+  description: string,
+  token: string
 }
 export interface TaskUpdateResponse{
   success: boolean,
@@ -160,7 +167,8 @@ export interface UserEditFields{
   name: string,
   username:string,
   password?:string ,
-  image?: string 
+  image?: string ,
+  token: string
 }
 export interface ImageResponse{
   success: boolean,
@@ -180,4 +188,30 @@ export interface ResetPasswordToken{
     user_id: string,
     user_email: string,
   }
+}
+
+export interface RollbackFields {
+  taskId: string,
+  token: string
+}
+
+export interface DeleteTaskFields {
+  taskId: string,
+  token: string
+}
+export interface MarkAsDoneFields {
+  taskId: string,
+  token: string
+}
+export interface DeleteSubjectFields {
+  subjectId: string,
+  token: string
+}
+export interface DeleteTopicFields {
+  topicId: string,
+  token: string
+}
+export interface ImageFields {
+  image: File,
+  token: string
 }

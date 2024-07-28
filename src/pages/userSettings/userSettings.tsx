@@ -7,11 +7,14 @@ import { GetUserResponse, User } from "../../components/types/types";
 import DeleteAlert from "../../components/deleteAlert/DeleteAlert";
 import EditUser from "../editUser/EditUser";
 import { Avatar } from "@mui/material";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
 export default function UserSettings() {
     // const [delete, setDelete] = useState(false)
+    const token = useSelector((state: RootState) => state.auth.token) // Token del usuario
     const [user, setUser] = useState<User>({} as User)
-    const userMutation = useMutation<GetUserResponse, Error>({
+    const userMutation = useMutation<GetUserResponse, Error, string>({
         mutationFn: getUser,
         onSuccess(data:GetUserResponse){
             setUser(data.user) 
@@ -20,7 +23,7 @@ export default function UserSettings() {
     })
 
     useEffect(()=>{
-        userMutation.mutate()
+        if(token) userMutation.mutate(token)
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     return (

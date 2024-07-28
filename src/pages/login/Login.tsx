@@ -5,6 +5,9 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { LoginCredentials, LoginResponse } from "../../components/types/types";
 import { login } from "../../utils/utils";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../store";
+import { setToken } from "../../store/authSlice";
 
 
 
@@ -17,6 +20,7 @@ export default function Login() {
   const [password, setPassword] = useState('')
   const [alert, setAlert] = useState(false)
   const [alertCont, setAlertCont] = useState('')
+  const dispatch = useDispatch<AppDispatch>()
   const navigate = useNavigate() // hook de react-router-dom para redirigir al usuario a otra ruta
 
   useEffect(()=>{
@@ -51,6 +55,7 @@ export default function Login() {
     mutationFn: login, // función que se ejecutará al llamar a mutation.mutate()
     onSuccess: (data: LoginResponse)=>{ // función que se ejecutará si la petición es exitosa
       if(data.success === false) throw new Error(data.message) // si la petición es exitosa pero el servidor retorna un mensaje de error, entonces lanzamos un error
+      dispatch(setToken(data.token)) // guardamos el token en el store
       localStorage.setItem('userImage', data.data.userImage ) // guardamos la imagen de usuario en el localStorage
       navigate('/dashboard') // redirigimos al usuario al dashboard
     },

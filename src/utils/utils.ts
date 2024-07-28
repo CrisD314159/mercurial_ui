@@ -1,4 +1,4 @@
-import { GeneralResponse, GetUserResponse, ImageResponse, LoginCredentials, LoginResponse, LogOutResponse, ResetPasswordFileds, ResetPasswordToken, SignUpFields, SubjectCreationFileds, SubjectCreationResponse, SubjectUpdateFileds, TaskCreationFileds, TaskCreationResponse, TaskUpdateFileds, TaskUpdateResponse, TopicCreationFileds, TopicCreationResponse, TopicUpdateFileds, UserEditFields} from "../components/types/types"
+import { DeleteSubjectFields, DeleteTaskFields, DeleteTopicFields, GeneralResponse, GetUserResponse, ImageFields, ImageResponse, LoginCredentials, LoginResponse, LogOutResponse, MarkAsDoneFields, ResetPasswordFileds, ResetPasswordToken, RollbackFields, SignUpFields, SubjectCreationFileds, SubjectCreationResponse, SubjectUpdateFileds, TaskCreationFileds, TaskCreationResponse, TaskDoneList, TaskList, TaskUpdateFileds, TaskUpdateResponse, TopicCreationFileds, TopicCreationResponse, TopicUpdateFileds, UserEditFields} from "../components/types/types"
 
 export function getImageFromLocalStorage() {
   if (localStorage.getItem('userImage')) {
@@ -12,7 +12,7 @@ export function getImageFromLocalStorage() {
 
 export async function login(credentials: LoginCredentials) : Promise<LoginResponse> {
   try {
-    const response = await fetch('https://stupid-galina-mercurial-80e3a007.koyeb.app/login',{
+    const response = await fetch('http://localhost:8000/login',{
       method:'POST', // método de la petición
       headers: {
         'Content-Type': 'application/json' // cabecera de la petición
@@ -31,15 +31,16 @@ export async function login(credentials: LoginCredentials) : Promise<LoginRespon
 
 }
 
-export async function getTasks() {
+export async function getTasks(token:string) : Promise<TaskList>{
 
   try {
-    const response = await fetch('https://stupid-galina-mercurial-80e3a007.koyeb.app/tasks/user/active', {
+    const response = await fetch('http://localhost:8000/tasks/user/active', {
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
       },
-      credentials: 'include'
+      
     })
     if(response.status === 401){
        // La api devuleve 401 si no hay un usuario logueado, por lo tanto
@@ -53,15 +54,16 @@ export async function getTasks() {
   }
 
 }
-export async function getDoneTasks() {
+export async function getDoneTasks(token:string) : Promise<TaskDoneList>{
 
   try {
-    const response = await fetch('https://stupid-galina-mercurial-80e3a007.koyeb.app/tasks/done/user', {
+    const response = await fetch('http://localhost:8000/tasks/done/user', {
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json'
-      },
-      credentials: 'include'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+     
     })
     
     if(response.status === 401){
@@ -76,15 +78,15 @@ export async function getDoneTasks() {
 
 }
 
-export async function getSubjects() {
+export async function getSubjects(token:string) {
 
   try {
-    const response = await fetch('https://stupid-galina-mercurial-80e3a007.koyeb.app/subjects/user/active', {
+    const response = await fetch('http://localhost:8000/subjects/user/active', {
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json'
-      },
-      credentials: 'include'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
     })
     
     if(response.status === 401){
@@ -99,15 +101,15 @@ export async function getSubjects() {
 
 }
 
-export async function getTopics() {
+export async function getTopics(token:string) {
 
   try {
-    const response = await fetch('https://stupid-galina-mercurial-80e3a007.koyeb.app/topics/user/active', {
+    const response = await fetch('http://localhost:8000/topics/user/active', {
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json'
-      },
-      credentials: 'include'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
     })
     if(response.status === 401){
        // La api devuleve 401 si no hay un usuario logueado, por lo tanto
@@ -124,7 +126,7 @@ export async function getTopics() {
 
 export async function signUp(fields: SignUpFields){
   try {
-    const response = await fetch('https://stupid-galina-mercurial-80e3a007.koyeb.app/users', {
+    const response = await fetch('http://localhost:8000/users', {
       method: 'POST',
       headers:{
         'content-type':'application/json'
@@ -132,8 +134,6 @@ export async function signUp(fields: SignUpFields){
       body: JSON.stringify(fields)
 
     })
-
-
     return response.json()
     
   } catch (error) {
@@ -144,7 +144,7 @@ export async function signUp(fields: SignUpFields){
 }
 
 export async function logout() : Promise <LogOutResponse>{
-  const response = await fetch('https://stupid-galina-mercurial-80e3a007.koyeb.app/logout',{
+  const response = await fetch('http://localhost:8000/logout',{
     method:'POST',
     credentials:'include',
   })
@@ -156,13 +156,13 @@ export async function logout() : Promise <LogOutResponse>{
 
 export async function createTask(fields: TaskCreationFileds) : Promise<TaskCreationResponse>{
   try {
-    const response = await fetch('https://stupid-galina-mercurial-80e3a007.koyeb.app/tasks',{
+    const response = await fetch('http://localhost:8000/tasks',{
       method:'POST',
       headers:{
-        'content-type':'application/json'
+        'content-type':'application/json',
+        'Authorization': `Bearer ${fields.token}`
       },
       body: JSON.stringify(fields),
-      credentials:'include'
 
     })
     if(response.status === 401){ 
@@ -178,11 +178,13 @@ export async function createTask(fields: TaskCreationFileds) : Promise<TaskCreat
   }
 }
 
-export async function deleteTask(taskId:string){
+export async function deleteTask(fields: DeleteTaskFields) : Promise<GeneralResponse>{
   try {
-    const response = await fetch(`https://stupid-galina-mercurial-80e3a007.koyeb.app/tasks/${taskId}`,{
+    const response = await fetch(`http://localhost:8000/tasks/${fields.taskId}`,{
       method:'DELETE',
-      credentials:'include'
+      headers:{
+        'Authorization': `Bearer ${fields.token}`
+      }
     })
     if(response.status === 401){
        // La api devuleve 401 si no hay un usuario logueado, por lo tanto
@@ -197,11 +199,13 @@ export async function deleteTask(taskId:string){
   }
 }
 
-export async function markAsDoneTask(taskId:string): Promise<GeneralResponse> {
+export async function markAsDoneTask(fields: MarkAsDoneFields): Promise<GeneralResponse> {
   try {
-    const response = await fetch(`https://stupid-galina-mercurial-80e3a007.koyeb.app/tasks/mark/done/${taskId}`,{
+    const response = await fetch(`http://localhost:8000/tasks/mark/done/${fields.taskId}`,{
       method:'PUT',
-      credentials:'include'
+      headers:{
+        'Authorization': `Bearer ${fields.token}`
+      }
     })
     if(response.status === 401){
        // La api devuleve 401 si no hay un usuario logueado, por lo tanto
@@ -220,13 +224,13 @@ export async function markAsDoneTask(taskId:string): Promise<GeneralResponse> {
 
 export async function createSubject(subject:SubjectCreationFileds) : Promise<SubjectCreationResponse> {
   try {
-    const response = await fetch('https://stupid-galina-mercurial-80e3a007.koyeb.app/subjects',{
+    const response = await fetch('http://localhost:8000/subjects',{
       method:'POST',
       headers:{
-        'content-type':'application/json'
+        'content-type':'application/json',
+        'Authorization': `Bearer ${subject.token}`
       },
       body: JSON.stringify(subject),
-      credentials:'include'
 
     })
     if(response.status === 401){
@@ -246,13 +250,13 @@ export async function createSubject(subject:SubjectCreationFileds) : Promise<Sub
 export async function createTopic
 (topic:TopicCreationFileds) : Promise<TopicCreationResponse>{
 try{
-  const response = await fetch('https://stupid-galina-mercurial-80e3a007.koyeb.app/topics',{
+  const response = await fetch('http://localhost:8000/topics',{
     method:'POST',
     headers:{
-      'content-type':'application/json'
+      'content-type':'application/json',
+        'Authorization': `Bearer ${topic.token}`
     },
     body: JSON.stringify(topic),
-    credentials:'include'
 
   })
   if(response.status === 401){
@@ -264,11 +268,14 @@ try{
   } 
 }
 
-export async function markAsRollBackTask(taskId:string): Promise<GeneralResponse>{
+export async function markAsRollBackTask(fields: RollbackFields): Promise<GeneralResponse>{
   try {
-    const response = await fetch(`https://stupid-galina-mercurial-80e3a007.koyeb.app/tasks/roll/back/${taskId}`,{
+    const response = await fetch(`http://localhost:8000/tasks/roll/back/${fields.taskId}`,{
       method:'PUT',
-      credentials:'include'
+      headers:{
+        'Authorization': `Bearer ${fields.token}`
+      }
+   
     })
     if(response.status === 401){
       throw new Error('Unauthorized')
@@ -279,11 +286,13 @@ export async function markAsRollBackTask(taskId:string): Promise<GeneralResponse
   }
 }
 
-export async function deleteSubject(id:string) : Promise<GeneralResponse>{
+export async function deleteSubject(fields: DeleteSubjectFields) : Promise<GeneralResponse>{
   try {
-    const response = await fetch(`https://stupid-galina-mercurial-80e3a007.koyeb.app/subjects/${id}`,{
+    const response = await fetch(`http://localhost:8000/subjects/${fields.subjectId}`,{
       method:'DELETE',
-      credentials:'include'
+      headers:{
+        'Authorization': `Bearer ${fields.token}`
+      }
     })
     if(response.status === 401){
       throw new Error('Unauthorized')
@@ -294,11 +303,13 @@ export async function deleteSubject(id:string) : Promise<GeneralResponse>{
   }
   
 }
-export async function deleteTopic(id:string) : Promise<GeneralResponse>{
+export async function deleteTopic(fields: DeleteTopicFields) : Promise<GeneralResponse>{
   try {
-    const response = await fetch(`https://stupid-galina-mercurial-80e3a007.koyeb.app/topics/${id}`,{
+    const response = await fetch(`http://localhost:8000/topics/${fields.topicId}`,{
       method:'DELETE',
-      credentials:'include'
+      headers:{
+        'Authorization': `Bearer ${fields.token}`
+      }
     })
     if(response.status === 401){
       throw new Error('Unauthorized')
@@ -312,12 +323,12 @@ export async function deleteTopic(id:string) : Promise<GeneralResponse>{
 
 export async function updateSubject(subject: SubjectUpdateFileds) : Promise<SubjectCreationResponse>{
   try {
-    const response = await fetch(`https://stupid-galina-mercurial-80e3a007.koyeb.app/subjects/${subject.id}`, {
+    const response = await fetch(`http://localhost:8000/subjects/${subject.id}`, {
       method:'PUT',
       headers:{
-        'content-type':'application/json'
+        'content-type':'application/json',
+        'Authorization': `Bearer ${subject.token}`
       },
-      credentials:'include',
       body: JSON.stringify(subject)
     })
 
@@ -333,12 +344,12 @@ export async function updateSubject(subject: SubjectUpdateFileds) : Promise<Subj
 
 export async function updateTopic(topic: TopicUpdateFileds) : Promise<TopicCreationResponse>{
   try {
-    const response = await fetch(`https://stupid-galina-mercurial-80e3a007.koyeb.app/topics/${topic.id}`, {
+    const response = await fetch(`http://localhost:8000/topics/${topic.id}`, {
       method:'PUT',
       headers:{
-        'content-type':'application/json'
+        'content-type':'application/json',
+        'Authorization': `Bearer ${topic.token}`
       },
-      credentials:'include',
       body: JSON.stringify(topic)
     })
 
@@ -353,12 +364,12 @@ export async function updateTopic(topic: TopicUpdateFileds) : Promise<TopicCreat
 }
 export async function updateTask(task: TaskUpdateFileds) : Promise<TaskUpdateResponse>{
   try {
-    const response = await fetch(`https://stupid-galina-mercurial-80e3a007.koyeb.app/tasks/${task.id}`, {
+    const response = await fetch(`http://localhost:8000/tasks/${task.id}`, {
       method:'PUT',
       headers:{
-        'content-type':'application/json'
+        'content-type':'application/json',
+        'Authorization': `Bearer ${task.token}`
       },
-      credentials:'include',
       body: JSON.stringify(task)
     })
 
@@ -372,11 +383,13 @@ export async function updateTask(task: TaskUpdateFileds) : Promise<TaskUpdateRes
   }
 }
 
-export async function getUser() : Promise<GetUserResponse>{
+export async function getUser(token:string) : Promise<GetUserResponse>{
   try {
-    const response = await fetch('https://stupid-galina-mercurial-80e3a007.koyeb.app/users',{
+    const response = await fetch('http://localhost:8000/users',{
       method:'GET',
-      credentials:'include'
+      headers:{
+        'Authorization': `Bearer ${token}`
+      }
     })
     if(response.status === 401){
       throw new Error('Unauthorized')
@@ -388,11 +401,13 @@ export async function getUser() : Promise<GetUserResponse>{
     
   }
 }
-export async function deleteUser() : Promise<GeneralResponse>{
+export async function deleteUser(token:string) : Promise<GeneralResponse>{
   try {
-    const response = await fetch('https://stupid-galina-mercurial-80e3a007.koyeb.app/users',{
+    const response = await fetch('http://localhost:8000/users',{
       method:'DELETE',
-      credentials:'include'
+      headers:{
+        'Authorization': `Bearer ${token}`
+      }
     })
     if(response.status === 401){
       throw new Error('Unauthorized')
@@ -406,11 +421,12 @@ export async function deleteUser() : Promise<GeneralResponse>{
 }
 export async function updateUser(user:UserEditFields ) : Promise<GeneralResponse>{
   try {
-    const response = await fetch('https://stupid-galina-mercurial-80e3a007.koyeb.app/users',{
+    const response = await fetch('http://localhost:8000/users',{
       method:'PUT',
       credentials:'include',
       headers:{
-        'content-type':'application/json'
+        'content-type':'application/json',
+        'Authorization': `Bearer ${user.token}`
       },
       body: JSON.stringify(user),
     })
@@ -425,14 +441,17 @@ export async function updateUser(user:UserEditFields ) : Promise<GeneralResponse
   }
 }
 
-export async function uploadImage(image:File) : Promise<ImageResponse>{
+export async function uploadImage(fields: ImageFields) : Promise<ImageResponse>{
 
   try{
       const formData = new FormData();
-      formData.append('image', image);
+      formData.append('image', fields.image);
       const response = await fetch('https://star-api-production.up.railway.app/images/upload',{
           method:'POST',
           body:formData,
+          headers:{
+            'Authorization': `Bearer ${fields.token}`
+          }
       })
       if(response.status === 401){
           throw new Error('Unauthorized')
@@ -446,7 +465,7 @@ export async function uploadImage(image:File) : Promise<ImageResponse>{
 
 export async function verifyUser(id:string) : Promise<GeneralResponse>{
   try{
-      const response = await fetch(`https://stupid-galina-mercurial-80e3a007.koyeb.app/users/account/verify/${id}`,{
+      const response = await fetch(`http://localhost:8000/users/account/verify/${id}`,{
           method:'PUT',
       })
     
@@ -458,7 +477,7 @@ export async function verifyUser(id:string) : Promise<GeneralResponse>{
 }
 export async function sendPasswordEmail(email:string) : Promise<GeneralResponse>{
   try{
-      const response = await fetch('https://stupid-galina-mercurial-80e3a007.koyeb.app/users/password/change/email',{
+      const response = await fetch('http://localhost:8000/users/password/change/email',{
           method:'POST',
           headers:{
               'content-type':'application/json'
@@ -475,7 +494,7 @@ export async function sendPasswordEmail(email:string) : Promise<GeneralResponse>
 
 export async function resetPassword(fields:ResetPasswordFileds) : Promise<GeneralResponse>{
   try{
-      const response = await fetch('https://stupid-galina-mercurial-80e3a007.koyeb.app/users/password/change',{
+      const response = await fetch('http://localhost:8000/users/password/change',{
           method:'PUT',
           headers:{
               'content-type':'application/json'
@@ -491,10 +510,9 @@ export async function resetPassword(fields:ResetPasswordFileds) : Promise<Genera
 }
 export async function getResetToken(token:string) : Promise<ResetPasswordToken>{
   try{
-      const response = await fetch(`https://stupid-galina-mercurial-80e3a007.koyeb.app/users/password/change/${token}`,{
+      const response = await fetch(`http://localhost:8000/users/password/change/${token}`,{
           method:'GET'
       })
-    
       return response.json()
 
   }catch(error){

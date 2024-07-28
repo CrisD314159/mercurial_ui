@@ -6,6 +6,8 @@ import { TopicCreationResponse, TopicUpdateFileds } from "../types/types";
 import { useMutation } from "@tanstack/react-query";
 import { logout, updateTopic } from "../../utils/utils";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
 
 interface TopicCreationProps {
@@ -15,6 +17,7 @@ interface TopicCreationProps {
 }
 
 export default function EditTopic(props: TopicCreationProps) {
+    const token = useSelector((state: RootState) => state.auth.token) // Token del usuario
   const navigate = useNavigate()
     const [open, setOpen] = useState(false);
     const [title, setTitle] = useState<string>(props.topicName)
@@ -48,11 +51,13 @@ export default function EditTopic(props: TopicCreationProps) {
     };
     const handleCreate = () => {
         if (title.length === 0) return
-        updateTopicMutation.mutate({
-          id: props.topicId, tittle: title, color
-        });
-        resetValues()
-        handleClose()
+        if(token){
+            updateTopicMutation.mutate({
+            id: props.topicId, tittle: title, color, token
+            });
+            resetValues()
+            handleClose()
+        }
     };
     const resetValues = () => {
         setTitle('')

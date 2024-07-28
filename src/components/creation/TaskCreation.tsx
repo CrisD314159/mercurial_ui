@@ -5,6 +5,8 @@ import { Subject, Task, TaskCreationFileds, TaskCreationResponse, Topic } from "
 import SelectMenu from "./SelectMenu";
 import { useMutation } from "@tanstack/react-query";
 import { createTask } from "../../utils/utils";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
 
 interface TaskCreationProps {
@@ -19,6 +21,7 @@ interface selectMenuProps {
 
 
 export default function TaskCreation(props: TaskCreationProps) {
+  const token = useSelector((state: RootState) => state.auth.token) // Token del usuario
   const [error, setError] = useState(false)
   const [alert, setAlert] = useState(false) // Estado que indica si hay una alerta en la página
 
@@ -65,7 +68,7 @@ export default function TaskCreation(props: TaskCreationProps) {
     if(title === '' || subject === '' || topic === ''){
       setError(true)
     }else{
-      taskCreationMutation.mutate({tittle:title, description, subjectId:subject, topicId:topic})
+      if(token) taskCreationMutation.mutate({tittle:title, description, subjectId:subject, topicId:topic, token:token})
     }
   };
 

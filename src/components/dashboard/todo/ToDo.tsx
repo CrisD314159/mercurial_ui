@@ -9,6 +9,8 @@ import LoadingComponent from '../../loading/LoadingComponent';
 import TaskContainer from './TaskContainer';
 import { useNavigate } from 'react-router-dom';
 import { Alert } from '@mui/material';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store';
 
 
 
@@ -25,6 +27,7 @@ interface TodoProps {
 
 
 export default function ToDo(props: TodoProps) {
+  const token = useSelector((state: RootState) => state.auth.token) // Token del usuario
   const navigate = useNavigate()
   const [subjects, setSubjects] = useState<Subject[]>([]) // Estado que contendrá las materias del usuario
   const [isLoading, setIsLoading] = useState(true) // Estado que indica si la página está cargando
@@ -33,7 +36,7 @@ export default function ToDo(props: TodoProps) {
 
 
 
-  const subjectsMutation = useMutation<SubjectList, Error>({
+  const subjectsMutation = useMutation<SubjectList, Error, string>({
     mutationFn: getSubjects,
     onSuccess: (data: SubjectList) => {
       setSubjects(data.subjects)
@@ -52,7 +55,7 @@ export default function ToDo(props: TodoProps) {
     }
   })
 
-  const topicsMutation = useMutation<TopicList, Error>({
+  const topicsMutation = useMutation<TopicList, Error, string>({
     mutationFn: getTopics,
     onSuccess: (data: TopicList) => {
       setTopics(data.topic)
@@ -89,10 +92,11 @@ export default function ToDo(props: TodoProps) {
   useEffect(() => { // Hook de react que se ejecuta cuando el componente se monta
     // Necesitamos hacer las peticiones usando useEffect, ya que no podemos hacer peticiones en el cuerpo del componente
     function fetchData() { // Función que se encarga de hacer las peticiones a la API
-      subjectsMutation.mutate(),
-        topicsMutation.mutate(),
+      if(token) {
+        subjectsMutation.mutate(token),
+        topicsMutation.mutate(token),
         setIsLoading(false)
-
+      }
     }
     fetchData() // Llamamos a la función fetchData
     // eslint-disable-next-line react-hooks/exhaustive-deps

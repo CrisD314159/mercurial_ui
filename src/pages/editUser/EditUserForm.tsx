@@ -5,9 +5,11 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 
 import PasswordInput from '../../components/creation/PasswordInput';
-import { ImageResponse, User, UserEditFields } from '../../components/types/types';
+import { ImageFields, ImageResponse, User, UserEditFields } from '../../components/types/types';
 import { useMutation } from '@tanstack/react-query';
 import { uploadImage } from '../../utils/utils';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -30,7 +32,7 @@ interface EditUserFormProps {
 
 export default function EditUserForm(props:EditUserFormProps) {
 
-  
+  const token = useSelector((state: RootState) => state.auth.token) // Token del usuario
   const [name, setName] = useState(props.user.name)
   const [email, setEmail] = useState(props.user.email)
   const [username, setUsername] = useState(props.user.username)
@@ -40,16 +42,16 @@ export default function EditUserForm(props:EditUserFormProps) {
   const [alert, setAlert] = useState(false)
   const [alertCont, setAlertCont] = useState('There was an error with the API')
 
-  const uploadImageMutation = useMutation<ImageResponse, Error, File>({
+  const uploadImageMutation = useMutation<ImageResponse, Error, ImageFields>({
     mutationFn: uploadImage,
     onSuccess:(data:ImageResponse)=>{
       if(data.success === false) throw new Error(data.message)
       setImage(data.url)
       if(password === ''){
-        props.handleEdit({name, username, image: data.url})
+       if(token) props.handleEdit({name, username, image: data.url, token})
       
       }else{
-        props.handleEdit({name, username, password, image: data.url})
+      if(token)  props.handleEdit({name, username, password, image: data.url, token})
       }
       
     },
@@ -69,12 +71,12 @@ export default function EditUserForm(props:EditUserFormProps) {
   // Cuando hagamos la integración con la API, aquí se hará la petición PUT
   const handleSubmit = () => {
     if(imageObject){
-      uploadImageMutation.mutate(imageObject)
+     if (token) uploadImageMutation.mutate({image:imageObject, token})
     }else{
       if(password === ''){
-        props.handleEdit({name, username})
+       if(token) props.handleEdit({name, username, token})
       }else{
-        props.handleEdit({name, username, password})
+      if(token)  props.handleEdit({name, username, password, token})
       }
     }
     

@@ -6,6 +6,8 @@ import { useMutation } from "@tanstack/react-query";
 import { logout, updateTask } from "../../utils/utils";
 import ModeEditRoundedIcon from '@mui/icons-material/ModeEditRounded';
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
 
 
@@ -21,6 +23,7 @@ interface TaskCreationProps {
 
 
 export default function EditTask(props: TaskCreationProps) {
+  const token = useSelector((state: RootState) => state.auth.token) // Token del usuario
   const navigate = useNavigate()
   const [error, setError] = useState(false)
   const [alert, setAlert] = useState(false) // Estado que indica si hay una alerta en la página
@@ -66,7 +69,7 @@ export default function EditTask(props: TaskCreationProps) {
     if(title === ''){
       setError(true)
     }else{
-      taskEditMutation.mutate({ id:props.taskId, tittle:title, description })
+    if(token)  taskEditMutation.mutate({ id:props.taskId, tittle:title, description , token})
     }
   };
 
