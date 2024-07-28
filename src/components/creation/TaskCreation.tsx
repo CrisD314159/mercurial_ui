@@ -97,7 +97,7 @@ export default function TaskCreation(props: TaskCreationProps) {
                   <SelectMenu handleSelect={handleSelectSubject} option={subject} options={subjects} title="Subjects" disabled={false} />
                   <SelectMenu handleSelect={handleSelectTopic} option={topic} options={topics} title="Topics" disabled={false} />
                 </div>
-                <TextField sx={{ m: 1, width: '100%' }} value={description} onChange={(e) => setDescription(e.target.value)} label='Description' type='text' variant='outlined' multiline maxRows={4} error={error}  inputProps={{maxLength: 50}}/>
+                <TextField sx={{ m: 1, width: '100%' }} value={description} onChange={(e) => setDescription(e.target.value)} label='Description' type='text' variant='outlined' multiline maxRows={4} error={error}  inputProps={{maxLength: 50}} required/>
 
               </div>
             </form>

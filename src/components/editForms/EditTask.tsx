@@ -96,7 +96,7 @@ export default function EditTask(props: TaskCreationProps) {
                <TextField sx={{ m: 1, width: '100%' }} value={props.subjectName} label='Subject' type='text' variant='outlined' disabled/>
                <TextField sx={{ m: 1, width: '100%' }} value={props.topicName}  label='Topic' type='text' variant='outlined' disabled/>
                 </div>
-                <TextField sx={{ m: 1, width: '100%' }} value={description} onChange={(e) => setDescription(e.target.value)} label='Description' type='text' variant='outlined' multiline maxRows={4} error={error}  inputProps={{maxLength: 50}}/>
+                <TextField sx={{ m: 1, width: '100%' }} value={description} onChange={(e) => setDescription(e.target.value)} label='Description' type='text' variant='outlined' multiline maxRows={4} error={error}  inputProps={{maxLength: 50}} required/>
 
               </div>
             </form>
