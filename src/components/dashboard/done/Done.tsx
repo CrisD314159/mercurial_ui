@@ -40,7 +40,6 @@ export default function Done(props: DoneProps) {
 
       }else{
         setAlert(true)
-        console.log(error);
       }
     }
   })

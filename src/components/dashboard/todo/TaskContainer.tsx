@@ -5,7 +5,7 @@ import DoneIcon from '@mui/icons-material/Done';
 import DeleteIcon from '@mui/icons-material/Delete';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import ClearIcon from '@mui/icons-material/Clear';
-import {  Fab, IconButton } from '@mui/material';
+import {  Alert, Fab, IconButton } from '@mui/material';
 import { useMutation } from "@tanstack/react-query";
 import { deleteTask, markAsDoneTask } from "../../../utils/utils";
 import EditTask from '../../editForms/EditTask';
@@ -20,6 +20,7 @@ interface TaskProps{
 export default function TaskContainer(props: TaskProps) {
   const token = useSelector((state: RootState) => state.auth.token) // Token del usuario
   const [id, setId]= useState('')
+  const [alert, setAlert] = useState(false)
 
   const deleteTaskMutation = useMutation<GeneralResponse, Error, DeleteTaskFields>({
     mutationFn:deleteTask,
@@ -27,10 +28,12 @@ export default function TaskContainer(props: TaskProps) {
       props.deletetask(id)
     },
     onError:()=>{
-      console.log('error');
+     setAlert(true)
       
     }
   })
+
+
 
   const markDoneMutation = useMutation<GeneralResponse, Error, MarkAsDoneFields>({
     mutationFn: markAsDoneTask,
@@ -38,7 +41,7 @@ export default function TaskContainer(props: TaskProps) {
       props.markAsDone(id)
     },
     onError:()=>{
-      console.log('error');
+      setAlert(true)
     }
   })
 
@@ -56,6 +59,9 @@ export default function TaskContainer(props: TaskProps) {
   const [description, setDescription] = useState('') // Estado que indica si se muestra la descripción de la tarea
   return(
     <div className="tasksContainer">
+        {
+          alert && <Alert severity="error" onClose={() => setAlert(false)}>There was an error with the content loading</Alert>
+        }
               {
                 props.tasks.map((task:Task)=>{ // Con map se recorre el array de tareas, y se renderiza cada tarea según el componente taskContainer
                   return (

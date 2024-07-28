@@ -12,12 +12,14 @@ import { deleteUser, logout } from '../../utils/utils';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
+import { Alert } from '@mui/material';
 
 
 export default function DeleteAlert() {
   const token = useSelector((state: RootState) => state.auth.token) // Token del usuario
   const navigate = useNavigate()
   const [open, setOpen] = React.useState(false);
+  const [alert, setAlert] = React.useState(false);
 
   const deleteUserMutation= useMutation<GeneralResponse, Error, string>({
     mutationFn: deleteUser,
@@ -32,7 +34,7 @@ export default function DeleteAlert() {
         localStorage.clear()
         navigate('/')
       }else{
-        console.log('Error deleting the user')
+        setAlert(true)
       }
     }
 
@@ -65,6 +67,7 @@ export default function DeleteAlert() {
         sx={{backdropFilter: 'blur(2px)'}}
       >
         <div style={{border:'1px solid #666', overflow:'hidden', borderRadius:'7px'}}>
+          {alert && <Alert severity="error" onClose={() => setAlert(false)}>There was an error deleting your account</Alert>}
         <DialogTitle id="alert-dialog-title" sx={{background:'#0d0d0d'}}>
           Warning!!
         </DialogTitle>

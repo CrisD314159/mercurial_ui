@@ -34,7 +34,7 @@ export async function login(credentials: LoginCredentials) : Promise<LoginRespon
 export async function getTasks(token:string) : Promise<TaskList>{
 
   try {
-    const response = await fetch('http://localhost:8000/tasks/user/active', {
+    const response = await fetch('https://stupid-galina-mercurial-80e3a007.koyeb.app/tasks/user/active', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -49,7 +49,6 @@ export async function getTasks(token:string) : Promise<TaskList>{
     }
     return response.json()
   } catch (error) {
-    console.log(error);
     throw new Error('There was a error with the API')
   }
 

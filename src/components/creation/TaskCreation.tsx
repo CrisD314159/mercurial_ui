@@ -65,7 +65,7 @@ export default function TaskCreation(props: TaskCreationProps) {
     setOpen(false);
   };
   const handleCreate = () => {
-    if(title === '' || subject === '' || topic === ''){
+    if(title === '' || subject === '' || topic === '' || description === ''){
       setError(true)
     }else{
       if(token) taskCreationMutation.mutate({tittle:title, description, subjectId:subject, topicId:topic, token:token})
