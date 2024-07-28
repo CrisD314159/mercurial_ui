@@ -1,13 +1,15 @@
 import { useMutation } from "@tanstack/react-query"
-import { useParams } from "react-router-dom"
+import { NavLink, useParams } from "react-router-dom"
 import { GeneralResponse } from "../../components/types/types"
 import { verifyUser } from "../../utils/utils"
 import { useEffect, useState } from "react"
 import './verificationPage.css'
+import { Button } from "@mui/material"
 
 export default function VerificationPage() {
   const { id } = useParams()
   const [dialogCont,setDialogCont] = useState('')
+  const [verified, setVerified] = useState(false)
   const verificationMutation = useMutation<GeneralResponse, Error, string>({
     mutationFn: verifyUser,
     onSuccess:(data:GeneralResponse)=>{
@@ -15,7 +17,7 @@ export default function VerificationPage() {
         setDialogCont("There was an error with the API, please try again later")
 
       }else{
-        setDialogCont("User succesfully verified")
+        setVerified(true)
       }
     },
     onError:(error:Error)=>{
@@ -27,6 +29,19 @@ export default function VerificationPage() {
       verificationMutation.mutate(id)
     }
   }, [])
+
+  if(verified){
+    return (
+      <div className="verificationContMain">
+      <div className="verificationCont">
+        <h1 className="verificationTitle">VerificationPage</h1>
+        <p className="verificationText">User succesfully verified!!</p>
+        <NavLink to="/" className="verificationLink"><Button variant="contained" color="primary">Log In</Button></NavLink>
+      </div>
+    </div>
+    )
+    
+  }
  return (
     <div className="verificationContMain">
       <div className="verificationCont">

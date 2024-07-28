@@ -8,18 +8,24 @@ import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { Task, TaskDoneList, TaskList } from "../../components/types/types";
 import { Alert } from "@mui/material";
+import { useSelector } from "react-redux";
+import { RootState } from '../../store';
 
 
 
 
 
 export default function Dashboard() {
+  const token = useSelector((state: RootState) => state.auth.token)
   const [tasks, setTasks] = useState<Task[]>([]) // Estado que contendrá las tareas del usuario
   const [filteredTasks, setFilterdTasks] = useState<Task[]>(tasks) // Estado que contendrá las tareas del usuario esto lo hacemos para poder filtrar sin necesidad de hacer otra petición
   const [donetasks, setDoneTasks] = useState<Task[]>([]) // Estado que contendrá las tareas del usuario
   const [alert, setAlert] = useState(false) // Estado que indica si hay una alerta en la página
+  const navigate = useNavigate() // hook de react-router-dom para redirigir al usuario a otra ruta
+  
+  console.log(token);
 
-  const tasksMutation = useMutation<TaskList, Error>({
+  const tasksMutation = useMutation<TaskList, Error, string>({
     mutationFn: getTasks,
     onSuccess: (data: TaskList) => {
       setTasks(data.tasksUser) // Si hay tareas, entonces seteamos las tareas en el estado tasks
@@ -34,10 +40,10 @@ export default function Dashboard() {
         setAlert(true) // Si es otro error diferente, entonces mostramos una alerta de error
       }
 
-    }
+    },
   })
 
-  const doneTasksMutation = useMutation<TaskDoneList, Error>({ // Mutación que obtiene las tareas completadas del usuario
+  const doneTasksMutation = useMutation<TaskDoneList, Error, string>({ // Mutación que obtiene las tareas completadas del usuario
     mutationFn: getDoneTasks, // Función que se encarga de hacer la petición
     onSuccess: (data: TaskDoneList) => {
       setDoneTasks(data.tasks) // Si hay tareas completadas, entonces seteamos las tareas en el estado donetasks
@@ -116,15 +122,17 @@ export default function Dashboard() {
     }
   }
 
-  const navigate = useNavigate()
+
   useEffect(() => {
 
     if (getImageFromLocalStorage() === '') { // Si no hay imagen de usuario en el localStorage, redirigimos al usuario al login
       navigate('/')
     } else {
       document.title = 'Mercurial || Dashboard' // Si esta la imagen podemos cambiar el titulo del documento de la siguiente forma
-      tasksMutation.mutate() // Hacemos la petición de las tareas del usuario
-      doneTasksMutation.mutate() // Hacemos la petición de las tareas completadas del usuario
+      if (token) {
+        tasksMutation.mutate(token) // Hacemos la petición de las tareas del usuario
+        doneTasksMutation.mutate(token) // Hacemos la petición de las tareas completadas del usuario
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

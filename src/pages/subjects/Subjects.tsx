@@ -4,23 +4,26 @@ import './subjects.css'
 import { NavLink, useNavigate } from "react-router-dom";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Alert, Button, Fab } from "@mui/material";
-import { GeneralResponse, Subject, SubjectList } from "../../components/types/types";
+import { DeleteSubjectFields, GeneralResponse, Subject, SubjectList } from "../../components/types/types";
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import SubjectCreation from "../../components/creation/SubjectCreation";
 import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { deleteSubject, getSubjects, logout } from "../../utils/utils";
 import EditSubject from "../../components/editForms/EditSubject";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
 
 export default function Subjects() {
+  const token = useSelector((state: RootState) => state.auth.token) // Token del usuario
   const navigate = useNavigate()
   const [subjects, setSubjects] = useState<Subject[]>([])
   const [alert, setAlert] = useState(false) // Estado que indica si hay una alerta en la página
   const [alertCont, setAlertCont] = useState('There was an error with the content loading') // Estado que indica si hay una alerta en la página
   const [id, setId] = useState('') // Estado que indica si hay una alerta en la página
 
-  const subjectsMutation = useMutation<SubjectList, Error>({
+  const subjectsMutation = useMutation<SubjectList, Error, string>({
     mutationFn: getSubjects,
     onSuccess: (data: SubjectList) => {
       setSubjects(data.subjects)
@@ -37,7 +40,7 @@ export default function Subjects() {
     }
   })
 
-  const subjectDeleteMutation= useMutation<GeneralResponse, Error, string>({
+  const subjectDeleteMutation= useMutation<GeneralResponse, Error, DeleteSubjectFields>({
     mutationFn: deleteSubject,
     onSuccess: ()=>{
       setSubjects(subjects.filter((subject: Subject) => subject.id !== id))
@@ -65,7 +68,7 @@ export default function Subjects() {
   }
   const handleDelete = (id: string)=>{
     setId(id)
-    subjectDeleteMutation.mutate(id)
+    if(token) subjectDeleteMutation.mutate({subjectId:id, token})
 
   }
   const handleEdit = (subject: Subject)=>{
@@ -78,7 +81,7 @@ export default function Subjects() {
     if(localStorage.getItem('userImage') === null){
       navigate('/')
     }else{
-      subjectsMutation.mutate()
+      if(token )subjectsMutation.mutate(token)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

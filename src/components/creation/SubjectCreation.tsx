@@ -4,12 +4,15 @@ import AddIcon from '@mui/icons-material/Add';
 import { useMutation } from "@tanstack/react-query";
 import { Subject, SubjectCreationFileds, SubjectCreationResponse } from "../types/types";
 import { createSubject } from "../../utils/utils";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
 interface SubjectCreationProps {
     handleCreation: (subject:Subject) => void
 
 }
 export default function SubjectCreation(props:SubjectCreationProps) {
+    const token = useSelector((state: RootState) => state.auth.token) // Token del usuario
     const [open, setOpen] = useState(false);
     const [title, setTitle] = useState<string>('')
     const [alert, setAlert] = useState(false) // Estado que indica si hay una alerta en la página
@@ -34,7 +37,10 @@ export default function SubjectCreation(props:SubjectCreationProps) {
     };
     const handleCreate = () => {
         if(title.length === 0) return
-       createSubjectMutation.mutate({name:title, color:"#fff"})
+        if(token){
+            createSubjectMutation.mutate({name:title, color:"#fff", token:token}) // Se hace la petición para crear una materia
+        }
+       
         
     };
     const resetValues = () => {

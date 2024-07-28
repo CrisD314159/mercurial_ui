@@ -10,13 +10,16 @@ import { useMutation } from '@tanstack/react-query';
 import { GeneralResponse } from '../types/types';
 import { deleteUser, logout } from '../../utils/utils';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
 
 
 export default function DeleteAlert() {
+  const token = useSelector((state: RootState) => state.auth.token) // Token del usuario
   const navigate = useNavigate()
   const [open, setOpen] = React.useState(false);
 
-  const deleteUserMutation= useMutation<GeneralResponse, Error>({
+  const deleteUserMutation= useMutation<GeneralResponse, Error, string>({
     mutationFn: deleteUser,
     onSuccess:()=>{
       logout()
@@ -37,7 +40,7 @@ export default function DeleteAlert() {
   })
 
   const handleDelete = () =>{
-    deleteUserMutation.mutate()
+   if(token) deleteUserMutation.mutate(token)
   }
 
 

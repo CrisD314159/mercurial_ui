@@ -3,9 +3,11 @@ import './header.css'
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { Avatar, Button } from '@mui/material';
 import { useState } from 'react';
-import { getImageFromLocalStorage, logout } from '../utils/utils';
-import { useMutation } from '@tanstack/react-query';
-import { LogOutResponse } from './types/types';
+import { getImageFromLocalStorage } from '../utils/utils';
+
+import { useDispatch } from 'react-redux';
+import { clearToken } from '../store/authSlice';
+import { AppDispatch } from '../store';
 
 
 /*
@@ -20,19 +22,20 @@ props: {
 export default function Header() {
   const [image] = useState<string>(getImageFromLocalStorage() || '')
   const navigate = useNavigate()
+  const dispatch= useDispatch<AppDispatch>()
 
 
-  const mutate = useMutation<LogOutResponse, Error>({
-    // En este caso no se le pasa ningun argumento a la función logout, por lo tanto solo ponemos dos valores
-    // LogOutResponse es el tipo de dato que retornará la función logout
-    // Error es el tipo de dato que retornará la función en caso de error
-    mutationFn: logout, // Función que se ejecutará al llamar a mutate.mutate()
-    onSuccess: ()=>{
-      localStorage.removeItem('userImage') // Eliminamos la imagen de usuario del localStorage si la petición es exitosa
-      navigate('/') // Redirigimos al usuario a la ruta raíz, que es el login
+  // const mutate = useMutation<LogOutResponse, Error>({
+  //   // En este caso no se le pasa ningun argumento a la función logout, por lo tanto solo ponemos dos valores
+  //   // LogOutResponse es el tipo de dato que retornará la función logout
+  //   // Error es el tipo de dato que retornará la función en caso de error
+  //   mutationFn: logout, // Función que se ejecutará al llamar a mutate.mutate()
+  //   onSuccess: ()=>{
+  //     localStorage.removeItem('userImage') // Eliminamos la imagen de usuario del localStorage si la petición es exitosa
+  //     navigate('/') // Redirigimos al usuario a la ruta raíz, que es el login
 
-    }
-  })
+  //   }
+  // })
 
   /*
   Listas en html
@@ -57,7 +60,10 @@ export default function Header() {
 
   */
   function handleLogout(){
-    mutate.mutate() // Como no se le pasa ningun argumento, se ejecuta la función logout
+    // mutate.mutate() // Como no se le pasa ningun argumento, se ejecuta la función logout
+    dispatch(clearToken()) // Limpiamos el token del store
+    localStorage.clear() // Limpiamos el localStorage
+    navigate('/') // Redirigimos al usuario al login
   }
 
   return (

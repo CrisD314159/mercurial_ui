@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { GeneralResponse, Task } from '../../types/types'
+import { GeneralResponse, RollbackFields, Task } from '../../types/types'
 import './done.css'
 import { NavLink, useNavigate } from 'react-router-dom'
 import BookmarkIcon from '@mui/icons-material/Bookmark';
@@ -7,6 +7,9 @@ import { Alert, IconButton } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
 import { useMutation } from '@tanstack/react-query';
 import { logout, markAsRollBackTask } from '../../../utils/utils';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store';
+
 
 interface DoneProps {
   tasks: Task[],
@@ -14,7 +17,9 @@ interface DoneProps {
 
 }
 
+
 export default function Done(props: DoneProps) {
+  const token = useSelector((state: RootState) => state.auth.token) // Token del usuario
   const navigate = useNavigate()
   const [description, setDescription] = useState('')
   const [id, setId] = useState('')
@@ -22,7 +27,7 @@ export default function Done(props: DoneProps) {
 
 
   // Mas adelante hacemos la funcionalidad de roll-back
-  const rollback = useMutation<GeneralResponse, Error, string>({
+  const rollback = useMutation<GeneralResponse, Error, RollbackFields>({
     mutationFn:markAsRollBackTask,
     onSuccess:()=>{
       props.markAsRollBack(id)
@@ -43,7 +48,7 @@ export default function Done(props: DoneProps) {
   const [trigger, setTrigger] = useState(false)
   const rollBackTask = (taskId: string) => {
     setId(taskId)
-    rollback.mutate(taskId)
+    if(token) rollback.mutate({taskId, token})
 
   }
   return (

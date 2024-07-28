@@ -69,7 +69,7 @@ export default function PasswordRecover() {
         <h1 className="passwordRecoverTitle">Reset Password</h1>
         <p>Your password was successfully changed</p>
         <NavLink to="/">
-          <Button color="secondary">Log In</Button>
+          <Button color="secondary" variant="contained">Log In</Button>
         </NavLink>
         
       </div>
@@ -90,7 +90,7 @@ export default function PasswordRecover() {
           <TextField value={email} variant="outlined" label="Email" disabled sx={{m:1, width: '25ch'}}/>
           <PasswordInput password={password} setPassword={setPassword} required/>
           <div className="resetButtonContainer">
-            <Button type="submit" color="secondary">Reset</Button>
+            <Button type="submit" color="secondary" variant="contained">Reset</Button>
           </div>
         </form>
         

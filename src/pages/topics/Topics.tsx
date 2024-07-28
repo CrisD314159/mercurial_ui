@@ -2,7 +2,7 @@ import Header from "../../components/Header";
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import { Alert, Button, Fab } from "@mui/material";
 import { NavLink, useNavigate } from "react-router-dom";
-import { GeneralResponse, Topic, TopicList } from "../../components/types/types";
+import { DeleteTopicFields, GeneralResponse, Topic, TopicList } from "../../components/types/types";
 import DeleteIcon from '@mui/icons-material/Delete';
 import './topics.css'
 import TopicCreation from "../../components/creation/TopicCreation";
@@ -10,15 +10,18 @@ import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { deleteTopic, getTopics, logout } from "../../utils/utils";
 import EditTopic from "../../components/editForms/EditTopic";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
 export default function Topics() {
+  const token = useSelector((state: RootState) => state.auth.token) // Token del usuario
   const navigate = useNavigate()
   const [topics, setTopics] = useState<Topic[]>([])
   const [alert, setAlert] = useState(false)
   const [alertCont, setAlertCont] = useState('There was an error with the content loading')
   const [id, setId] = useState('')
 
-  const topicsMutation = useMutation<TopicList, Error>({
+  const topicsMutation = useMutation<TopicList, Error, string>({
     mutationFn: getTopics,
     onSuccess: (data: TopicList) => {
       setTopics(data.topic)
@@ -35,7 +38,7 @@ export default function Topics() {
     }
   })
 
-  const deleteTopicMutation = useMutation<GeneralResponse, Error, string>({
+  const deleteTopicMutation = useMutation<GeneralResponse, Error, DeleteTopicFields>({
     mutationFn:deleteTopic,
     onSuccess:()=>{
       setTopics(topics.filter((topic: Topic) => topic.id !== id))
@@ -54,7 +57,7 @@ export default function Topics() {
 
   const handleDelete = (topicId: string) => {
     setId(topicId)
-    deleteTopicMutation.mutate(topicId)
+    if(token )deleteTopicMutation.mutate({topicId, token})
   }
 
   const handleCreation = (Topic: Topic) => {
@@ -71,7 +74,7 @@ export default function Topics() {
     if (localStorage.getItem('userImage') === null) {
       navigate('/')
     } else {
-      topicsMutation.mutate()
+      if(token) topicsMutation.mutate(token)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

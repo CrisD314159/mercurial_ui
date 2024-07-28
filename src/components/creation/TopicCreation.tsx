@@ -5,6 +5,8 @@ import './topicCreation.css'
 import { Topic, TopicCreationFileds, TopicCreationResponse } from "../types/types";
 import { useMutation } from "@tanstack/react-query";
 import { createTopic } from "../../utils/utils";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
 
 interface TopicCreationProps {
@@ -12,6 +14,7 @@ interface TopicCreationProps {
 }
 
 export default function TopicCreation(props: TopicCreationProps) {
+    const token = useSelector((state: RootState) => state.auth.token) // Token del usuario
     const [open, setOpen] = useState(false);
     const [title, setTitle] = useState<string>('')
     const [color, setColor] = useState<string>('#FB2576')
@@ -37,11 +40,13 @@ export default function TopicCreation(props: TopicCreationProps) {
     };
     const handleCreate = () => {
         if (title.length === 0) return
+        if (token){
         createTopicMutation.mutate({
-            tittle: title, color
+            tittle: title, color, token
         });
         resetValues()
         handleClose()
+    }
     };
     const resetValues = () => {
         setTitle('')

@@ -14,6 +14,8 @@ import NotFound from './pages/notFound/NotFound.tsx'
 import VerificationPage from './pages/verification/VerificationPage.tsx'
 import SendRecoverEmail from './pages/passwordEmailSender/SendRecoverEmail.tsx'
 import PasswordRecover from './pages/passwordRecover/PasswordRecover.tsx'
+import { Provider } from 'react-redux';
+import store from './store';
 
 const theme = createTheme({
   palette: {
@@ -56,11 +58,13 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={theme}>
-        <RouterProvider router={router} />
-      </ThemeProvider>
-    </QueryClientProvider>
+    <Provider store={store}>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider theme={theme}>
+          <RouterProvider router={router} />
+        </ThemeProvider>
+      </QueryClientProvider>
+    </Provider>
     
   </React.StrictMode>,
 )

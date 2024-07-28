@@ -5,6 +5,8 @@ import { useMutation } from "@tanstack/react-query";
 import { Subject, SubjectCreationResponse, SubjectUpdateFileds } from "../types/types";
 import { logout, updateSubject } from "../../utils/utils";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
 interface SubjectCreationProps {
     handleEdit: (subject:Subject) => void,
@@ -13,6 +15,7 @@ interface SubjectCreationProps {
 
 }
 export default function EditSubject(props:SubjectCreationProps) {
+    const token = useSelector((state: RootState) => state.auth.token) // Token del usuario
     const navigate = useNavigate()
     const [open, setOpen] = useState(false);
     const [title, setTitle] = useState<string>(props.subjectName)
@@ -45,7 +48,7 @@ export default function EditSubject(props:SubjectCreationProps) {
     };
     const handleCreate = () => {
         if(title.length === 0) return
-       updateSubjectMutation.mutate({name:title, id:props.subjectId, color:"#fff"})
+      if(token) updateSubjectMutation.mutate({name:title, id:props.subjectId, color:"#fff", token})
         
     };
     const resetValues = () => {

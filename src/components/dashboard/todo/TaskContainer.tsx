@@ -1,6 +1,6 @@
 import './todo.css'
 import { useState } from "react"
-import { GeneralResponse, Task } from "../../types/types"
+import { DeleteTaskFields, GeneralResponse, MarkAsDoneFields, Task } from "../../types/types"
 import DoneIcon from '@mui/icons-material/Done';
 import DeleteIcon from '@mui/icons-material/Delete';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
@@ -9,6 +9,8 @@ import {  Fab, IconButton } from '@mui/material';
 import { useMutation } from "@tanstack/react-query";
 import { deleteTask, markAsDoneTask } from "../../../utils/utils";
 import EditTask from '../../editForms/EditTask';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store';
 interface TaskProps{
   tasks: Task[]
   deletetask: (taskId:string) => void
@@ -16,9 +18,10 @@ interface TaskProps{
 }
 
 export default function TaskContainer(props: TaskProps) {
+  const token = useSelector((state: RootState) => state.auth.token) // Token del usuario
   const [id, setId]= useState('')
 
-  const deleteTaskMutation = useMutation<GeneralResponse, Error, string>({
+  const deleteTaskMutation = useMutation<GeneralResponse, Error, DeleteTaskFields>({
     mutationFn:deleteTask,
     onSuccess:()=>{
       props.deletetask(id)
@@ -29,7 +32,7 @@ export default function TaskContainer(props: TaskProps) {
     }
   })
 
-  const markDoneMutation = useMutation<GeneralResponse, Error, string>({
+  const markDoneMutation = useMutation<GeneralResponse, Error, MarkAsDoneFields>({
     mutationFn: markAsDoneTask,
     onSuccess:()=>{
       props.markAsDone(id)
@@ -42,12 +45,12 @@ export default function TaskContainer(props: TaskProps) {
 
   const handleMarkAsDone = (taskId:string) => {
     setId(taskId)
-    markDoneMutation.mutate(taskId)
+    if(token)markDoneMutation.mutate({taskId, token})
   }
 
   const handleDelete = (taskId:string) => {
     setId(taskId)
-    deleteTaskMutation.mutate(taskId)
+    if(token) deleteTaskMutation.mutate({taskId, token})
   }
   
   const [description, setDescription] = useState('') // Estado que indica si se muestra la descripción de la tarea
