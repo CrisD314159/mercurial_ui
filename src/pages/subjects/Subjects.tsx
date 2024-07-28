@@ -72,7 +72,6 @@ export default function Subjects() {
 
   }
   const handleEdit = (subject: Subject)=>{
-    console.log(subject);
     setSubjects(subjects.map((sub: Subject)=> sub.id === subject.id ? subject : sub))
     
   }

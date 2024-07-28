@@ -23,7 +23,6 @@ export default function Dashboard() {
   const [alert, setAlert] = useState(false) // Estado que indica si hay una alerta en la página
   const navigate = useNavigate() // hook de react-router-dom para redirigir al usuario a otra ruta
   
-  console.log(token);
 
   const tasksMutation = useMutation<TaskList, Error, string>({
     mutationFn: getTasks,

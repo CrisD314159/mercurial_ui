@@ -26,7 +26,6 @@ export default function PasswordRecover() {
       }
     },
     onError(error:Error){
-      console.log(error);
       setAlertMessage(error.message)
       setAlert(true)
     }
