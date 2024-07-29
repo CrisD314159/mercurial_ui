@@ -19,16 +19,16 @@ export default function SignUp() {
     const mutation = useMutation<GeneralResponse, Error, SignUpFields>({
         mutationFn:signUp,
         onSuccess:(data:GeneralResponse)=>{
-            if(data.success === true){
-            setAlert(true);
-            cleanFields();
-            }else{
+            if(data.success === false){
                 setErrorText('There was an error with the sign up, try again later');
                 setError(true);
+            }else{
+                setAlert(true);
+                cleanFields(); 
             }
         },
-        onError:()=>{
-            setErrorText('There was an error with the sign up, try again later');
+        onError:(error:Error)=>{
+            setErrorText(error.message);
             setError(true);
         }
 
