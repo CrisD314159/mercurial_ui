@@ -22,6 +22,7 @@ export default function PasswordInput(props: PasswordInputProps) {
         <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined" required={props.required}>
             <InputLabel htmlFor="outlined-adornment-password">New Password</InputLabel>
             <OutlinedInput
+                inputProps={{  minLength: 8 }}
                 required={props.required}
                 defaultValue={password}
                 id="outlined-adornment-password"
