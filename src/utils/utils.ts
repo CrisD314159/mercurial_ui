@@ -445,7 +445,7 @@ export async function uploadImage(fields: ImageFields) : Promise<ImageResponse>{
   try{
       const formData = new FormData();
       formData.append('image', fields.image);
-      const response = await fetch('https://star-api-production.up.railway.app/image/cloudinary',{
+      const response = await fetch('https://brainy-sena-mercurial-app-169ad86c.koyeb.app/image/cloudinary',{
           method:'POST',
           body:formData,
           headers:{
