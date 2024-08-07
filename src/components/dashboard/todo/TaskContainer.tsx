@@ -11,6 +11,7 @@ import { deleteTask, markAsDoneTask } from "../../../utils/utils";
 import EditTask from '../../editForms/EditTask';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store';
+import CalendarModal from '../../creation/CalendarModal';
 interface TaskProps{
   tasks: Task[]
   deletetask: (taskId:string) => void
@@ -32,8 +33,6 @@ export default function TaskContainer(props: TaskProps) {
       
     }
   })
-
-
 
   const markDoneMutation = useMutation<GeneralResponse, Error, MarkAsDoneFields>({
     mutationFn: markAsDoneTask,
@@ -108,6 +107,13 @@ export default function TaskContainer(props: TaskProps) {
                       description === task.id ? 
                       <div className='descriptionContainer'>
                       <p className='description'>{task.description}</p> {/** Descripción de la tarea */}
+                      
+                      <div className='calendar'>
+                        <CalendarModal task={task}/>
+                       
+                      </div>
+
+
                     </div>:<></>
                     }
                     
