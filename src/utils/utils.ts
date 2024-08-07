@@ -1,6 +1,6 @@
 import { DeleteSubjectFields, DeleteTaskFields, DeleteTopicFields, GeneralResponse, GetUserResponse, ImageFields, ImageResponse, LoginCredentials, LoginResponse, LogOutResponse, MarkAsDoneFields, ResetPasswordFileds, ResetPasswordToken, RollbackFields, SignUpFields, SubjectCreationFileds, SubjectCreationResponse, SubjectUpdateFileds, TaskCreationFileds, TaskCreationResponse, TaskDoneList, TaskList, TaskUpdateFileds, TaskUpdateResponse, TopicCreationFileds, TopicCreationResponse, TopicUpdateFileds, UserEditFields} from "../components/types/types"
 
-const apiUrl = 'http://localhost:8000'
+const apiUrl = 'https://brainy-sena-mercurial-app-169ad86c.koyeb.app'
 //https://brainy-sena-mercurial-app-169ad86c.koyeb.app
 
 
@@ -147,7 +147,7 @@ export async function signUp(fields: SignUpFields){
 }
 
 export async function logout() : Promise <LogOutResponse>{
-  const response = await fetch('${apiUrl}/logout',{
+  const response = await fetch(`${apiUrl}/logout`,{
     method:'POST',
     credentials:'include',
   })
