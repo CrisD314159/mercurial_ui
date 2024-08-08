@@ -84,7 +84,7 @@ export default function EditTask(props: TaskCreationProps) {
         aria-describedby="alert-dialog-description">
           <div style={{border:'1px solid #666', borderRadius:'6px', overflow:'hidden'}}>
             <DialogTitle sx={{ backgroundColor: '#0F0F0F', padding: '20px'  }} id="alert-dialog-title">
-            <TextField placeholder="New task" value={title} onChange={(e) => setTitle(e.target.value)} variant="standard" required size="medium" error={error} inputProps={{maxLength: 18}}></TextField>
+            <TextField placeholder="New task" value={title} onChange={(e) => setTitle(e.target.value)} variant="standard" required size="medium" error={error} inputProps={{maxLength: 20}}></TextField>
           </DialogTitle>
           <DialogContent sx={{ backgroundColor: '#0F0F0F', height: '300px' }} id="alert-dialog-description" >
           {
@@ -96,7 +96,7 @@ export default function EditTask(props: TaskCreationProps) {
                <TextField sx={{ m: 1, width: '100%' }} value={props.subjectName} label='Subject' type='text' variant='outlined' disabled/>
                <TextField sx={{ m: 1, width: '100%' }} value={props.topicName}  label='Topic' type='text' variant='outlined' disabled/>
                 </div>
-                <TextField sx={{ m: 1, width: '100%' }} value={description} onChange={(e) => setDescription(e.target.value)} label='Description' type='text' variant='outlined' multiline maxRows={4} error={error}  inputProps={{maxLength: 50}} required/>
+                <TextField sx={{ m: 1, width: '100%' }} value={description} onChange={(e) => setDescription(e.target.value)} label='Description' type='text' variant='outlined' multiline maxRows={4} error={error}  inputProps={{maxLength: 130}} required/>
 
               </div>
             </form>

@@ -78,7 +78,7 @@ export default function EditTopic(props: TopicCreationProps) {
 
                         }
                         <TextField placeholder="New Topic" value={title} onChange={(e) => setTitle(e.target.value)} variant="standard"
-                        required inputProps={{ maxLength: 12 }}
+                        required inputProps={{ maxLength: 15 }}
                         ></TextField>
                         <div className="colorContainer">
                             <label>
