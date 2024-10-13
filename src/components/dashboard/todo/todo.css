@@ -212,10 +212,22 @@ h3{
 }
 
 .mainTasksContainer{
-  height: 530px;
+  height: 515px;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  @media screen and (max-width: 768px) {
+    height: 400px;
+    
+    
+  }
+}
+
+.calendar{
+  width: 95%;
+  display: flex;
+  justify-content: flex-end;
+
 }

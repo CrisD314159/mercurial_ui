@@ -14,14 +14,21 @@ export default function SignUp() {
     const [password, setPassword] = useState('');
     const [alert, setAlert] = useState(false);
     const [error, setError] = useState(false);
+    const [errorText, setErrorText] = useState('');
 
     const mutation = useMutation<GeneralResponse, Error, SignUpFields>({
         mutationFn:signUp,
-        onSuccess:()=>{
-            setAlert(true);
-            cleanFields();
+        onSuccess:(data:GeneralResponse)=>{
+            if(data.success === false){
+                setErrorText('There was an error with the sign up, try again later');
+                setError(true);
+            }else{
+                setAlert(true);
+                cleanFields(); 
+            }
         },
-        onError:()=>{
+        onError:(error:Error)=>{
+            setErrorText(error.message);
             setError(true);
         }
 
@@ -40,7 +47,7 @@ export default function SignUp() {
     return (
         <div className="mainSignUpContainer">
             {alert ? <AlertDialog title="Thank you for sign up to Mercurial!!" message="Check your email to verify your account on Mercurial"/> : <></>}
-            {error ? <AlertDialog title="There was an error with our app!" message="Try to sign up in a few minutes please"/> : <></>}
+            {error ? <AlertDialog title="There was an error with our app!" message={errorText}/> : <></>}
             <div className="backgroundContainer">
                 <div className="formContainer">
                     <div className="imageContainer">
@@ -64,6 +71,7 @@ export default function SignUp() {
                                 onChange={(e) => {
                                     setName(e.target.value);
                                 }}
+                                inputProps={{  minLength: 3, maxLength: 40 }}
                             />
                             <TextField
                                 required
@@ -86,6 +94,7 @@ export default function SignUp() {
                                 onChange={(e) => {
                                     setUsername(e.target.value);
                                 }}
+                                inputProps={{  minLength: 5, maxLength: 30 }}
                             />
                             <PasswordInput password={password} setPassword={setPassword} required></PasswordInput>
                         </div>

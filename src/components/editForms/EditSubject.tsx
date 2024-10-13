@@ -71,7 +71,7 @@ export default function EditSubject(props:SubjectCreationProps) {
                     // Si alert es true, entonces se muestra una alerta de error
                     }
                         <TextField placeholder="New Subject" value={title} onChange={(e) => setTitle(e.target.value)} variant="standard"
-                         inputProps={{maxLength: 15}} required
+                         inputProps={{maxLength: 20}} required
                         ></TextField>
                         <DialogActions sx={{ backgroundColor: '#0F0F0F', display: "flex", justifyContent: 'space-around', paddingTop: '30px' }}>
                             <Button onClick={handleClose} variant="outlined" color="error">Cancel</Button>
