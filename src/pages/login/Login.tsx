@@ -1,18 +1,11 @@
 import { Alert, TextField } from "@mui/material";
 import './login.css'
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { LoginCredentials, LoginResponse } from "../../components/types/types";
 import { login } from "../../utils/utils";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../store";
-import { setToken } from "../../store/authSlice";
-
-
-
-
-
+import { useGuardianStore } from "../../store/guardianStore";
 
 
 export default function Login() {
@@ -20,16 +13,8 @@ export default function Login() {
   const [password, setPassword] = useState('')
   const [alert, setAlert] = useState(false)
   const [alertCont, setAlertCont] = useState('')
-  const dispatch = useDispatch<AppDispatch>()
+  const checkAuth = useGuardianStore(state=>state.checkAuthStatus)
   const navigate = useNavigate() // hook de react-router-dom para redirigir al usuario a otra ruta
-
-  useEffect(()=>{
-    if(localStorage.getItem('userImage')){ // verificamos si existe la imagen de usuario en el localStorage
-      navigate('/dashboard') // si existe una imagen, es porque el usuario ya ha iniciado sesión, por lo que lo redirigimos al dashboard
-    }else{
-      document.title = 'Mercurial' // si no existe una imagen, es porque el usuario no ha iniciado sesión, por lo que mantenemos el título de la página como Login
-    }
-  })
 
 
 // uso básico de useQuery
@@ -55,8 +40,7 @@ export default function Login() {
     mutationFn: login, // función que se ejecutará al llamar a mutation.mutate()
     onSuccess: (data: LoginResponse)=>{ // función que se ejecutará si la petición es exitosa
       if(data.success === false) throw new Error(data.message) // si la petición es exitosa pero el servidor retorna un mensaje de error, entonces lanzamos un error
-      dispatch(setToken(data.token)) // guardamos el token en el store
-      localStorage.setItem('userImage', data.data.userImage ) // guardamos la imagen de usuario en el localStorage
+      checkAuth() // llamamos a la función checkAuth para verificar si el usuario está autenticado
       navigate('/dashboard') // redirigimos al usuario al dashboard
     },
     onError: (error: Error)=>{
@@ -87,7 +71,7 @@ export default function Login() {
             handleSubmit()}}>
             <TextField required label="E-mail" variant="outlined" type="email" value={email} onChange={(e)=> {setEmail(e.target.value)}}/>
             <TextField required label="Password" type="password" variant="outlined" value={password} onChange={(e)=>{setPassword(e.target.value)}}/>
-            <button className="loginButton">Log In</button>
+            <button className="loginButton" disabled={mutation.isPending}>Log In</button>
             <NavLink to="/SignUp" className="signUp">Sign Up</NavLink>
             <NavLink to="/users/recover/password/email" className="signUp">Forgot your password?</NavLink>
             {

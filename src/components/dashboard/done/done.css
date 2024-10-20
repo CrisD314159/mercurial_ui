@@ -1,7 +1,10 @@
 .doneContainer{
-  height: 100%;
-  width: 50vw;
-  padding: 0 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  flex-grow: 1;
 
   @media screen and (max-width: 768px){
     width: 100vw;
@@ -82,7 +85,7 @@
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 
   @media screen and (max-width: 768px){
     width: 90%;

@@ -1,11 +1,29 @@
-.dashboardMainContainer{
+.dashboardContainer{
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  flex-grow: 1;
+
+
 
   @media screen and (max-width: 768px){
     flex-direction: column;
     align-items: center;
     
   }
+}
+
+.dashboardMainContainer{
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.bottomNavContainer{
+  position: absolute;
+  width: 100%;
+  bottom: 0;
 }
 

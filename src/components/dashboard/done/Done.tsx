@@ -1,14 +1,12 @@
 import { useState } from 'react'
 import { GeneralResponse, RollbackFields, Task } from '../../types/types'
 import './done.css'
-import { NavLink, useNavigate } from 'react-router-dom'
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import { Alert, IconButton } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
 import { useMutation } from '@tanstack/react-query';
-import { logout, markAsRollBackTask } from '../../../utils/utils';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../store';
+import { markAsRollBackTask } from '../../../utils/utils';
+import { useGuardianStore } from '../../../store/guardianStore';
 
 
 interface DoneProps {
@@ -19,32 +17,27 @@ interface DoneProps {
 
 
 export default function Done(props: DoneProps) {
-  const token = useSelector((state: RootState) => state.auth.token) // Token del usuario
-  const navigate = useNavigate()
+  const token = localStorage.getItem('accessToken')
   const [description, setDescription] = useState('')
   const [id, setId] = useState('')
   const [alert, setAlert] = useState(false)
+  const checkAuth = useGuardianStore(state=>state.checkAuthStatus)
 
 
-  // Mas adelante hacemos la funcionalidad de roll-back
+  const errorFunc =(error:Error)=>{
+    if(error.message === 'Unauthorized'){
+      checkAuth()
+    }else{
+      setAlert(true)
+    }
+  }
   const rollback = useMutation<GeneralResponse, Error, RollbackFields>({
     mutationFn:markAsRollBackTask,
     onSuccess:()=>{
       props.markAsRollBack(id)
     },
-    onError:(error:Error)=>{
-      if(error.message === 'Unauthorized'){
-        logout()
-        localStorage.clear()
-        navigate('/')
-
-      }else{
-        setAlert(true)
-      }
-    }
+    onError:errorFunc
   })
-
-  const [trigger, setTrigger] = useState(false)
   const rollBackTask = (taskId: string) => {
     setId(taskId)
     if(token) rollback.mutate({taskId, token})
@@ -57,37 +50,21 @@ export default function Done(props: DoneProps) {
           alert && <Alert severity="error" onClose={() => setAlert(false)}>There was an error with the content loading</Alert>
         }
 
-      <div className="doneButtonContainer">
-        {/* Aquí dentro irán los botones tal cual como están en el figma*/}
-        <NavLink to='/dashboard/subjects' className="subjectButton">
-          <button className='subjectButton'>Go to Subjects</button>
-        </NavLink>
-        <NavLink to="/dashboard/topics" className='topicButton'>
-          <button className='topicButton'>Go to Topics</button>
-        </NavLink>
 
-
-
-      </div>
       <div className='mainMenuContainer'>
         <div className='mainTitleContainer'>
           <h1 className='doneTitle'>Done</h1>
         </div>
-        <button className='hide_showButton' onClick={() => {
-          setTrigger(!trigger)
-        }}>Hide/Show</button>
       </div>
 
-      {
-        trigger ?
-          <div className='mainTasksContainer'>
+      <div className='mainTasksContainer'>
             <div className="doneTasksContainer">
               {/** Aquí usando map, irán las tareas que llegan mediante las props */}
               {
                 props.tasks && props.tasks.length > 0 ?
                   props.tasks.map((task: Task) => {
                     return (
-                      <div className='taskDescriptionContainer'>
+                      <div className='taskDescriptionContainer' key={task.id}>
                         <div className='taskContainer' key={task.id}>
                           <div className='iconContainer'>
                             {
@@ -128,9 +105,6 @@ export default function Done(props: DoneProps) {
             </div>
 
           </div>
-          :
-          <></>
-      }
 
 
     </div>

@@ -8,31 +8,25 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useMutation } from '@tanstack/react-query';
 import { GeneralResponse } from '../types/types';
-import { deleteUser, logout } from '../../utils/utils';
-import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store';
+import { deleteUser } from '../../utils/utils';
 import { Alert } from '@mui/material';
+import { useGuardianStore } from '../../store/guardianStore';
 
 
 export default function DeleteAlert() {
-  const token = useSelector((state: RootState) => state.auth.token) // Token del usuario
-  const navigate = useNavigate()
+  const token = localStorage.getItem('accessToken') // Token del usuario
   const [open, setOpen] = React.useState(false);
   const [alert, setAlert] = React.useState(false);
+  const checkAuth = useGuardianStore(state=>state.checkAuthStatus)
 
   const deleteUserMutation= useMutation<GeneralResponse, Error, string>({
     mutationFn: deleteUser,
     onSuccess:()=>{
-      logout()
-      localStorage.clear()
-      navigate('/')
+      checkAuth()
     },
     onError:(error:Error)=>{
       if(error.message === 'Unauthorized'){
-        logout()
-        localStorage.clear()
-        navigate('/')
+        checkAuth()
       }else{
         setAlert(true)
       }

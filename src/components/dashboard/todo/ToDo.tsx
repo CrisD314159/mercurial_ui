@@ -1,18 +1,16 @@
 import './todo.css'
 import SubjectSlider from '../../SubjectSlider/SubjectSlider'
-import { Subject, SubjectList, Task, Topic, TopicList } from '../../types/types'
+import { SubjectList, Task, TopicList } from '../../types/types'
 import TaskCreation from '../../creation/TaskCreation';
 import { useEffect, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { getSubjects, getTopics, logout } from '../../../utils/utils';
+import { getSubjects, getTopics } from '../../../utils/utils';
 import LoadingComponent from '../../loading/LoadingComponent';
 import TaskContainer from './TaskContainer';
-import { useNavigate } from 'react-router-dom';
 import { Alert } from '@mui/material';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../store';
-
-
+import { useGuardianStore } from '../../../store/guardianStore';
+import useSubjects from '../../../hooks/useSubjects';
+import useTopics from '../../../hooks/useTopics';
 
 interface TodoProps {
   tasks: Task[],
@@ -20,54 +18,35 @@ interface TodoProps {
   filterTasks: (subjectId: string) => void,
   markAsDone: (taskId: string) => void,
   deleteTask: (taskId: string) => void,
-
-
 }
 
-
-
 export default function ToDo(props: TodoProps) {
-  const token = useSelector((state: RootState) => state.auth.token) // Token del usuario
-  const navigate = useNavigate()
-  const [subjects, setSubjects] = useState<Subject[]>([]) // Estado que contendrá las materias del usuario
+  const {subjects} = useSubjects()
+  const {topics} = useTopics()
+  const token = localStorage.getItem('accessToken')  // Obtenemos el token del usuario
+  //const [subjects, setSubjects] = useState<Subject[]>([]) // Estado que contendrá las materias del usuario {deprecated}
   const [isLoading, setIsLoading] = useState(true) // Estado que indica si la página está cargando
-  const [topics, setTopics] = useState<Topic[]>([]) // Estado que contendrá los topics del usuario
+  //const [topics, setTopics] = useState<Topic[]>([]) // Estado que contendrá los topics del usuario {deprecated}
   const [alert, setAlert] = useState(false) // Estado que indica si hay una alerta en la página
+  const checkAuth = useGuardianStore(state=>state.checkAuthStatus)
+  
+  const errorFunc =(error:Error)=>{
+    if (error.message === 'Unauthorized') {
+      checkAuth()
+    }
 
-
-
+  }
   const subjectsMutation = useMutation<SubjectList, Error, string>({
     mutationFn: getSubjects,
-    onSuccess: (data: SubjectList) => {
-      setSubjects(data.subjects)
-    },
-    onError: (error: Error) => {
-      if (error.message === 'Unauthorized') {
-        logout()
-        localStorage.clear()
-        navigate('/')
-
-      } else {
-        setAlert(true)
-      }
-
-
-    }
+    onError: errorFunc
   })
 
   const topicsMutation = useMutation<TopicList, Error, string>({
     mutationFn: getTopics,
-    onSuccess: (data: TopicList) => {
-      setTopics(data.topic)
-    },
-    onError: (error: Error) => {
-      if (error.message === 'Unauthorized') {
-        logout()
-        localStorage.clear()
-        navigate('/')
-      }
-    }
+    onError: errorFunc
   })
+
+
 
   const handleTaskCreation = (task: Task) => { // Función que se encarga de añadir una tarea a la lista de tareas
     props.handletaskCreation(task)
@@ -78,7 +57,6 @@ export default function ToDo(props: TodoProps) {
     props.filterTasks(subjectId)
 
   }
-
   const markAsDone = (taskId: string) => { // Función que se encarga de marcar una tarea como completada
     props.markAsDone(taskId)
   }
@@ -109,7 +87,7 @@ export default function ToDo(props: TodoProps) {
 
 
   return (
-    <div>
+    <div className='mainToDoContainer'>
       {
         alert && (
           <Alert severity="error" onClose={() => { setAlert(false) }}>There was an error with the content</Alert>

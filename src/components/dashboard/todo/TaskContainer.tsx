@@ -9,8 +9,6 @@ import {  Alert, Fab, IconButton } from '@mui/material';
 import { useMutation } from "@tanstack/react-query";
 import { deleteTask, markAsDoneTask } from "../../../utils/utils";
 import EditTask from '../../editForms/EditTask';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../store';
 import CalendarModal from '../../creation/CalendarModal';
 interface TaskProps{
   tasks: Task[]
@@ -19,7 +17,7 @@ interface TaskProps{
 }
 
 export default function TaskContainer(props: TaskProps) {
-  const token = useSelector((state: RootState) => state.auth.token) // Token del usuario
+  const token = localStorage.getItem('accessToken')
   const [id, setId]= useState('')
   const [alert, setAlert] = useState(false)
 
@@ -89,15 +87,16 @@ export default function TaskContainer(props: TaskProps) {
                         <p className='topic' style={{color:`${task.topiccolor}`}}>{task.topictittle}</p> { /** Aquí luego pondremos el nombre del topic, no su id */}
                       </div>
                       <div className='buttonContainer'>
-                        <Fab size='small' className='doneButton button' color='success'
+                        <Fab size='small' className='doneButton button' color='success' disabled={markDoneMutation.isPending}
                         onClick={()=>{
                           handleMarkAsDone(task.id)
+
                         }}
                         > <DoneIcon/> </Fab> {/** Añadiremos un evento a este botón el cual permite marcar la 
                          * tarea como completada 
                          */}
                          <EditTask  description={task.description} subjectId={task.subjectid} title={task.tittle} taskId={task.id} topicId={task.topicid} subjectName={task.subjectname} topicName={task.topictittle}/>
-                        <Fab size='small' color='secondary' className='deleteButton button' onClick={()=>{
+                        <Fab size='small' color='secondary' className='deleteButton button' disabled={deleteTaskMutation.isPending} onClick={()=>{
                           handleDelete(task.id)
                         }}> <DeleteIcon/> </Fab> {/** Añadiremos un evento a este botón el cual permite eliminar la tarea  */}
                       </div>

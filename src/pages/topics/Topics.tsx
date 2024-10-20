@@ -1,59 +1,25 @@
-import Header from "../../components/Header";
-import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
-import { Alert, Button, Fab } from "@mui/material";
-import { NavLink, useNavigate } from "react-router-dom";
-import { DeleteTopicFields, GeneralResponse, Topic, TopicList } from "../../components/types/types";
+import { Alert, Button } from "@mui/material";
+import { Topic } from "../../components/types/types";
 import DeleteIcon from '@mui/icons-material/Delete';
 import './topics.css'
 import TopicCreation from "../../components/creation/TopicCreation";
-import { useEffect, useState } from "react";
-import { useMutation } from "@tanstack/react-query";
-import { deleteTopic, getTopics, logout } from "../../utils/utils";
+
 import EditTopic from "../../components/editForms/EditTopic";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store";
+
+import useTopics from "../../hooks/useTopics";
+
 
 export default function Topics() {
-  const token = useSelector((state: RootState) => state.auth.token) // Token del usuario
-  const navigate = useNavigate()
-  const [topics, setTopics] = useState<Topic[]>([])
-  const [alert, setAlert] = useState(false)
-  const [alertCont, setAlertCont] = useState('There was an error with the content loading')
-  const [id, setId] = useState('')
-
-  const topicsMutation = useMutation<TopicList, Error, string>({
-    mutationFn: getTopics,
-    onSuccess: (data: TopicList) => {
-      setTopics(data.topic)
-    },
-    onError: (error: Error) => {
-      if (error.message === 'Unauthorized') {
-        logout()
-        localStorage.clear()
-        navigate('/')
-      } else {
-        setAlert(true)
-      }
-
-    }
-  })
-
-  const deleteTopicMutation = useMutation<GeneralResponse, Error, DeleteTopicFields>({
-    mutationFn:deleteTopic,
-    onSuccess:()=>{
-      setTopics(topics.filter((topic: Topic) => topic.id !== id))
-    },
-    onError:(error:Error)=>{
-      if(error.message === 'Unauthorized'){
-        logout()
-        localStorage.clear()
-        navigate('/')
-      }else{
-        setAlertCont('There was an error deleting the topic, the may have pending tasks')
-        setAlert(true)
-      }
-    }
-  })
+  const  {
+    topics,
+    setTopics,
+    alert,
+    setAlert,
+    alertCont,
+    setId,
+    deleteTopicMutation
+  } = useTopics()
+  const token = localStorage.getItem('accessToken')
 
   const handleDelete = (topicId: string) => {
     setId(topicId)
@@ -70,37 +36,22 @@ export default function Topics() {
 
 
 
-  useEffect(() => {
-    if (localStorage.getItem('userImage') === null) {
-      navigate('/')
-    } else {
-      if(token) topicsMutation.mutate(token)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
   return (
-    <div>
+   
+      
 
-      <Header />
+      <div className="mainTopicsContainer">
       {
         alert && <Alert severity="error" onClose={() => setAlert(false)}>{alertCont}</Alert>
       }
-
-      <div className="mainTopicsContainer">
-        <div className="backButtonContainer">
-          <div className="buttonBack">
-            <NavLink to='/dashboard' >
-              <Fab size='small' color="primary" className="buttonBackFab"><ArrowBackRoundedIcon></ArrowBackRoundedIcon></Fab>
-            </NavLink>
-          </div>
-        </div>
         <div className="topicMenuContainer">
           <div className="topicMenu menuButtonTopic">
             <TopicCreation handleCreation={handleCreation} />
           </div>
-          <NavLink to="/dashboard/subjects" className='menuButtonTopic'><button className="subjectButton">Go to Subjects</button></NavLink>
         </div>
         <div className="topicsContainer">
+          <div className="topicsContainerSlider">
+          
           {
             topics && topics.length > 0 ?
               topics.map((topic: Topic) => {
@@ -110,8 +61,8 @@ export default function Topics() {
                       <h3 style={{ color: `${topic.color}` }}>{topic.tittle}</h3>
                     </div>
                     <div className="topicButtonContainer">
-                      <EditTopic topicColor={topic.color} topicName={topic.tittle}  topicId={topic.id}/>
-                      <Button size='small' onClick={()=>{handleDelete(topic.id)}}> <DeleteIcon /> </Button>
+                      <EditTopic topicColor={topic.color} topicName={topic.tittle} topicId={topic.id}/>
+                      <Button size='small' disabled={deleteTopicMutation.isPending} onClick={()=>{handleDelete(topic.id)}}> <DeleteIcon sx={{color:'#fff'}}/> </Button>
                     </div>
 
                   </div>
@@ -122,9 +73,8 @@ export default function Topics() {
                 <p style={{ textAlign: 'center' }}>There are no topics</p>
               </div>
           }
-
+          </div>
         </div>
       </div>
-    </div>
   )
 }

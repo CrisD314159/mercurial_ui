@@ -1,13 +1,13 @@
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import './header.css'
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { Avatar, Button } from '@mui/material';
 import { useState } from 'react';
-import { getImageFromLocalStorage } from '../utils/utils';
+import { getImageFromLocalStorage, logout } from '../utils/utils';
+import { useMutation } from '@tanstack/react-query';
+import { LogOutResponse } from './types/types';
+import { useGuardianStore } from '../store/guardianStore';
 
-import { useDispatch } from 'react-redux';
-import { clearToken } from '../store/authSlice';
-import { AppDispatch } from '../store';
 
 
 /*
@@ -21,8 +21,7 @@ props: {
 
 export default function Header() {
   const [image] = useState<string>(getImageFromLocalStorage() || '')
-  const navigate = useNavigate()
-  const dispatch= useDispatch<AppDispatch>()
+  const checkAuth = useGuardianStore(state=> state.checkAuthStatus)
 
 
   // const mutate = useMutation<LogOutResponse, Error>({
@@ -59,11 +58,22 @@ export default function Header() {
      
 
   */
+  const logoutMutation = useMutation<LogOutResponse, Error, string>({
+    mutationFn: logout,
+    onSuccess:()=>{
+      checkAuth()
+    },
+    onError:()=>{
+      checkAuth()
+    }
+    
+  })
+
   function handleLogout(){
-    // mutate.mutate() // Como no se le pasa ningun argumento, se ejecuta la función logout
-    dispatch(clearToken()) // Limpiamos el token del store
-    localStorage.clear() // Limpiamos el localStorage
-    navigate('/') // Redirigimos al usuario al login
+    
+      const refreshToken = localStorage.getItem('refreshToken')// Si el token existe en el localStorage
+      if(refreshToken) {logoutMutation.mutate(refreshToken)} else {checkAuth()}
+    
   }
 
   return (
@@ -75,7 +85,11 @@ export default function Header() {
       </div>
       <nav className='nav'>
         <ul className='navList'>
-          <li className='listItem'><Button variant='outlined' color='secondary' className='logoutButton' onClick={handleLogout}><ExitToAppIcon /></Button></li>
+          <li className='listItem'>
+            <Button variant='outlined' color='secondary' className='logoutButton' onClick={handleLogout}>
+              <ExitToAppIcon />
+            </Button>
+          </li>
           <li className='listItem'>
             <NavLink to={'/userSettings'}>
               <Avatar src={image} alt='userImage' className='avatar' />

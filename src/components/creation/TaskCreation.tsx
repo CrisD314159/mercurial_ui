@@ -5,8 +5,6 @@ import { Subject, Task, TaskCreationFileds, TaskCreationResponse, Topic } from "
 import SelectMenu from "./SelectMenu";
 import { useMutation } from "@tanstack/react-query";
 import { createTask } from "../../utils/utils";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store";
 
 
 interface TaskCreationProps {
@@ -21,7 +19,7 @@ interface selectMenuProps {
 
 
 export default function TaskCreation(props: TaskCreationProps) {
-  const token = useSelector((state: RootState) => state.auth.token) // Token del usuario
+  const token = localStorage.getItem('accessToken') // Obtenemos el token del usuario
   const [error, setError] = useState(false)
   const [alert, setAlert] = useState(false) // Estado que indica si hay una alerta en la página
 
@@ -106,7 +104,7 @@ export default function TaskCreation(props: TaskCreationProps) {
           </DialogContent>
           <DialogActions sx={{ backgroundColor: '#0F0F0F', display: 'flex', justifyContent: 'space-around', paddingBottom: '50px' }}>
             <Button onClick={handleClose} variant="outlined" color="error">Cancel</Button>
-            <Button onClick={handleCreate} variant="outlined" color="success">Create</Button>
+            <Button onClick={handleCreate} variant="outlined" color="success" disabled={taskCreationMutation.isPending}>Create</Button>
 
           </DialogActions>
           </div>
