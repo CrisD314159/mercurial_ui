@@ -85,6 +85,10 @@
 
   scrollbar-width: none; /* especifica el ancho de la barra de desplazamiento */
 
+  @media screen and (max-width: 768px) {
+    margin-bottom: 72px;
+    
+  }
   &:-webkit-scrollbar {
     display: none;
   }
