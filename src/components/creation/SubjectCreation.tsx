@@ -4,15 +4,14 @@ import AddIcon from '@mui/icons-material/Add';
 import { useMutation } from "@tanstack/react-query";
 import { Subject, SubjectCreationFileds, SubjectCreationResponse } from "../types/types";
 import { createSubject } from "../../utils/utils";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store";
+
 
 interface SubjectCreationProps {
     handleCreation: (subject:Subject) => void
 
 }
 export default function SubjectCreation(props:SubjectCreationProps) {
-    const token = useSelector((state: RootState) => state.auth.token) // Token del usuario
+    const token = localStorage.getItem('accessToken') // Obtenemos el token del usuario
     const [open, setOpen] = useState(false);
     const [title, setTitle] = useState<string>('')
     const [alert, setAlert] = useState(false) // Estado que indica si hay una alerta en la página
@@ -68,7 +67,7 @@ export default function SubjectCreation(props:SubjectCreationProps) {
                         ></TextField>
                         <DialogActions sx={{ backgroundColor: '#0F0F0F', display: "flex", justifyContent: 'space-around', paddingTop: '30px' }}>
                             <Button onClick={handleClose} variant="outlined" color="error">Cancel</Button>
-                            <Button onClick={handleCreate} variant="outlined" color="success">Create</Button>
+                            <Button onClick={handleCreate} variant="outlined" color="success" disabled={createSubjectMutation.isPending}>Create</Button>
                         </DialogActions>
                     </DialogContent>
 

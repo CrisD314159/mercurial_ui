@@ -8,8 +8,6 @@ import PasswordInput from '../../components/creation/PasswordInput';
 import { ImageFields, ImageResponse, User, UserEditFields } from '../../components/types/types';
 import { useMutation } from '@tanstack/react-query';
 import { uploadImage } from '../../utils/utils';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -32,7 +30,7 @@ interface EditUserFormProps {
 
 export default function EditUserForm(props:EditUserFormProps) {
 
-  const token = useSelector((state: RootState) => state.auth.token) // Token del usuario
+  const token = 'hola'
   const [name, setName] = useState(props.user.name)
   const [email, setEmail] = useState(props.user.email)
   const [username, setUsername] = useState(props.user.username)

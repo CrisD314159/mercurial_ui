@@ -5,8 +5,7 @@ import './topicCreation.css'
 import { Topic, TopicCreationFileds, TopicCreationResponse } from "../types/types";
 import { useMutation } from "@tanstack/react-query";
 import { createTopic } from "../../utils/utils";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store";
+
 
 
 interface TopicCreationProps {
@@ -14,7 +13,7 @@ interface TopicCreationProps {
 }
 
 export default function TopicCreation(props: TopicCreationProps) {
-    const token = useSelector((state: RootState) => state.auth.token) // Token del usuario
+    const token = localStorage.getItem('accessToken')
     const [open, setOpen] = useState(false);
     const [title, setTitle] = useState<string>('')
     const [color, setColor] = useState<string>('#FB2576')
@@ -78,7 +77,7 @@ export default function TopicCreation(props: TopicCreationProps) {
                     </DialogContent>
                     <DialogActions sx={{ backgroundColor: '#0F0F0F', display: "flex", justifyContent: 'space-around', paddingBottom: '50px' }}>
                         <Button onClick={handleClose} variant="outlined" color="error">Cancel</Button>
-                        <Button onClick={handleCreate} variant="outlined" color="success">Create</Button>
+                        <Button onClick={handleCreate} variant="outlined" color="success" disabled={createTopicMutation.isPending}>Create</Button>
                     </DialogActions>
 
                 </div>

@@ -7,13 +7,14 @@ import { GetUserResponse, User } from "../../components/types/types";
 import DeleteAlert from "../../components/deleteAlert/DeleteAlert";
 import EditUser from "../editUser/EditUser";
 import { Avatar } from "@mui/material";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store";
+import { useGuardianStore } from "../../store/guardianStore";
+
 
 export default function UserSettings() {
     // const [delete, setDelete] = useState(false)
-    const token = useSelector((state: RootState) => state.auth.token) // Token del usuario
+    const token = localStorage.getItem('accessToken')
     const [user, setUser] = useState<User>({} as User)
+    const checkAuth = useGuardianStore(state=>state.checkAuthStatus)
     const userMutation = useMutation<GetUserResponse, Error, string>({
         mutationFn: getUser,
         onSuccess(data:GetUserResponse){
@@ -23,7 +24,7 @@ export default function UserSettings() {
     })
 
     useEffect(()=>{
-        if(token) userMutation.mutate(token)
+        if(token) { userMutation.mutate(token)}else{checkAuth()}
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     return (

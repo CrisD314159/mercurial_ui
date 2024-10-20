@@ -3,10 +3,8 @@ import { useState } from "react";
 import ModeEditRoundedIcon from '@mui/icons-material/ModeEditRounded';
 import { useMutation } from "@tanstack/react-query";
 import { Subject, SubjectCreationResponse, SubjectUpdateFileds } from "../types/types";
-import { logout, updateSubject } from "../../utils/utils";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store";
+import { updateSubject } from "../../utils/utils";
+import { useGuardianStore } from "../../store/guardianStore";
 
 interface SubjectCreationProps {
     handleEdit: (subject:Subject) => void,
@@ -15,11 +13,20 @@ interface SubjectCreationProps {
 
 }
 export default function EditSubject(props:SubjectCreationProps) {
-    const token = useSelector((state: RootState) => state.auth.token) // Token del usuario
-    const navigate = useNavigate()
+    const token = localStorage.getItem('accessToken')
     const [open, setOpen] = useState(false);
     const [title, setTitle] = useState<string>(props.subjectName)
     const [alert, setAlert] = useState(false) // Estado que indica si hay una alerta en la página
+    const checkAuth = useGuardianStore(state=>state.checkAuthStatus)    
+
+    const errorFunc = (error:Error)=>{
+        if(error.message === 'Unauthorized'){
+            checkAuth()
+        }else{
+          setAlert(true)
+        }
+
+    }
 
     const updateSubjectMutation = useMutation<SubjectCreationResponse, Error, SubjectUpdateFileds>({ // Mutación para crear una materia
         mutationFn: updateSubject, // Función que se encarga de hacer la petición
@@ -29,15 +36,7 @@ export default function EditSubject(props:SubjectCreationProps) {
             resetValues() // Se resetean los valores de los inputs
             handleClose() // Se cierra el modal
         },
-        onError:(error:Error)=>{
-            if(error.message === 'Unauthorized'){
-                logout()
-                localStorage.clear()
-                navigate('/')
-            }else{
-              setAlert(true)
-            }
-        }
+        onError:errorFunc
     })
 
     const handleClickOpen = () => {
@@ -57,7 +56,7 @@ export default function EditSubject(props:SubjectCreationProps) {
 
     return (
         <div>
-            <Button size='small' onClick={handleClickOpen}><ModeEditRoundedIcon></ModeEditRoundedIcon></Button>
+            <Button size='small' onClick={handleClickOpen}><ModeEditRoundedIcon sx={{color:'#fff'}}></ModeEditRoundedIcon></Button>
             
             <Dialog open={open} onClose={handleClose} sx={{ backdropFilter: 'blur(2px)' }}
             >
@@ -75,7 +74,7 @@ export default function EditSubject(props:SubjectCreationProps) {
                         ></TextField>
                         <DialogActions sx={{ backgroundColor: '#0F0F0F', display: "flex", justifyContent: 'space-around', paddingTop: '30px' }}>
                             <Button onClick={handleClose} variant="outlined" color="error">Cancel</Button>
-                            <Button onClick={handleCreate} variant="outlined" color="success">Update</Button>
+                            <Button onClick={handleCreate} variant="outlined" color="success" disabled={updateSubjectMutation.isPending}>Update</Button>
                         </DialogActions>
                     </DialogContent>
 

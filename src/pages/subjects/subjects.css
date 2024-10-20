@@ -1,3 +1,4 @@
+
 .topicButton{
   width: 140px;
   height: 40px;
@@ -37,6 +38,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  flex-grow: 1;
 }
 
 .backButtonContainer{
@@ -63,27 +66,54 @@
 }
 
 .subjectsContainer{
+  height: 420px;
+  width: 90%;
   display: flex;
-  width: 60%;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
   padding: 10px 5px;
-  margin: 30px auto;
   @media  screen and (max-width: 668px){
     width: auto;
     justify-content: center;
     
-}
+  }
+  &::-webkit-scrollbar {
+    display: none;
+  }
   
+}
+
+.subjectsPageSlider{
+  margin: 30px 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+  position: relative;
+  height: 100%;
+  scrollbar-width: none;
+  flex-wrap: wrap;
+  @media  screen and (max-width: 768px){
+    width: auto;
+    justify-content: center;
+    flex-wrap: nowrap;
+    
+  }
+
 }
 
 .subjectCard{
   width: 200px;
-  height: 120px;
+  flex: 1 0 130px;
   border: 1px solid #666;
   margin: 20px 20px;
   position: relative;
   padding: 10px 20px;
   border-radius: 6px;
+  overflow: hidden;
 }
 
 .subjectButtonContainer{

@@ -24,7 +24,12 @@ export async function login(credentials: LoginCredentials) : Promise<LoginRespon
       credentials:'include', // incluir cookies en la petición, para poder recibir la cookie de sesión desde la API
       body: JSON.stringify(credentials) // cuerpo de la petición, convertimos el objeto a JSON usando JSON.stringify()
     })
-    return response.json() // retornamos la respuesta en formato JSON
+    const data = await response.json() // convertimos la respuesta a JSON
+    if(data.success === false) throw new Error(data.message) // si la respuesta de la API es success: false, entonces lanzamos un error
+    localStorage.setItem('userImage', data.data.userImage ) // guardamos la imagen de usuario en el localStorage
+    localStorage.setItem('accessToken', data.accessToken) // guardamos el accessToken en el localStorage
+    localStorage.setItem('refreshToken', data.refreshToken) // guardamos el refreshToken en el localStorage
+    return data // retornamos la respuesta en formato JSON
     
   } catch (error) {
     throw new Error('There was a error with the API') // lanzamos un error si la respuesta de la API no es correcta
@@ -146,13 +151,24 @@ export async function signUp(fields: SignUpFields){
 
 }
 
-export async function logout() : Promise <LogOutResponse>{
-  const response = await fetch(`${apiUrl}/logout`,{
-    method:'POST',
-    credentials:'include',
-  })
-
-  return response.json()
+export async function logout(token: string) : Promise <LogOutResponse>{
+  try {
+    const response = await fetch(`${apiUrl}/logout`,{
+      method:'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        refreshToken: token
+      })
+    })
+    localStorage.clear()
+    return response.json()
+  } catch (error) {
+    throw new Error('There was a error with the API')
+    
+  }
+ 
 
 }
 

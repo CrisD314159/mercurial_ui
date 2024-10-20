@@ -3,11 +3,11 @@ import { useState } from "react";
 import {  TaskUpdateFileds, TaskUpdateResponse,} from "../types/types";
 
 import { useMutation } from "@tanstack/react-query";
-import { logout, updateTask } from "../../utils/utils";
+import { updateTask } from "../../utils/utils";
 import ModeEditRoundedIcon from '@mui/icons-material/ModeEditRounded';
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store";
+
+import { useGuardianStore } from "../../store/guardianStore";
+
 
 
 
@@ -23,8 +23,7 @@ interface TaskCreationProps {
 
 
 export default function EditTask(props: TaskCreationProps) {
-  const token = useSelector((state: RootState) => state.auth.token) // Token del usuario
-  const navigate = useNavigate()
+  const token = localStorage.getItem('accessToken')
   const [error, setError] = useState(false)
   const [alert, setAlert] = useState(false) // Estado que indica si hay una alerta en la página
 
@@ -33,8 +32,17 @@ export default function EditTask(props: TaskCreationProps) {
   // Estos dos son los valores de los select
   const [title, setTitle] = useState<string>(props.title)
   const [description, setDescription] = useState<string>(props.description)
-
   // La lista de las materias y el de los temas se convierten en un array objeto con id y name esto para poder hacer mejor la peticion
+  const checkAuth = useGuardianStore(state=>state.checkAuthStatus)    
+
+  const errorFunc = (error:Error)=>{
+      if(error.message === 'Unauthorized'){
+          checkAuth()
+      }else{
+        setAlert(true)
+      }
+
+  }
 
 
   const taskEditMutation = useMutation<TaskUpdateResponse, Error, TaskUpdateFileds>({
@@ -45,16 +53,7 @@ export default function EditTask(props: TaskCreationProps) {
       resetValues() // Reseteamos los valores de los inputs
       handleClose() // Cerramos el modal
     },
-    onError:(error:Error)=>{
-      if(error.message === 'Unauthorized'){
-        logout()
-        localStorage.clear()
-        navigate('/')
-
-      }else{
-        setAlert(true)
-      }
-    }
+    onError:errorFunc
   })
 
   const handleClickOpen = () => {
@@ -105,7 +104,7 @@ export default function EditTask(props: TaskCreationProps) {
           </DialogContent>
           <DialogActions sx={{ backgroundColor: '#0F0F0F', display: 'flex', justifyContent: 'space-around', paddingBottom: '50px' }}>
             <Button onClick={handleClose} variant="outlined" color="error">Cancel</Button>
-            <Button onClick={handleCreate} variant="outlined" color="success">Update</Button>
+            <Button onClick={handleCreate} variant="outlined" color="success" disabled={taskEditMutation.isPending}>Update</Button>
 
           </DialogActions>
           </div>

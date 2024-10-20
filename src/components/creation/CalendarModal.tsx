@@ -54,7 +54,6 @@ export default function CalendarModal(props:SubjectCreationProps) {
                                     const month = String(e.month() + 1).padStart(2, '0'); // Los meses son 0-indexados
                                     const day = String(e.date()).padStart(2, '0');
                                     const formattedDate = `${year}-${month}-${day}`;
-                                    console.log(formattedDate);
                                     setDate(formattedDate)
                                   }
                                 }}/>
