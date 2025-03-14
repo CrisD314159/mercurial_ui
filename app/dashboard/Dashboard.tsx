@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import Header from "../../../app/ui/Header";
-import Done from "../../../app/ui/dashboard/done/Done";
-import ToDo from "../../../app/ui/dashboard/todo/ToDo";
+import Header from "../ui/Header";
+import Done from "../ui/dashboard/done/Done";
+import ToDo from "../ui/dashboard/todo/ToDo";
 import './dashboard.css'
 import { Alert } from "@mui/material";
-import BottomNav from "../../../app/ui/bottomNav/BottomNav";
-import useTasks from "../../hooks/useTasks";
-import Subjects from "../subjects/Subjects";
-import Topics from "../topics/Topics";
+import BottomNav from "../ui/bottomNav/BottomNav";
+import useTasks from "../hooks/useTasks";
+import Subjects from "./subjects/Subjects";
+import Topics from "./subjects/topics/Topics";
 
 
 

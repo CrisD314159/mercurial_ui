@@ -2,9 +2,9 @@
 import './subjects.css'
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Alert, Button } from "@mui/material";
-import { Subject } from "../../../app/ui/types/types";
-import SubjectCreation from "../../../app/ui/creation/SubjectCreation";
-import EditSubject from "../../../app/ui/editForms/EditSubject";
+import { Subject } from "../../ui/types/types";
+import SubjectCreation from "../../ui/creation/SubjectCreation";
+import EditSubject from "../../ui/editForms/EditSubject";
 
 import useSubjects from '../../hooks/useSubjects';
 import { useCallback } from 'react';

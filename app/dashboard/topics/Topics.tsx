@@ -1,12 +1,12 @@
 import { Alert, Button } from "@mui/material";
-import { Topic } from "../../../app/ui/types/types";
+import { Topic } from "../../../../components/types/types";
 import DeleteIcon from '@mui/icons-material/Delete';
 import './topics.css'
-import TopicCreation from "../../../app/ui/creation/TopicCreation";
+import TopicCreation from "../../../../components/creation/TopicCreation";
 
-import EditTopic from "../../../app/ui/editForms/EditTopic";
+import EditTopic from "../../../../components/editForms/EditTopic";
 
-import useTopics from "../../hooks/useTopics";
+import useTopics from "../../../../hooks/useTopics";
 
 
 export default function Topics() {
