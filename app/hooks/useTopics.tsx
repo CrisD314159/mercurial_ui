@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { DeleteTopicFields, GeneralResponse, Topic, TopicList } from "../ui/types/types"
+import { DeleteTopicFields, GeneralResponse, Topic, TopicList } from "../lib/types/types"
 import { useGuardianStore } from "../store/guardianStore"
 import { useMutation } from "@tanstack/react-query"
 import { deleteTopic, getTopics } from "../lib/utils"

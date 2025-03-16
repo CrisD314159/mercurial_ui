@@ -1,6 +1,6 @@
 import './todo.css'
 import { useState } from "react"
-import { DeleteTaskFields, GeneralResponse, MarkAsDoneFields, Task } from "../../types/types"
+import { DeleteTaskFields, GeneralResponse, MarkAsDoneFields, Task } from "../../../lib/types/types"
 import DoneIcon from '@mui/icons-material/Done';
 import DeleteIcon from '@mui/icons-material/Delete';
 import BookmarkIcon from '@mui/icons-material/Bookmark';

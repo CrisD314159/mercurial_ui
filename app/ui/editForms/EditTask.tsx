@@ -1,6 +1,6 @@
 import { Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle, Fab, TextField } from "@mui/material";
 import { useState } from "react";
-import {  TaskUpdateFileds, TaskUpdateResponse,} from "../types/types";
+import {  TaskUpdateFileds, TaskUpdateResponse,} from "../../lib/types/types";
 
 import { useMutation } from "@tanstack/react-query";
 import { updateTask } from "@/app/lib/utils";

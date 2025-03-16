@@ -2,7 +2,7 @@ import { Alert, Button, Dialog, DialogActions, DialogContent, TextField } from "
 import ModeEditRoundedIcon from '@mui/icons-material/ModeEditRounded';
 import { useState } from "react";
 import './topicCreation.css'
-import { TopicCreationResponse, TopicUpdateFileds } from "../types/types";
+import { TopicCreationResponse, TopicUpdateFileds } from "../../lib/types/types";
 import { useMutation } from "@tanstack/react-query";
 import { updateTopic } from "@/app/lib/utils";
 import { useGuardianStore } from "../../store/guardianStore";

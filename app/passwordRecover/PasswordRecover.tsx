@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query"
 import { NavLink, useParams } from "react-router-dom"
-import { GeneralResponse, ResetPasswordFileds, ResetPasswordToken } from "../ui/types/types"
+import { GeneralResponse, ResetPasswordFileds, ResetPasswordToken } from "../lib/types/types"
 import { useEffect, useState } from "react"
 import { getResetToken, resetPassword } from "../lib/utils"
 import PasswordInput from "../ui/creation/PasswordInput"

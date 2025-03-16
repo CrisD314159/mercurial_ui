@@ -1,7 +1,16 @@
+import { ThemeProvider } from "@mui/material";
 import Head from "next/head";
 import React from "react";
+import theme from "./lib/theme/theme";
+import { Red_Hat_Display } from 'next/font/google'
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
+import './globals.css'
 
 
+const redHatDisplay = Red_Hat_Display({
+  subsets:['latin'],
+  weight:["300", "400", "500"]
+})
 
 
 
@@ -22,11 +31,14 @@ Readonly<{
         <meta name="apple-mobile-web-app-capable" content="yes"/>
         <meta name="apple-mobile-web-app-title" content="Mercurial"/>
       </Head>
-      <body
-      >
-        {children}
-      
-      </body>
+        <body className={`${redHatDisplay.className} antialiased h-screen`}>
+          <AppRouterCacheProvider>
+            <ThemeProvider theme={theme}>
+                {children}
+            </ThemeProvider>
+          </AppRouterCacheProvider>
+        
+        </body>
 
 
     </html>

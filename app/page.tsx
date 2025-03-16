@@ -1,8 +1,9 @@
+import LoginForm from "./ui/Forms/LoginForm";
+
+
 
 export default function Page (){
   return (
-    <div className="bg-black text-white">
-      Hola
-    </div>
+    <LoginForm/>
   )
 }

@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query"
-import { GeneralResponse } from "../ui/types/types"
+import { GeneralResponse } from "../lib/types/types"
 import { sendPasswordEmail } from "../lib/utils"
 import { useState } from "react"
 import { Alert, Button, TextField } from "@mui/material"

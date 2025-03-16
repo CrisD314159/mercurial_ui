@@ -7,7 +7,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useMutation } from '@tanstack/react-query';
-import { GeneralResponse } from '../types/types';
+import { GeneralResponse } from '../../lib/types/types';
 import { deleteUser } from '@/app/lib/utils';
 import { Alert } from '@mui/material';
 import { useGuardianStore } from '../../store/guardianStore';

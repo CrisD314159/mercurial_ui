@@ -1,5 +1,5 @@
 import { Alert, Button } from "@mui/material";
-import { Topic } from "../../../app/ui/types/types";
+import { Topic } from "../../../app/lib/types/types";
 import DeleteIcon from '@mui/icons-material/Delete';
 import './topics.css'
 import TopicCreation from "../../../app/ui/creation/TopicCreation";

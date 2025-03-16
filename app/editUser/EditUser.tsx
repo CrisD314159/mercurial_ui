@@ -4,7 +4,7 @@ import { Alert, Dialog, DialogContent} from "@mui/material";
 import ModeEditRoundedIcon from '@mui/icons-material/ModeEditRounded';
 import { useState } from 'react';
 import { updateUser } from '../lib/utils';
-import { GeneralResponse,User, UserEditFields } from '../ui/types/types';
+import { GeneralResponse,User, UserEditFields } from '../lib/types/types';
 import { useMutation } from '@tanstack/react-query';
 import EditUserForm from './EditUserForm';
 import { useGuardianStore } from '../store/guardianStore';

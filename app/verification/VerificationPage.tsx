@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query"
 import { NavLink, useParams } from "react-router-dom"
-import { GeneralResponse } from "../ui/types/types"
+import { GeneralResponse } from "../lib/types/types"
 import { verifyUser } from "../lib/utils"
 import { useEffect, useState } from "react"
 import './verificationPage.css'

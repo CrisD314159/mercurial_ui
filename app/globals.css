@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*{
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%; /* Garantiza que ocupen toda la altura del viewport */
+  margin: 0;    /* Elimina márgenes */
+  padding: 0;   /* Elimina rellenos */
+  overflow: auto; /* Evita el scroll */
+  overscroll-behavior: none; /* Evita el efecto de rebote */
+  background-color: #010101;
+}
+
+
+
+button{
+  cursor: pointer;
+}
+

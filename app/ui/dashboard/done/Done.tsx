@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { GeneralResponse, RollbackFields, Task } from '../../types/types'
+import { GeneralResponse, RollbackFields, Task } from '../../../lib/types/types'
 import './done.css'
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import { Alert, IconButton } from '@mui/material';

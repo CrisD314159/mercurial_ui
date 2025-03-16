@@ -1,7 +1,7 @@
 import { Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle, Fab, SelectChangeEvent, TextField } from "@mui/material";
 import { useState } from "react";
 import AddIcon from '@mui/icons-material/Add';
-import { Subject, Task, TaskCreationFileds, TaskCreationResponse, Topic } from "../types/types";
+import { Subject, Task, TaskCreationFileds, TaskCreationResponse, Topic } from "../../lib/types/types";
 import SelectMenu from "./SelectMenu";
 import { useMutation } from "@tanstack/react-query";
 import { createTask } from "@/app/lib/utils";

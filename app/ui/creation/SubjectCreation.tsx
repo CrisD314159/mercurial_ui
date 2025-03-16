@@ -2,7 +2,7 @@ import { Alert, Button, Dialog, DialogActions, DialogContent, Fab, TextField } f
 import { useState } from "react";
 import AddIcon from '@mui/icons-material/Add';
 import { useMutation } from "@tanstack/react-query";
-import { Subject, SubjectCreationFileds, SubjectCreationResponse } from "../types/types";
+import { Subject, SubjectCreationFileds, SubjectCreationResponse } from "../../lib/types/types";
 import { createSubject } from "@/app/lib/utils";
 
 

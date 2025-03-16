@@ -2,7 +2,7 @@
 import './subjects.css'
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Alert, Button } from "@mui/material";
-import { Subject } from "../../ui/types/types";
+import { Subject } from "../../lib/types/types";
 import SubjectCreation from "../../ui/creation/SubjectCreation";
 import EditSubject from "../../ui/editForms/EditSubject";
 

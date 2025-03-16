@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query"
-import { Task, TaskDoneList, TaskList } from "../ui/types/types"
+import { Task, TaskDoneList, TaskList } from "../lib/types/types"
 import { getDoneTasks, getTasks } from "../lib/utils"
 import { useCallback, useEffect, useState } from "react"
 import { useGuardianStore } from "../store/guardianStore"

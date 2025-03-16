@@ -1,6 +1,6 @@
 import './todo.css'
 import SubjectSlider from '../../SubjectSlider/SubjectSlider'
-import { SubjectList, Task, TopicList } from '../../types/types'
+import { SubjectList, Task, TopicList } from '../../../lib/types/types'
 import TaskCreation from '../../creation/TaskCreation';
 import { useEffect, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';

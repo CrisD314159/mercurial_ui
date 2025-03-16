@@ -5,7 +5,7 @@ import { Avatar, Button } from '@mui/material';
 import { useState } from 'react';
 import { logout, getImageFromLocalStorage } from '../lib/utils';
 import { useMutation } from '@tanstack/react-query';
-import { LogOutResponse } from './types/types';
+import { LogOutResponse } from '../lib/types/types';
 import { useGuardianStore } from '../store/guardianStore';
 
 

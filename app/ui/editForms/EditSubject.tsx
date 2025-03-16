@@ -2,7 +2,7 @@ import { Alert, Button, Dialog, DialogActions, DialogContent, TextField } from "
 import { useState } from "react";
 import ModeEditRoundedIcon from '@mui/icons-material/ModeEditRounded';
 import { useMutation } from "@tanstack/react-query";
-import { Subject, SubjectCreationResponse, SubjectUpdateFileds } from "../types/types";
+import { Subject, SubjectCreationResponse, SubjectUpdateFileds } from "../../lib/types/types";
 import { updateSubject } from "@/app/lib/utils";
 import { useGuardianStore } from "../../store/guardianStore";
 

@@ -1,7 +1,7 @@
 import { Alert, Button, Dialog, DialogActions, DialogContent, Fab } from "@mui/material";
 import { useState } from "react";
 import ScheduleIcon from '@mui/icons-material/Schedule';
-import {  Task } from "../types/types";
+import {  Task } from "../../lib/types/types";
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';

@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Subject } from "../types/types"
+import { Subject } from "../../lib/types/types"
 import './subjectSlider.css'
 import {Fab } from "@mui/material"
 import ClearIcon from '@mui/icons-material/Clear';

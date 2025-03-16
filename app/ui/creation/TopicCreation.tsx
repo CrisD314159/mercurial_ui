@@ -2,7 +2,7 @@ import { Alert, Button, Dialog, DialogActions, DialogContent, Fab, TextField } f
 import AddIcon from '@mui/icons-material/Add';
 import { useState } from "react";
 import './topicCreation.css'
-import { Topic, TopicCreationFileds, TopicCreationResponse } from "../types/types";
+import { Topic, TopicCreationFileds, TopicCreationResponse } from "../../lib/types/types";
 import { useMutation } from "@tanstack/react-query";
 import { createTopic } from "@/app/lib/utils";
 

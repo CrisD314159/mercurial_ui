@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useGuardianStore } from "../store/guardianStore"
 import { useMutation } from "@tanstack/react-query"
 import { deleteSubject, getSubjects } from "../lib/utils"
-import { DeleteSubjectFields, GeneralResponse, Subject, SubjectList } from "../ui/types/types"
+import { DeleteSubjectFields, GeneralResponse, Subject, SubjectList } from "../lib/types/types"
 
 
 // Este hook se encarga de manejar las materias del usuario
