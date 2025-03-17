@@ -1,48 +1,43 @@
 'use client'
-import { useState } from "react";
+import { startTransition, useActionState, useState } from "react";
 import AlertDialog from "../ui/alertCompnent/AlertDialog";
 import Image from "next/image";
-import { TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import PasswordInput from "../ui/creation/PasswordInput";
+import { SignUp } from "../lib/serverActions/PostActions";
+import Link from "next/link";
 
-
-
-export default function SignSupPage() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
+export default function SignUpPage() {
   const [password, setPassword] = useState('');
+  const [state, action, pending] = useActionState(SignUp, undefined)
 
 
-  function handleSubmit() {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    const formData = new FormData(e.currentTarget)
+
+    formData.append('password', password)
+
+    startTransition(()=>{
+        action(formData)
+    })
   }
   return (
-      <div className="mainSignUpContainer">
-          {<AlertDialog title="Thank you for sign up to Mercurial!!" message="Check your email to verify your account on Mercurial"/> }
-          {<AlertDialog title="There was an error with our app!" message={"hola"}/>}
-          <div className="backgroundContainer">
-              <div className="formContainer">
-                  <div className="imageContainer">
-                      <Image src="/mercurialLogo.png" alt="" className="imageLogo" width={80} height={80} />
-                  </div>
-                  <h1 className="formTitle">Sign up to Mercurial</h1>
-                  <form
-                      action=""
-                      className="signUpForm"
-                      onSubmit={(e) => {
-                          e.preventDefault();
-                          handleSubmit();
-                      }}
+      <div className="h-full w-full flex items-center justify-center">
+          {state?.success && <AlertDialog title="Thank you for sign up to Mercurial!!" message="Check your email to verify your account on Mercurial"/> }
+          {state?.success == false && <AlertDialog title="There was an error with our app!" message={"hola"}/>}
+              <div className="w-[60%] h-[80%] flex flex-col gap-5 items-center">
+                <Image src="/mercurialLogo.png" alt="" className="imageLogo" width={80} height={80} />
+                <h1 className="text-slate-50 text-2xl">{"Just a few more steps"}</h1>
+                <form
+                      className="flex flex-col gap-4 items-center"
+                      onSubmit={handleSubmit}
                   >
-                      <div className="inputsContainers border">
                           <TextField
                               required
                               label="Full Name"
                               variant="outlined"
-                              value={name}
-                              onChange={(e) => {
-                                  setName(e.target.value);
-                              }}
+                              name="name"
                               inputProps={{  minLength: 3, maxLength: 40 }}
                           />
                           <TextField
@@ -50,31 +45,16 @@ export default function SignSupPage() {
                               label="E-mail"
                               type="email"
                               variant="outlined"
-                              value={email}
-                              onChange={(e) => {
-                                  setEmail(e.target.value);
-                              }}
+                              name="email"
                           />
-                      </div>
 
-                      <div className="inputsContainers">
-                          <TextField
-                              required
-                              label="Username"
-                              variant="outlined"
-                              value={username}
-                              onChange={(e) => {
-                                  setUsername(e.target.value);
-                              }}
-                              inputProps={{  minLength: 5, maxLength: 30 }}
-                          />
                           <PasswordInput password={password} setPassword={setPassword} required></PasswordInput>
-                      </div>
 
-                      <button className="signUpButton">Sign Up</button>
+
+                      <Button type="submit" variant="contained" disabled={pending} className="signUpButton">Sign Up</Button>
+                      <Link href={'/'} className="text-slate-50 mt-4">Back to login</Link>
                   </form>
               </div>
-          </div>
       </div>
   )
 }

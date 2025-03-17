@@ -1,41 +1,52 @@
-import * as React from 'react';
+'use client'
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import DoneIcon from '@mui/icons-material/Done';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import InterestsIcon from '@mui/icons-material/Interests';
 import ListIcon from '@mui/icons-material/List';
+import { useState } from 'react';
+import Link from 'next/link';
 
 
-interface LabelBottomNavigationProps {
-  value: string,
-  handleChange: (event: React.SyntheticEvent, newValue: string) => void
-}
 
-export default function BottomNav(props: LabelBottomNavigationProps) {
+export default function BottomNav() {
+  const [value, setValue] = useState(0)
 
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    props.handleChange(event, newValue)
-  };
 
   return (
-    <BottomNavigation sx={{ width: '100%', background:'#141414'}} value={props.value} onChange={handleChange} >
+    <BottomNavigation 
+    sx={{ width: '100%', background:'#141414'}} 
+    showLabels ={false}
+    value={value}
+    onChange={(event, newValue) => {
+      setValue(newValue);
+    }}
+    >
       <BottomNavigationAction
+        LinkComponent={Link}
+        href='/dashboard/todo'
         label="To-Do"
-        value="todo"
         icon={< ListIcon/>}
       />
       <BottomNavigationAction
         label="Done"
-        value="done"
+        LinkComponent={Link}
+        href='/dashboard/done'
         icon={<DoneIcon />}
       />
       <BottomNavigationAction
         label="Subjects"
-        value="subjects"
+        LinkComponent={Link}
+        href='/dashboard/subjects'
         icon={<LibraryBooksIcon />}
       />
-      <BottomNavigationAction label="Topics" value="topics" icon={<InterestsIcon />} />
+      <BottomNavigationAction 
+      label="Topics" value="topics" 
+      icon={<InterestsIcon />}
+      LinkComponent={Link}
+      href='/dashboard/topics'
+      />
     </BottomNavigation>
   );
 }

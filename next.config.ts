@@ -16,6 +16,16 @@ const nextConfig: NextConfig = {
       bodySizeLimit:'7mb'
     }
   },
+  async redirects(){
+    return [
+      {
+        source:'/dashboard',
+        destination:'/dashboard/todo',
+        permanent:true
+      },
+    ]
+
+  },
   /* config options here */
 };
 
