@@ -26,7 +26,7 @@ export default function MercurialDrawer() {
     <div>
       <IconButton onClick={()=> toggleDrawer(true)}><MenuRoundedIcon/></IconButton>
       <Drawer open={open} onClose={()=>toggleDrawer(false)}>
-      <Box sx={{ width: 200, height:'100%', background:'#212121' }} role="presentation" onClick={()=> toggleDrawer(false)}>
+      <Box sx={{ width: 200, height:'100%', background:'transparent' }} role="presentation" onClick={()=> toggleDrawer(false)}>
       <List>
         <ListItem sx={{padding:'0 10px', marginBottom:'10px'}} >
               <ListItemButton sx={{borderRadius:'15px'}}>
@@ -48,7 +48,7 @@ export default function MercurialDrawer() {
       <Divider />
       <List>
         <ListItem sx={{padding:'0 10px', marginBottom:'10px'}} >
-              <ListItemButton sx={{background:'#a3050a', borderRadius:'15px', boxShadow:'0px 3px 15px #151515'}}>
+              <ListItemButton sx={{background:'#db040c', borderRadius:'15px'}}>
                 <ListItemIcon>
                   <LogoutRoundedIcon/>
                 </ListItemIcon>

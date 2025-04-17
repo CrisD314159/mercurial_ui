@@ -1,10 +1,9 @@
-import { ThemeProvider } from "@mui/material";
 import Head from "next/head";
 import React from "react";
-import theme from "./lib/theme/theme";
 import { Red_Hat_Display } from 'next/font/google'
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import './globals.css'
+import { ThemeContextProvider } from "./lib/theme/ThemeContextProvidex";
 
 
 const redHatDisplay = Red_Hat_Display({
@@ -33,9 +32,9 @@ Readonly<{
       </Head>
         <body className={`${redHatDisplay.className} antialiased h-screen`}>
           <AppRouterCacheProvider>
-            <ThemeProvider theme={theme}>
+            <ThemeContextProvider>
                 {children}
-            </ThemeProvider>
+            </ThemeContextProvider>
           </AppRouterCacheProvider>
         
         </body>

@@ -11,7 +11,7 @@ export default function Header() {
     <header className='flex items-center justify-between'>
       <MercurialDrawer/>
       <div className='imageContainerHeader'>
-          <Image src="https://res.cloudinary.com/dw43hgf5p/image/upload/v1719193860/xllkumrdq702etruhxfq.png" alt="MercurialLogo" width={35} height={35}/>
+          <Image src="/mercurialLogo.png" alt="MercurialLogo" width={35} height={35}/>
       </div>
       <nav className='nav'>
     
