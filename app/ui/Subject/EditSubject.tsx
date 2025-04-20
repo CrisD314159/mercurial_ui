@@ -1,21 +1,20 @@
 'use client'
 import {  Button, Dialog, DialogActions, DialogContent, IconButton, TextField } from "@mui/material";
 import { startTransition, useActionState, useState } from "react";
-import { UpdateTopic } from "@/app/lib/RequestIntermediaries/TopicInter";
 import { useMercurialStore } from "@/app/store/useMercurialStore";
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import MercurialSnackbar from "../Snackbars/MercurialSnackbar";
+import { UpdateSubject } from "@/app/lib/RequestIntermediaries/SubjectInter";
 
 
-interface TopicCreationProps{
+interface SubjectEditProps{
     mutate:()=> void
     title:string
-    color:string
     id:number
 }
-export default function EditTopic({mutate, color, title, id}:TopicCreationProps) {
+export default function EditSubject({mutate, title, id}:SubjectEditProps) {
     const [open, setOpen] = useState(false);
-    const [state, action, pending] = useActionState(UpdateTopic, undefined)
+    const [state, action, pending] = useActionState(UpdateSubject, undefined)
     const {isAuthenticated} = useMercurialStore()
 
     const handleClickOpen = () => {
@@ -51,15 +50,9 @@ export default function EditTopic({mutate, color, title, id}:TopicCreationProps)
                     }}>
                         <form onSubmit={handleUpdate}>
 
-                            <TextField placeholder="Update Topic" name="title" variant="standard"
-                            required inputProps={{ maxLength: 70 }} defaultValue={title}
+                            <TextField placeholder="Update Subject" name="title" variant="standard"
+                            required inputProps={{ maxLength: 70 }} defaultValue={title} sx={{marginBottom:'15px'}}
                             ></TextField>
-                            <div className="py-3 my-4 flex items-center gap-2">
-                                <label>
-                                    Topic color:
-                                </label>
-                                <input type="color" defaultValue={color} name="color" className="w-12 h-12" required></input>
-                            </div>
                             <DialogActions>
                                 <Button onClick={handleClose} variant="outlined" color="error">Cancel</Button>
                                 <Button variant="outlined" type="submit" disabled={pending} color="success">Update</Button>

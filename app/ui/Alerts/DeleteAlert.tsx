@@ -6,7 +6,6 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useState } from 'react';
-import { DeleteTopic } from '@/app/lib/RequestIntermediaries/TopicInter';
 import {IconButton } from '@mui/material';
 import MercurialSnackbar from '../Snackbars/MercurialSnackbar';
 
@@ -17,17 +16,18 @@ interface DeleteDialogProps{
   id:number
   isAuthenticated:boolean
   mutate:()=> void
+  deleteMethod: (isAuthenticated:boolean, id:string) => Promise<void>
 
 }
 
-export default function DeleteTopicAlert({body, mutate, title, id, isAuthenticated}: DeleteDialogProps) { 
+export default function DeleteAlert({body, mutate, title, id, isAuthenticated, deleteMethod}: DeleteDialogProps) { 
   const [open, setOpen] = useState(false);
   const [alert, setAlert] = useState(false);
 
 
   const handleDelete = async () =>{
     try {
-      await DeleteTopic(isAuthenticated, id)
+      await deleteMethod(isAuthenticated, id.toString())
       mutate()
     } catch (error) {
       setAlert(true)

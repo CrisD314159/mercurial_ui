@@ -2,16 +2,16 @@
 import {  Button, Dialog, DialogActions, DialogContent, Fab, TextField } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import { startTransition, useActionState, useState } from "react";
-import { CreateTopic } from "@/app/lib/RequestIntermediaries/TopicInter";
 import { useMercurialStore } from "@/app/store/useMercurialStore";
 import MercurialSnackbar from "../Snackbars/MercurialSnackbar";
+import { CreateSubject } from "@/app/lib/RequestIntermediaries/SubjectInter";
 
-interface TopicCreationProps{
+interface SubjectCreationProps{
     mutate:()=> void
 }
-export default function TopicCreation({mutate}:TopicCreationProps) {
+export default function SubjectCreation({mutate}:SubjectCreationProps) {
     const [open, setOpen] = useState(false);
-    const [state, action, pending] = useActionState(CreateTopic, undefined)
+    const [state, action, pending] = useActionState(CreateSubject, undefined)
     const {isAuthenticated} = useMercurialStore()
 
     const handleClickOpen = () => {
@@ -50,15 +50,10 @@ export default function TopicCreation({mutate}:TopicCreationProps) {
                                 state?.errors && <div>Error</div>
 
                             }
-                            <TextField placeholder="New Topic" name="title" variant="standard"
+                            <TextField placeholder="New Subject" name="title" variant="standard"
+                            sx={{marginBottom:'15px'}}
                             required inputProps={{ maxLength: 70 }}
                             ></TextField>
-                            <div className="py-3 my-4 flex items-center gap-2">
-                                <label>
-                                    Topic color:
-                                </label>
-                                <input type="color" name="color" className="w-12 h-12" required></input>
-                            </div>
                             <DialogActions>
                                 <Button onClick={handleClose} variant="outlined" color="error">Cancel</Button>
                                 <Button variant="outlined" type="submit" disabled={pending} color="success">Create</Button>

@@ -10,7 +10,6 @@ export async function CreateTopicServer(formdata: FormData) {
   
     const token = (await cookies()).get('token')?.value
     const validation = TopicSchema.safeParse({
-      id:formdata.get('id'),
       title:formdata.get('title'),
       color: formdata.get('color')
     })
@@ -73,7 +72,7 @@ export async function UpdateTopicServer(formdata: FormData) {
   if(response.status == 200){
     return {
       success: true,
-      message:"Topic created"
+      message:"Topic updated"
     }
   }    
   if(response.status === 500){
@@ -108,7 +107,7 @@ export async function GetUserTopicsServer() {
     }
 }
 
-export async function DeleteUserTopicsServer(id:number) {
+export async function DeleteUserTopicsServer(id:string) {
 
     const token = (await cookies()).get('token')?.value
 

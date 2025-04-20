@@ -16,7 +16,6 @@ export async function CreateTopicOffline(formdata: FormData) {
     const {title, color} = validation.data
   
    db.topics.add({title, color})
-   console.log("se creó");
     return true
   
 }
@@ -40,7 +39,6 @@ export async function UpdateTopicOffline(formdata: FormData) {
   }
 
    db.topics.update(id, { title, color })
-   console.log("se actualizó");
   return true
   
   
@@ -51,7 +49,18 @@ export async function GetUserTopicsOffline() {
   return topics
 }
 
-export async function DeleteUserTopicsOffline(id:number) {
-   db.topics.delete(id)
+export async function DeleteUserTopicsOffline(id:string) {
+  const topicId = Number.parseInt(id)
+  if(!IsTopicWithoutAssignments(topicId)) throw new Error("Topic has assigments alredy")
+  db.topics.delete(topicId)
   return true 
+}
+
+async function IsTopicWithoutAssignments(id:number) {
+  const tasks = await db.assignments.where('topicId').equals(id).toArray()
+  if(tasks.length > 0){
+    return false
+  }
+  return true
+  
 }

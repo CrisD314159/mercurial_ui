@@ -18,7 +18,6 @@ export async function UpdateTopic(state:GeneralFormState, formdata:FormData) {
 
 
 export async function GetTopics(isAuthenticated: boolean) {
-
   if(isAuthenticated){
 
     return await GetUserTopicsServer()
@@ -31,7 +30,7 @@ export async function GetTopics(isAuthenticated: boolean) {
   
 }
 
-export async function DeleteTopic(isAuthenticated: boolean, id:number) {
+export async function DeleteTopic(isAuthenticated: boolean, id:string) {
 
   if(isAuthenticated){
     await DeleteUserTopicsServer(id)
