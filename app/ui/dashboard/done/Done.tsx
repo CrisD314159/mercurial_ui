@@ -1,16 +1,17 @@
 import { useState } from 'react'
-import { GeneralResponse, RollbackFields, Task } from '../../../lib/types/types'
+import { GeneralResponse, RollbackFields } from '../../../lib/types/types'
 import './done.css'
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import { Alert, IconButton } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
 import { useMutation } from '@tanstack/react-query';
 import { markAsRollBackTask } from '@/app/lib/utils';
-import { useGuardianStore } from '../../../store/guardianStore';
+import { useGuardianStore } from '../../../store/useMercurialStore';
+import { Assignment } from '@/app/lib/types/entityTypes';
 
 
 interface DoneProps {
-  tasks: Task[],
+  tasks: Assignment[],
   markAsRollBack: (taskId: string) => void
 
 }

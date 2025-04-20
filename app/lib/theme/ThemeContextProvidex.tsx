@@ -13,12 +13,8 @@ export const useThemeContext = () => useContext(ThemeContext);
 export const ThemeContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [mode, setMode] = useState<PaletteMode>('light');
 
-  useEffect(() => {
-    const savedMode = localStorage.getItem('theme') as PaletteMode | null;
-  
-    if (savedMode) {
-      setMode(savedMode);
-    } else {
+  useEffect(() => {  
+ 
       const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
       setMode(mediaQuery.matches ? 'dark' : 'light');
   
@@ -31,7 +27,6 @@ export const ThemeContextProvider = ({ children }: { children: React.ReactNode }
   
       // Limpia del listener al desmontar
       return () => mediaQuery.removeEventListener('change', handleChange);
-    }
   }, []);
   
 

@@ -12,7 +12,6 @@ html, body {
   padding: 0;   /* Elimina rellenos */
   overflow: auto; /* Evita el scroll */
   overscroll-behavior: none; /* Evita el efecto de rebote */
-  background-color: #0e0e0e;
 }
 
 

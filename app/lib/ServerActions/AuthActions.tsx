@@ -1,3 +1,6 @@
+'use server'
+import { redirect } from "next/navigation";
+import { createSession } from "../Auth/authChecks";
 import { APIURL, FormState, isNullOrEmpty } from "../types/definitions";
 
 
@@ -14,26 +17,30 @@ export async function Login(formstate:FormState, formdata: FormData) {
   }
 
 
-  const response = await fetch(`${APIURL}/login`, {
+  const response = await fetch(`${APIURL}/account/login`, {
     method:'POST',
     headers:{
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({email, password})
   })
+  console.log(response.status);
+
+  if(response.status === 401){
+    redirect('/verifyAccount')
+  }
 
   if (response.status === 200){
-    const data = await response.json()
+    const {token, refreshToken} = await response.json()
+    await createSession(token, refreshToken)
+    redirect('/dashboard')
+  }else{
     return {
-      data,
-      success:true
+      message:'Error fetching the data',
+      success: false
     }
   }
 
-  return {
-    message:'Error fetching the data',
-    success: false
-  }
   
 }
 export async function SignUp(formstate:FormState, formdata: FormData) {

@@ -1,37 +1,8 @@
-import { Topic } from '@mui/icons-material';
-export interface Subject{
-  id: string,
-  name: string,
-  color: string,
-  state_id: string,
-  state_name:string,
-  user_id: string,
-  user_name: string,
-}
+import { Assignment, Subject, Topic } from './entityTypes';
 
-export interface Task{
-  id: string,
-  tittle: string,
-  description: string,
-  stateid: string,
-  statename: string,
-  subjectid: string,
-  subjectname:string,
-  topicid: string,
-  topictittle: string,
-  topiccolor: string,
-}
-
-export interface Topic{
-  id: string,
-  tittle: string,
-  usuario_id: string,
-  state:string,
-  color: string
-}
 
 export interface User{
-  id: number,
+  id?: number,
   name: string,
   email: string,
   username: string,
@@ -76,29 +47,9 @@ export interface SignUpFields{
   password: string
 }
 
-export interface TaskList{
-  success: boolean,
-  message: string,
-  tasksUser: Task[]
-
-}
-export interface TaskDoneList{
-  tasks: Task[]
-
-}
-export interface SubjectList{
-  success: boolean,
-  subjects: Subject[]
-
-}
-export interface TopicList{
-  success: boolean,
-  topic: Topic[]
-
-}
 
 export interface TaskCreationFileds{
-  tittle: string,
+  title: string,
   description: string,
   subjectId: string,
   topicId: string,
@@ -108,7 +59,7 @@ export interface TaskCreationFileds{
 export interface TaskCreationResponse{
   success: boolean,
   message: string,
-  task: Task
+  assignment : Assignment
 
 }
 export interface SubjectCreationFileds{

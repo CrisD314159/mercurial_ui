@@ -1,6 +1,5 @@
 'use client'
-
-import { Login } from "@/app/lib/serverActions/PostActions"
+import { Login } from "@/app/lib/ServerActions/AuthActions"
 import { Alert, Button, TextField } from "@mui/material"
 import Image from "next/image"
 import Link from "next/link"

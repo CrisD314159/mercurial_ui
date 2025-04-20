@@ -19,12 +19,15 @@
     "@tanstack/react-query": "^5.51.5",
     "add-to-calendar-button-react": "^2.6.18",
     "dayjs": "^1.11.12",
+    "dexie": "^4.0.11",
+    "dexie-react-hooks": "^1.1.7",
     "next": "^15.2.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-intersection-observer": "^9.16.0",
     "swr": "^2.3.3",
     "use-debounce": "^10.0.4",
+    "zod": "^3.24.3",
     "zustand": "^5.0.0-rc.2"
   },
   "devDependencies": {

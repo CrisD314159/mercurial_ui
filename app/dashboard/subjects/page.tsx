@@ -2,31 +2,17 @@
 import './subjects.css'
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Alert, Button } from "@mui/material";
-import { Subject } from "../../lib/types/types";
-import SubjectCreation from "../../ui/creation/SubjectCreation";
-import EditSubject from "../../ui/editForms/EditSubject";
+import SubjectCreation from "../../ui/Creation/SubjectCreation";
+import EditSubject from "../../ui/EditForms/EditSubject";
+import { useMercurialStore } from '@/app/store/useMercurialStore';
 
 
 
 
 export default function SubjectsPage() {
-  const subjects: Subject[] =[
-    {
-      id:"1",
-      name:"Quimica",
-      color:"",
-      state_id:"1",
-      state_name:"a",
-      user_id:"1",
-      user_name:"pedro"
-
-    }
-  ]
- 
+  const {isAuthenticated} = useMercurialStore()
   return (
   
-     
-
       <div className="mainSubjectsContainer">
       {
          <Alert severity="error" >hola</Alert>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useGuardianStore } from "../store/guardianStore"
+import { useGuardianStore } from "../store/useMercurialStore"
 import { useMutation } from "@tanstack/react-query"
 import { deleteSubject, getSubjects } from "../lib/utils"
 import { DeleteSubjectFields, GeneralResponse, Subject, SubjectList } from "../lib/types/types"

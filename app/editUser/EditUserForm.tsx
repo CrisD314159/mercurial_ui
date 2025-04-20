@@ -4,7 +4,7 @@ import { useState } from 'react';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 
-import PasswordInput from '../ui/creation/PasswordInput';
+import PasswordInput from '../ui/Creation/PasswordInput';
 import { ImageFields, ImageResponse, User, UserEditFields } from '../lib/types/types';
 import { useMutation } from '@tanstack/react-query';
 import { uploadImage } from '../lib/utils';

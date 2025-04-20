@@ -1,14 +1,14 @@
 import './todo.css'
 import SubjectSlider from '../../SubjectSlider/SubjectSlider'
 import { SubjectList, Task, TopicList } from '../../../lib/types/types'
-import TaskCreation from '../../creation/TaskCreation';
+import TaskCreation from '../../Creation/TaskCreation';
 import { useEffect, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { getTopics, getSubjects } from '@/app/lib/utils';
-import LoadingComponent from '../../loading/LoadingComponent';
+import LoadingComponent from '../../Loading/LoadingComponent';
 import TaskContainer from './TaskContainer';
 import { Alert } from '@mui/material';
-import { useGuardianStore } from '../../../store/guardianStore';
+import { useGuardianStore } from '../../../store/useMercurialStore';
 import useSubjects from '@/app/hooks/useSubjects';
 import useTopics from '@/app/hooks/useTopics';
 

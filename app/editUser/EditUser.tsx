@@ -7,7 +7,7 @@ import { updateUser } from '../lib/utils';
 import { GeneralResponse,User, UserEditFields } from '../lib/types/types';
 import { useMutation } from '@tanstack/react-query';
 import EditUserForm from './EditUserForm';
-import { useGuardianStore } from '../store/guardianStore';
+import { useGuardianStore } from '../store/useMercurialStore';
 
 interface EditUserProps {
   user:User

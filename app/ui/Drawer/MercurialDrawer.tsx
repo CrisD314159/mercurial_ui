@@ -14,9 +14,11 @@ import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import ContrastIcon from '@mui/icons-material/Contrast';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
+import { useThemeContext } from '@/app/lib/theme/ThemeContextProvidex';
 
 export default function MercurialDrawer() {
   const [open, setOpen] = useState(false);
+  const {toggleColorMode} = useThemeContext()
 
   const toggleDrawer = (value:boolean) => {
     setOpen(value);
@@ -37,7 +39,7 @@ export default function MercurialDrawer() {
               </ListItemButton>
             </ListItem>
         <ListItem sx={{padding:'0 10px', marginBottom:'10px'}}  >
-              <ListItemButton sx={{borderRadius:'15px'}}>
+              <ListItemButton sx={{borderRadius:'15px'}}  onClick={toggleColorMode}>
                 <ListItemIcon>
                   <ContrastIcon/>
                 </ListItemIcon>

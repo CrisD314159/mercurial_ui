@@ -1,10 +1,10 @@
 'use client'
 import { startTransition, useActionState, useState } from "react";
-import AlertDialog from "../ui/alertCompnent/AlertDialog";
+import AlertDialog from "../ui/AlertCompnent/AlertDialog";
 import Image from "next/image";
 import { Button, TextField } from "@mui/material";
-import PasswordInput from "../ui/creation/PasswordInput";
-import { SignUp } from "../lib/serverActions/PostActions";
+import PasswordInput from "../ui/Creation/PasswordInput";
+import { SignUp } from "../lib/ServerActions/AuthActions";
 import Link from "next/link";
 
 export default function SignUpPage() {

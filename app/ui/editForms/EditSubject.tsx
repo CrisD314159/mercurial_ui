@@ -4,7 +4,7 @@ import ModeEditRoundedIcon from '@mui/icons-material/ModeEditRounded';
 import { useMutation } from "@tanstack/react-query";
 import { Subject, SubjectCreationResponse, SubjectUpdateFileds } from "../../lib/types/types";
 import { updateSubject } from "@/app/lib/utils";
-import { useGuardianStore } from "../../store/guardianStore";
+import { useGuardianStore } from "../../store/useMercurialStore";
 
 interface SubjectCreationProps {
     handleEdit: (subject:Subject) => void,

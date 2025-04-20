@@ -3,7 +3,7 @@ import { NavLink, useParams } from "react-router-dom"
 import { GeneralResponse, ResetPasswordFileds, ResetPasswordToken } from "../lib/types/types"
 import { useEffect, useState } from "react"
 import { getResetToken, resetPassword } from "../lib/utils"
-import PasswordInput from "../ui/creation/PasswordInput"
+import PasswordInput from "../ui/Creation/PasswordInput"
 import { Alert, Button, TextField } from "@mui/material"
 import './passwordRecover.css'
 

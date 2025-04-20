@@ -8,8 +8,8 @@ import ClearIcon from '@mui/icons-material/Clear';
 import {  Alert, Fab, IconButton } from '@mui/material';
 import { useMutation } from "@tanstack/react-query";
 import { markAsDoneTask, deleteTask } from '@/app/lib/utils';
-import EditTask from '../../editForms/EditTask';
-import CalendarModal from '../../creation/CalendarModal';
+import EditTask from '../../EditForms/EditTask';
+import CalendarModal from '../../Creation/CalendarModal';
 interface TaskProps{
   tasks: Task[]
   deletetask: (taskId:string) => void

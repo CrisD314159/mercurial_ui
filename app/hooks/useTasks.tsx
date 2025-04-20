@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query"
 import { Task, TaskDoneList, TaskList } from "../lib/types/types"
 import { getDoneTasks, getTasks } from "../lib/utils"
 import { useCallback, useEffect, useState } from "react"
-import { useGuardianStore } from "../store/guardianStore"
+import { useGuardianStore } from "../store/useMercurialStore"
 
 
 // Hook que se encarga de manejar las tareas del usuario entre los compoenentes del dashboard

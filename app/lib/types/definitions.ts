@@ -1,6 +1,6 @@
 
 
-export const APIURL = "http://localhost:8080/api"
+export const APIURL = "http://localhost:5066"
 
 export type FormState = 
   | {
@@ -13,6 +13,21 @@ export type FormState =
     success?: boolean
     }
   | undefined
+
+
+export type GeneralFormState = 
+  | {
+    errors?: string
+    success?: boolean
+    }
+  | undefined
+
+
+export type GenericError =
+  |{
+    success:boolean
+    message:string
+  }| undefined
 
 
 export function isNullOrEmpty(value:string |null | undefined) : boolean {
