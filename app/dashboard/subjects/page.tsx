@@ -16,7 +16,7 @@ import DeleteAlert from '@/app/ui/Alerts/DeleteAlert';
 
 export default function SubjectsPage() {
   const {isAuthenticated} = useMercurialStore()
-  const {data, error, isLoading, mutate} = useSWR<Subject[], GenericError>('subjects', () => GetSubjects(isAuthenticated))
+  const {data, error, isLoading, mutate} = useSWR<Subject[], GenericError>('subjects', () => GetSubjects())
 
   if(isLoading){
     return(

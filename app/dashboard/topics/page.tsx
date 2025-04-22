@@ -14,7 +14,9 @@ import DeleteAlert from "@/app/ui/Alerts/DeleteAlert";
 
 export default function TopicsPage() {
   const {isAuthenticated} = useMercurialStore()
-  const {data,  error, isLoading, mutate} = useSWR<Topic[], GenericError>('topics', ()=> GetTopics(isAuthenticated))
+  const {data,  error, isLoading, mutate} = useSWR<Topic[], GenericError>('topics', ()=> GetTopics(), {
+    refreshWhenHidden:true, revalidateOnFocus:true
+  })
 
   if (isLoading){
     return (

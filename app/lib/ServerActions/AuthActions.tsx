@@ -2,6 +2,7 @@
 import { redirect } from "next/navigation";
 import { createSession } from "../Auth/authChecks";
 import { APIURL, FormState, isNullOrEmpty } from "../types/definitions";
+import { cookies } from "next/headers";
 
 
 
@@ -74,6 +75,34 @@ export async function SignUp(formstate:FormState, formdata: FormData) {
   return {
     message:'Error fetching the data',
     success: false
+  }
+  
+}
+
+export async function Logout() {
+  const refreshToken = (await cookies()).get('refresh')?.value
+
+  const response = await fetch(`${APIURL}/account/logout`, {
+    method:'DELETE',
+    headers:{
+      'Content-Type':'application/json'
+    },
+    body: JSON.stringify({'refreshToken':refreshToken})
+  })
+
+  console.log(response.status);
+  if(response.status === 200 || response.status === 404){
+    (await cookies()).delete('refresh')
+    ;(await cookies()).delete('token')
+    redirect('/')
+  }
+
+  if(response.status === 500){
+    throw new Error('An unexpected error happened')
+  }else{
+    const {message} = await response.json()
+    console.log(message);
+    throw new Error(message)
   }
   
 }

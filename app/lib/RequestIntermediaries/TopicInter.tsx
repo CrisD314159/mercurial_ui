@@ -2,6 +2,7 @@
 import { CreateTopicServer, DeleteUserTopicsServer, GetUserTopicsServer, UpdateTopicServer } from "../ServerActions/TopicActions";
 import { CreateTopicOffline, DeleteUserTopicsOffline, GetUserTopicsOffline, UpdateTopicOffline } from "../OfflineActions/TopicOfflineActions";
 import { GeneralFormState } from "../types/definitions";
+import { checkIsloggedIn } from "../Auth/authChecks";
 
 
 
@@ -17,15 +18,16 @@ export async function UpdateTopic(state:GeneralFormState, formdata:FormData) {
 }
 
 
-export async function GetTopics(isAuthenticated: boolean) {
-  if(isAuthenticated){
+export async function GetTopics() {
+  const logged = await checkIsloggedIn()
+  if(logged){
 
     return await GetUserTopicsServer()
-    
+
   }else{
- 
+
     return await GetUserTopicsOffline()
- 
+
   }
   
 }

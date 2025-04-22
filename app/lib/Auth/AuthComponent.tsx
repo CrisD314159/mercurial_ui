@@ -8,14 +8,15 @@ import { checkIsloggedIn } from "./authChecks";
 
 export default function AuthComponent() {
   const { data, error } = useSWR("checkAuth", checkIsloggedIn);
-  const {setIsLoggedIn } = useMercurialStore();
+  const {setIsLoggedIn, setIsNotLoggedIn } = useMercurialStore();
 
   useEffect(() => {
     if (data) {
       setIsLoggedIn();
-      
+    }else{
+      setIsNotLoggedIn()
     } 
-  }, [data, error, setIsLoggedIn]);
+  }, [data, error, setIsLoggedIn, setIsNotLoggedIn]);
 
   return <></>;
 }

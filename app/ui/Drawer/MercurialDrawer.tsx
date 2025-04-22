@@ -13,12 +13,16 @@ import { IconButton } from '@mui/material';
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import ContrastIcon from '@mui/icons-material/Contrast';
-import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import { useThemeContext } from '@/app/lib/theme/ThemeContextProvidex';
+import { useMercurialStore } from '@/app/store/useMercurialStore';
+import LoginIcon from '@mui/icons-material/Login';
+import Link from 'next/link';
+import LogOutAlert from '../Alerts/LogOutAlert';
 
 export default function MercurialDrawer() {
   const [open, setOpen] = useState(false);
   const {toggleColorMode} = useThemeContext()
+  const {isAuthenticated} = useMercurialStore()
 
   const toggleDrawer = (value:boolean) => {
     setOpen(value);
@@ -30,14 +34,17 @@ export default function MercurialDrawer() {
       <Drawer open={open} onClose={()=>toggleDrawer(false)}>
       <Box sx={{ width: 200, height:'100%', background:'transparent' }} role="presentation" onClick={()=> toggleDrawer(false)}>
       <List>
+        {
+          isAuthenticated &&
         <ListItem sx={{padding:'0 10px', marginBottom:'10px'}} >
-              <ListItemButton sx={{borderRadius:'15px'}}>
+              <ListItemButton sx={{borderRadius:'15px'}} LinkComponent={Link} href='/dashboard/userOverview'>
                 <ListItemIcon>
                   <AccountCircleRoundedIcon/>
                 </ListItemIcon>
                 <ListItemText primary={"Account Overview"} />
               </ListItemButton>
-            </ListItem>
+        </ListItem>
+        }
         <ListItem sx={{padding:'0 10px', marginBottom:'10px'}}  >
               <ListItemButton sx={{borderRadius:'15px'}}  onClick={toggleColorMode}>
                 <ListItemIcon>
@@ -49,14 +56,22 @@ export default function MercurialDrawer() {
       </List>
       <Divider />
       <List>
+        {
+          isAuthenticated ?
         <ListItem sx={{padding:'0 10px', marginBottom:'10px'}} >
-              <ListItemButton sx={{background:'#db040c', borderRadius:'15px'}}>
+          <LogOutAlert/>
+        </ListItem>
+          :
+        <ListItem sx={{padding:'0 10px', marginBottom:'10px'}} >
+              <ListItemButton sx={{background:'#715ffa', borderRadius:'15px'}} LinkComponent={Link} href='/'>
                 <ListItemIcon>
-                  <LogoutRoundedIcon/>
+                  <LoginIcon/>
                 </ListItemIcon>
-                <ListItemText primary={"Logout"} />
+                <ListItemText primary={"Login"} />
               </ListItemButton>
           </ListItem>
+
+        }
       </List>
     </Box>
       </Drawer>

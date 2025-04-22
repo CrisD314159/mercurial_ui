@@ -1,6 +1,7 @@
 import { GeneralFormState } from "../types/definitions";
 import { CreateSubjectServer, DeleteUserSubjectsServer, GetUserSubjectsServer, UpdateSubjectServer } from "../ServerActions/SubjectActions";
 import { CreateSubjectOffline, DeleteUserSubjectsOffline, GetUserSubjectsOffline, UpdateSubjectOffline } from "../OfflineActions/SubjectOfflineActions";
+import { checkIsloggedIn } from "../Auth/authChecks";
 
 
 
@@ -16,9 +17,10 @@ export async function UpdateSubject(state:GeneralFormState, formdata:FormData) {
 }
 
 
-export async function GetSubjects(isAuthenticated: boolean) {
+export async function GetSubjects() {
+  const logged = await checkIsloggedIn()
 
-  if(isAuthenticated){
+  if(logged){
 
     return await GetUserSubjectsServer()
     

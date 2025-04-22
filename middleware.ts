@@ -5,7 +5,7 @@ import { checkIsloggedIn } from './app/lib/Auth/authChecks';
  
 // 1. Specify protected and public routes
 const protectedRoutesRegex = [
-  /^\/dashboard\/userSettings$/
+  /^\/dashboard\/userOverview$/
 ];
 
 const publicRoutes = ['/', '/signup', '/verifyAccount']
