@@ -4,11 +4,9 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: 'Mercurial',
     short_name: 'Mercurial',
-    description: 'Mercurial PWA Application',
+    description: 'Mercurial PWA',
     start_url: '/',
-    display: 'standalone', // Usa 'standalone' para evitar que se muestre la barra de navegador
-    background_color: 'transparent', // Asegura que el fondo sea transparente
-    theme_color: '#010101', // Transparente para la barra de estado
+    display: 'standalone', // Usa 'standalone' para evitar que se muestre la barra de navegador // Asegura que el fondo sea transparente// Transparente para la barra de estado
     orientation: 'portrait',
     lang: 'en',
     icons: [

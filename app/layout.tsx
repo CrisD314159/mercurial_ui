@@ -1,9 +1,9 @@
-import Head from "next/head";
 import React from "react";
 import { Red_Hat_Display } from 'next/font/google'
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import './globals.css'
 import { ThemeContextProvider } from "./lib/theme/ThemeContextProvidex";
+import { Metadata } from "next";
 
 
 const redHatDisplay = Red_Hat_Display({
@@ -11,6 +11,10 @@ const redHatDisplay = Red_Hat_Display({
   weight:["300", "400", "500"]
 })
 
+export const metadata: Metadata = {
+  appleWebApp:true
+
+}
 
 
 export default function Rootlayout( {
@@ -23,13 +27,11 @@ Readonly<{
 {
   return (
     <html lang="en">
-      <Head>
+      <head>
        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
-        <meta name="theme-color" content="transparent" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-        <meta name="apple-mobile-web-app-capable" content="yes"/>
+       <meta name="theme-color" content="#ffffff" />
         <meta name="apple-mobile-web-app-title" content="Mercurial"/>
-      </Head>
+      </head>
         <body className={`${redHatDisplay.className} antialiased h-screen`}>
           <AppRouterCacheProvider>
             <ThemeContextProvider>

@@ -12,21 +12,30 @@ export const useThemeContext = () => useContext(ThemeContext);
 
 export const ThemeContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [mode, setMode] = useState<PaletteMode>('light');
-
   useEffect(() => {  
- 
-      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-      setMode(mediaQuery.matches ? 'dark' : 'light');
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const isDark = mediaQuery.matches;
+    
+    setMode(isDark ? 'dark' : 'light');
   
-      // Escucha cambios en la preferencia del sistema
-      const handleChange = (event: MediaQueryListEvent) => {
-        setMode(event.matches ? 'dark' : 'light');
-      };
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    if (metaTheme) {
+      metaTheme.setAttribute('content', isDark ? '#121212' : '#ffffff');
+    }
   
-      mediaQuery.addEventListener('change', handleChange);
+    // Escucha cambios en la preferencia del sistema
+    const handleChange = (event: MediaQueryListEvent) => {
+      const newMode = event.matches ? 'dark' : 'light';
+      setMode(newMode);
   
-      // Limpia del listener al desmontar
-      return () => mediaQuery.removeEventListener('change', handleChange);
+      if (metaTheme) {
+        metaTheme.setAttribute('content', event.matches ? '#121212' : '#ffffff');
+      }
+    };
+  
+    mediaQuery.addEventListener('change', handleChange);
+  
+    return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
   
 
@@ -36,6 +45,11 @@ export const ThemeContextProvider = ({ children }: { children: React.ReactNode }
       localStorage.setItem('theme', newMode);
       return newMode;
     });
+
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    if (metaTheme) {
+      metaTheme.setAttribute('content', mode === 'light' ? '#121212' : '#ffffff');
+    }
   };
 
   const theme = useMemo(

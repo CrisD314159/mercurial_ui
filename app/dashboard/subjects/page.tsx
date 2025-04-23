@@ -56,7 +56,7 @@ export default function SubjectsPage() {
             </div>
           }
         </List>
-          <div className="absolute bottom-8">
+          <div className="absolute bottom-9">
               <SubjectCreation mutate={mutate}/>
           </div>
         </div>

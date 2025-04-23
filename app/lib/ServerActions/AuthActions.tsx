@@ -1,8 +1,9 @@
 'use server'
 import { redirect } from "next/navigation";
 import { createSession } from "../Auth/authChecks";
-import { APIURL, FormState, isNullOrEmpty } from "../types/definitions";
+import { APIURL, FormState, GeneralFormState, isNullOrEmpty } from "../types/definitions";
 import { cookies } from "next/headers";
+import { SignUpSchema } from "../ZodValidations/User/UserValidations";
 
 
 
@@ -44,38 +45,53 @@ export async function Login(formstate:FormState, formdata: FormData) {
 
   
 }
-export async function SignUp(formstate:FormState, formdata: FormData) {
-  const email = formdata.get('email')?.toString()
-  const password = formdata.get('password')?.toString()
-  const fullname = formdata.get("name")?.toString()
+export async function SignUp(formstate:GeneralFormState, formdata: FormData) {
+  try {
+  
+    const validations = SignUpSchema.safeParse({
+      name: formdata.get("name"),
+      email: formdata.get('email'),
+      password: formdata.get('password')
+    })
 
-  if(isNullOrEmpty(email) || isNullOrEmpty(password) || isNullOrEmpty(fullname)) {
-    return {
-      message: "Invalid Fields"
+    if(!validations.success){
+      throw new Error("Check your fields and try again")
     }
-  }
 
-
-  const response = await fetch(`${APIURL}/user`, {
-    method:'POST',
-    headers:{
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({email, password})
-  })
-
-  if (response.status === 200){
-    const data = await response.json()
-    return {
-      data,
-      success:true
+    const {email, name, password} = validations.data
+  
+  
+    const response = await fetch(`${APIURL}/user`, {
+      method:'POST',
+      headers:{
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({email, name, password})
+    })
+  
+    if (response.status === 200){
+      return {
+        success:true
+      }
     }
+  
+    if( response.status === 500){
+      throw new Error("An unexpected error occured")
+    }else{
+      const {message} = await response.json()
+      throw new Error(message)
+    }
+    
+  } catch (error) {
+    if( error instanceof Error){
+      return {
+        success: false,
+        errors: error.message
+      }
+    }
+    
   }
 
-  return {
-    message:'Error fetching the data',
-    success: false
-  }
   
 }
 

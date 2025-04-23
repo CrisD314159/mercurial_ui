@@ -16,7 +16,7 @@ export default function BottomNav() {
 
   return (
     <BottomNavigation 
-    sx={{ width: '100%'}} 
+    sx={{ width: '100%', paddingBottom:'55px'}} 
     showLabels ={false}
     value={value}
     onChange={(event, newValue) => {
