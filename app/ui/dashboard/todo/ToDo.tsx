@@ -1,5 +1,5 @@
 import './todo.css'
-import SubjectSlider from '../../SubjectSlider/SubjectSlider'
+import SubjectSlider from '../../Todo/SubjectCarousel'
 import { SubjectList, Task, TopicList } from '../../../lib/types/types'
 import TaskCreation from '../../Creation/TaskCreation';
 import { useEffect, useState } from 'react';

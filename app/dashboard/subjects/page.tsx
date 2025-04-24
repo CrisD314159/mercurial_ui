@@ -10,6 +10,7 @@ import MercurialSnackbar from '@/app/ui/Snackbars/MercurialSnackbar';
 import EditSubject from '@/app/ui/Subject/EditSubject';
 import SubjectCreation from '@/app/ui/Subject/SubjectCreation';
 import DeleteAlert from '@/app/ui/Alerts/DeleteAlert';
+import { useEffect } from 'react';
 
 
 
@@ -17,6 +18,14 @@ import DeleteAlert from '@/app/ui/Alerts/DeleteAlert';
 export default function SubjectsPage() {
   const {isAuthenticated} = useMercurialStore()
   const {data, error, isLoading, mutate} = useSWR<Subject[], GenericError>('subjects', () => GetSubjects())
+  const {setSubject} = useMercurialStore()
+
+
+  useEffect(()=>{
+    if(data){
+      setSubject(data)
+    }
+  }, [data, setSubject])
 
   if(isLoading){
     return(
