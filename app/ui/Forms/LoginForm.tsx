@@ -1,9 +1,10 @@
 'use client'
 import { Login } from "@/app/lib/ServerActions/AuthActions"
-import { Alert, Button, TextField } from "@mui/material"
+import { Button, TextField } from "@mui/material"
 import Image from "next/image"
 import Link from "next/link"
 import { startTransition, useActionState, useState } from "react"
+import MercurialSnackbar from "../Snackbars/MercurialSnackbar"
 
 
 
@@ -24,6 +25,9 @@ export default function LoginForm() {
   }
   return (
     <div className="h-full w-full flex justify-center items-center relative">
+      {
+        state?.success === false && <MercurialSnackbar message={state.message} state={true} type="error"/>
+      }
       <div className="w-[60%] h-[80%]">
         <div className="flex flex-col items-center gap-10 pt-6" > 
             <Image src="/mercurialLogo.png" alt=""width={80} height={80} />
@@ -36,8 +40,6 @@ export default function LoginForm() {
             <Link href="/signUp">Sign Up</Link>
             <Link href="/users/recover/password/email">Forgot your password?</Link>
             <Button LinkComponent={Link} color="info" sx={{marginTop:'20px'}} href="/dashboard">Continue without an account</Button>
-            {state?.success == false && <Alert  severity="warning" sx={{m:2}} >{state.message}</Alert>}
-
           </form>
         </div>
       </div>

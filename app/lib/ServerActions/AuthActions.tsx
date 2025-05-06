@@ -18,29 +18,40 @@ export async function Login(formstate:FormState, formdata: FormData) {
     }
   }
 
-
-  const response = await fetch(`${APIURL}/account/login`, {
-    method:'POST',
-    headers:{
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({email, password})
-  })
-  console.log(response.status);
-
-  if(response.status === 401){
-    redirect('/verifyAccount')
-  }
-
-  if (response.status === 200){
-    const {token, refreshToken} = await response.json()
-    await createSession(token, refreshToken)
-    redirect('/dashboard')
-  }else{
-    return {
-      message:'Error fetching the data',
-      success: false
+  try{
+    const response = await fetch(`${APIURL}/account/login`, {
+      method:'POST',
+      headers:{
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({email, password})
+    })
+    console.log(response.status);
+  
+  
+    if(response.status === 401){
+      redirect('/verifyAccount')
     }
+  
+    if (response.status === 200){
+      const {token, refreshToken} = await response.json()
+      await createSession(token, refreshToken)
+      redirect('/dashboard')
+    }else{
+      return {
+        message:'Error fetching the data',
+        success: false
+      }
+    }
+
+  }catch(error){
+    if(error instanceof Error){
+      return {
+        message: 'An error occured while trying to log in',
+        success:false
+      }
+    }
+
   }
 
   

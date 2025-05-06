@@ -25,7 +25,7 @@ export const db = new Dexie('MercurialOfflineDB') as Dexie & {
 }
 
 db.version(1).stores({
-  assignments: '++id, title, noteContent, subjectId, topicId, dueDate, taskState',
+  assignments: '++id, title, noteContent, subjectId, subjectTitle, topicTitle, topicColor, topicId, dueDate, taskState',
   topics:'++id, title, color',
   subjects:'++id, title',
   checklist:'++id, assignmentId',

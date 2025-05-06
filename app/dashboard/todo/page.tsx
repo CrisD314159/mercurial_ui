@@ -1,19 +1,13 @@
 'use client'
 
-import SubjectCarousel from "@/app/ui/Todo/SubjectCarousel"
-
+import AssignmentsTodoContainer from "@/app/ui/Assignments/AssignmentsTodoContainer"
 export default function TodoPage() {
 
 
-  const filterAssignments = (id:number) => {
-    console.log(id);
-
-  }
-
 
   return (
-    <div className="w-full min-h-[90%] max-h-[90%] absolute">
-      <SubjectCarousel filterAssignments={filterAssignments} />
+    <div className="w-full h-[90vh]">
+      <AssignmentsTodoContainer />
     </div>
-  )
+  );
 }

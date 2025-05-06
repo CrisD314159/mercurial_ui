@@ -15,6 +15,9 @@ html, body {
 }
 
 
+.clip-diagonal {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 30% 50%);
+}
 
 button{
   cursor: pointer;

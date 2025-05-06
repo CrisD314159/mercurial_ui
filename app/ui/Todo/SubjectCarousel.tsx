@@ -1,6 +1,6 @@
 'use client'
 import { useState } from "react"
-import {CircularProgress, IconButton } from "@mui/material"
+import {CircularProgress, Fab } from "@mui/material"
 import ClearIcon from '@mui/icons-material/Clear';
 import { Subject } from "@/app/lib/types/entityTypes";
 import useSWR from "swr";
@@ -37,7 +37,7 @@ export default function SubjectCarousel({filterAssignments}: SubjectSliderProps)
       }
 
       {
-      selected !== 0 && <IconButton size="small" color="secondary" onClick={()=> handleClick(0)}><ClearIcon/></IconButton>
+      selected !== 0 && <Fab size="small" color="secondary" onClick={()=> handleClick(0)}><ClearIcon/></Fab>
       }
       
       <ul className="carousel flex w-full gap-16 px-6 scrollbar-hide justify-center">

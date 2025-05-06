@@ -1,37 +1,32 @@
+import { Subject, Topic } from "@/app/lib/types/entityTypes"
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material"
 
 interface SelectProps{
-  title: string,
-  option: string,
-  handleSelect: (event: SelectChangeEvent) => void,
-  options: selectMenuProps[],
+  title: string
+  option: number
+  handleSelect: (event: SelectChangeEvent) => void
+  options: Subject[] | Topic[] | undefined
   disabled: boolean
-
-
 }
-interface selectMenuProps {
-  id:string,
-  name:string
-}
-export default function SelectMenu(props:SelectProps) {
-  const {title, option, handleSelect, options} = props
 
-
+export default function SelectMenu({title, option, handleSelect, options, disabled}:SelectProps) {
   return(
-    <FormControl sx={{ marginRight:'30px', marginBottom:'20px', m: 1, width: '100%'}} >
+    <FormControl sx={{ marginRight:'30px', marginBottom:'20px', width:'50%'}} >
     <InputLabel id="demo-simple-select-label">{title}</InputLabel>
     <Select
       labelId="demo-simple-select-label"
       id="demo-simple-select"
-      value={option}
+      value={option.toString()}
       label="Age"
       onChange={handleSelect}
-      disabled={props.disabled}
+      required
+      disabled = {disabled}
       
     >
+      <MenuItem value={0} disabled>No item selected</MenuItem>
       {
-        options.map((option: selectMenuProps, index)=>{
-          return <MenuItem value={option.id} key={index}>{option.name}</MenuItem>
+        options?.map((option: Subject | Topic, index)=>{
+          return <MenuItem value={option.id.toString()} key={index}>{option.title}</MenuItem>
         })
       }
     </Select>

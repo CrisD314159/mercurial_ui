@@ -1,5 +1,4 @@
 'use client'
-import './subjects.css'
 import { CircularProgress, List } from "@mui/material";
 import { useMercurialStore } from '@/app/store/useMercurialStore';
 import useSWR from 'swr';

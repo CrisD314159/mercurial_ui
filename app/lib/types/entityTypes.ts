@@ -13,11 +13,12 @@ export interface Assignment{
   id?:string
   title: string
   noteId?:number
-  noteContent:string
+  noteContent?:string
   subjectId:number
   subjectTitle?:string
   topicId:number
   topicTitle?:string
+  topicColor:string
   dueDate?:Date
   taskState?:number
   lastUpdatedAt?:Date
