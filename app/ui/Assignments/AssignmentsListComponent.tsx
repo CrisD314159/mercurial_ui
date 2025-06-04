@@ -1,13 +1,15 @@
 import { Assignment } from "@/app/lib/types/entityTypes";
 import { useEffect, useState } from "react";
-import SubjectCarousel from "../Todo/SubjectCarousel";
+import SubjectCarousel from "../Subject/Carousels/SubjectCarousel";
 import AssignmentCard from "./Cards/AssignmentCard";
 import { CircularProgress, List } from "@mui/material";
 
 interface AssignmentsListComponentProps {
   assignments: Assignment[];
   isLoadingMore: boolean;
+  title:string;
   hasMore: boolean;
+  doneCard: boolean;
   ref: (node?: Element | null) => void;
   mutate: () => void;
 }
@@ -15,7 +17,9 @@ interface AssignmentsListComponentProps {
 export default function AssignmentsListComponent({
   assignments,
   hasMore,
+  doneCard,
   isLoadingMore,
+  title,
   ref,
   mutate,
 }: AssignmentsListComponentProps) {
@@ -45,15 +49,16 @@ export default function AssignmentsListComponent({
           gap: "20px",
           alignItems: "center",
           height:'90%',
-          overflowY:'scroll'
+          overflowY:'scroll',
+          paddingBottom:'100px'
         }}
       >
         {filteredAssignments.length > 0 ? (
           filteredAssignments.map((assignment) => (
-            <AssignmentCard key={assignment.id} assignment={assignment} mutate={mutate} />
+            <AssignmentCard doneCard={doneCard} key={assignment.id} assignment={assignment} mutate={mutate} />
           ))
         ) : (
-          <div>{"You don't have any pending assignments"} 🥳</div>
+          <div>{title}</div>
         )}
       </List>
       {hasMore && (

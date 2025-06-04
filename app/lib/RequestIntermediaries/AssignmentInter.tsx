@@ -1,7 +1,7 @@
 import { GeneralFormState } from "../types/definitions";
 import { checkIsloggedIn } from "../Auth/authChecks";
 import { CreateAssignmentServer, DeleteUserAssignmentsServer, GetUserDoneAssignmentsServer, GetUserTodoAssignmentsServer, MarkAssignmentAsDoneServer, MarkAssignmentAsTodoServer, UpdateAssignmentServer } from "../ServerActions/AssignmentActions";
-import { CreateAssignmentOffline, DeleteUserAssignmentsOffline, GetUserDoneAssignmentsOffline, GetUserTodoAssignmentsOffline, MarkAssignmentAsDoneOffline, MarkAssignmentAsTodoOffline, UpdateAssignmentoffline } from "../OfflineActions/AssignmentOfflineActions";
+import { CreateAssignmentOffline, DeleteUserAssignmentsOffline, GetUserDoneAssignmentsOffline, GetUserTodoAssignmentsOffline, MarkAssignmentAsDoneOffline, MarkAssignmentAsTodoOffline, UpdateAssignmentOffline } from "../OfflineActions/AssignmentOfflineActions";
 
 
 
@@ -10,14 +10,14 @@ export async function CreateAssignment(state:GeneralFormState, formdata:FormData
   return await FormIntermediary(CreateAssignmentServer, CreateAssignmentOffline, formdata, isAuthenticated === 'true')
 
 }
-export async function UpdateTopic(state:GeneralFormState, formdata:FormData) {
+export async function UpdateAssignment(state:GeneralFormState, formdata:FormData) {
   const isAuthenticated = formdata.get('auth')?.toString()
-  return await FormIntermediary(UpdateAssignmentServer, UpdateAssignmentoffline, formdata, isAuthenticated === 'true')
+  return await FormIntermediary(UpdateAssignmentServer, UpdateAssignmentOffline, formdata, isAuthenticated === 'true')
 
 }
  
 
-export async function GetDoneAssignments(offset:number, limit:number) {
+export async function GetDoneAssignments(offset:number = 0, limit:number = 15) {
   const logged = await checkIsloggedIn()
   if(logged){
 

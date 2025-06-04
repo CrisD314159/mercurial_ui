@@ -5,9 +5,9 @@ import { GetUserTodoAssignmentsServer } from "@/app/lib/ServerActions/Assignment
 import { Assignment } from "@/app/lib/types/entityTypes"
 import { useEffect, useState } from "react"
 import { useInView } from 'react-intersection-observer'
-import AssignmentsListComponent from "./AssignmentsListComponent"
-import MercurialSnackbar from "../Snackbars/MercurialSnackbar"
-import AssignmentCreationDialog from "./Dialogs/AssignmentCreationDialog"
+import AssignmentsListComponent from "../AssignmentsListComponent"
+import MercurialSnackbar from "../../Snackbars/MercurialSnackbar"
+import AssignmentCreationDialog from "../Dialogs/AssignmentFormDialog"
 import useSWR from "swr"
 import { GetTodoAssignments } from "@/app/lib/RequestIntermediaries/AssignmentInter"
 import { CircularProgress } from "@mui/material"
@@ -66,6 +66,8 @@ export default function AssignmentsTodoContainer() {
       {error && <MercurialSnackbar message="An error occurred while fetching the data" state={true} type="error" />}
       {assignments && (
         <AssignmentsListComponent
+          doneCard={false}
+          title="You don't have any pending assignments 🥳"
           assignments={assignments}
           hasMore={hasMore}
           isLoadingMore={isLoadingMore}
@@ -75,7 +77,7 @@ export default function AssignmentsTodoContainer() {
       )}
 
       <div className="absolute bottom-9">
-        <AssignmentCreationDialog mutate={mutate} />
+        <AssignmentCreationDialog mutate={mutate} isEditing={false} title="New Assignment"/>
       </div>
     </div>
   )

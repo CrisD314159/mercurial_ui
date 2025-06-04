@@ -5,10 +5,10 @@ import { GetTopics } from "@/app/lib/RequestIntermediaries/TopicInter";
 import { Subject, Topic } from "@/app/lib/types/entityTypes";
 import { GenericError } from "@/app/lib/types/definitions";
 import { Button, SelectChangeEvent, TextField, Typography } from "@mui/material";
-import SelectMenu from "../Creation/SelectMenu";
 import {startTransition, useActionState, useState } from "react";
-import MercurialSnackbar from "../Snackbars/MercurialSnackbar";
 import { CreateAssignment } from "@/app/lib/RequestIntermediaries/AssignmentInter";
+import MercurialSnackbar from "../../Snackbars/MercurialSnackbar";
+import SelectMenu from "../../Creation/SelectMenu";
 
 
 interface AssignmentCreationForm{

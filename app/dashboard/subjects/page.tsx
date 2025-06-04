@@ -46,7 +46,7 @@ export default function SubjectsPage() {
 
             data.map((subject: Subject) => {
               return (
-                <div className="rounded-2xl dark:border border-zinc-200 dark:border-zinc-700 shadow-lg my-5 mx-5 px-6 py-6 flex justify-between items-center transition-transform duration-200 ease-in-out hover:scale-[1.01] hover:shadow-xl" key={subject.id}>
+                <div className="rounded-2xl border border-neutral-500 shadow-lg my-5 mx-5 px-6 py-6 flex justify-between items-center transition-transform duration-200 ease-in-out hover:scale-[1.01] hover:shadow-xl" key={subject.id}>
                   <div className="flex items-center gap-3">
                     <h3 className="text-xl">{subject.title}</h3>
                   </div>

@@ -35,8 +35,8 @@ export default function AssignmentCompleteButton({id, mutate}:AssignmentComplete
     <button 
       disabled={pending}
       onClick={markAsDoneAction}
-     className=".clip-diagonal relative h-full w-12 group bg-transparent border-green-500 overflow-hidden">
-      <div className="absolute inset-0 bg-green-700 clip-diagonal group-hover:bg-green-600 transition-colors duration-200"></div>
+     className="relative h-full w-12 group bg-transparent border-green-500 rounded-r-md overflow-hidden">
+      <div className="absolute inset-0 bg-green-700 group-hover:bg-green-600 transition-colors duration-200"></div>
       <CheckRoundedIcon className="relative z-10 text-white group-hover:scale-110 transition-transform duration-200" />
     </button>
     </>

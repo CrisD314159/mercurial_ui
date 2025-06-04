@@ -1,6 +1,5 @@
 'use client'
 import {CircularProgress, List } from "@mui/material";
-import './topics.css'
 import { Topic } from "@/app/lib/types/entityTypes";
 import TopicCreation from "@/app/ui/Topic/TopicCreation";
 import useSWR from 'swr'
@@ -38,7 +37,7 @@ export default function TopicsPage() {
             data && data.length > 0 ?
               data.map((topic: Topic) => {
                 return (
-                  <div className="rounded-xl  dark:border border-zinc-200 dark:border-zinc-700 shadow-md my-5 mx-5 px-4 py-8 text-sm font-medium flex justify-between items-center
+                  <div className="rounded-xl border border-neutral-500  shadow-md my-5 mx-5 px-4 py-8 text-sm font-medium flex justify-between items-center
                   transition-transform duration-200 ease-in-out hover:scale-[1.01] hover:shadow-xl" key={topic.id}
                   style={{background: `linear-gradient(150deg, transparent 60%, ${topic.color})`}}>
 

@@ -9,7 +9,7 @@ export const AssignmentSchema = z.object({
 })
 
 export const AssignmentUpdateSchema = z.object({
-  id: z.string().uuid(),
+  id: z.string(),
   title: z.string(),
   subjectId: z.number().positive(),
   topicId: z.number().positive(),

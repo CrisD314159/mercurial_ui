@@ -5,16 +5,17 @@ import { IconButton } from "@mui/material";
 import { useState } from "react";
 import ExpandMoreRoundedIcon from '@mui/icons-material/ExpandMoreRounded';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import AssignmentMoreDialog from "../Dialogs/AssignmentMoreDialog";
 import AssignmentCompleteButton from "../Buttons/AssignmentCompleteButton";
+import AssignmentSettingsDialog from "../Dialogs/AssignmentSettingsDialog";
 
 
 interface AssignmentCardProps{
   assignment: Assignment
+  doneCard:boolean;
   mutate : () => void
 }
 
-export default function AssignmentCard({assignment, mutate}:AssignmentCardProps) {
+export default function AssignmentCard({assignment, mutate, doneCard}:AssignmentCardProps) {
   const [expanded, setExpanded] = useState(false);
 
   const handleExpansion = () => {
@@ -22,8 +23,8 @@ export default function AssignmentCard({assignment, mutate}:AssignmentCardProps)
   };
   return (
     <div className="w-[90%] flex flex-col transition-all ">
-      <div className="w-full flex items-center justify-between dark:border dark:border-stone-700 h-[100px] rounded-lg relative">
-      <div className="flex items-center">
+      <div className="w-full flex items-center justify-between border border-neutral-500 h-[100px] rounded-lg relative">
+      <div className="flex items-center w-[55%]">
         <IconButton onClick={handleExpansion}>
             {
               expanded ? 
@@ -31,17 +32,22 @@ export default function AssignmentCard({assignment, mutate}:AssignmentCardProps)
               <ExpandMoreRoundedIcon/>
             }
           </IconButton>
-          <div>
-            <h1 className="text-xl font-bold">{assignment.title}</h1>
-            <h3 className="text-lg">{assignment.subjectTitle}</h3>
+          <div className="w-full h-full">
+            <h1 className="text-base font-bold w-[95%] md:text-xl truncate">{assignment.title}</h1>
+            <h3 className="text-base truncate w-[95%] md:text-lg">{assignment.subjectTitle}</h3>
           </div>
       </div>
 
-        <p className={`text-lg`} style={{color:`${assignment.topicColor}`}}>{assignment.topicTitle}</p>
+      <div className="w-[20%] flex flex-col md:flex-row md:right-[20%] items-center justify-center absolute right-[15%] gap-5">
+        <p className={`text-base md:text-lg w-[98%] text-center truncate`} style={{color:`${assignment.topicColor}`}}>{assignment.topicTitle}</p>
 
-        <AssignmentMoreDialog/>
+        <AssignmentSettingsDialog assignment={assignment} mutate={mutate}/>
+      </div>
 
-        <AssignmentCompleteButton id={assignment.id ?? "0"} mutate={mutate} />
+        {
+          !doneCard &&
+          <AssignmentCompleteButton id={assignment.id ?? "0"} mutate={mutate} />
+        }
       </div>
 
       
