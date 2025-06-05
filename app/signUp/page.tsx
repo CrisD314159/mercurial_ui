@@ -5,7 +5,7 @@ import { Button, TextField } from "@mui/material";
 import PasswordInput from "../ui/Creation/PasswordInput";
 import Link from "next/link";
 import MercurialSnackbar from "../ui/Snackbars/MercurialSnackbar";
-import { SignUp } from "../lib/ServerActions/AuthActions";
+import { SignUp } from "../lib/Auth/AuthActions";
 
 export default function SignUpPage() {
   const [password, setPassword] = useState('');

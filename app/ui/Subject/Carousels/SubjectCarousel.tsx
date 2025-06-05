@@ -41,7 +41,7 @@ export default function SubjectCarousel({filterAssignments}: SubjectSliderProps)
         error && <MercurialSnackbar message={error.message} state={true} type="error"/>
       }
       
-      <ul className="carousel flex w-[98%] scrollbar-hide ">
+      <ul className="carousel flex w-[98%] scrollbar-hide">
       {
         data && data?.length > 0 ? (
           data.map((subject:Subject)=>{ // Con map se recorre el array de materias, y se renderiza cada materia según el componente subjectContainer

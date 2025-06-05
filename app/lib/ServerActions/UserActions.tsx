@@ -3,7 +3,7 @@
 import { cookies } from "next/headers"
 import { APIURL, GeneralFormState } from "../types/definitions"
 import { UpdateUserSchema } from "../ZodValidations/User/UserValidations"
-import { Logout } from "./AuthActions"
+import { Logout } from "../Auth/AuthActions"
 
 
 export async function GetUserOverview() {

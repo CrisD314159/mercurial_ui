@@ -1,6 +1,6 @@
 'use server'
 import { redirect } from "next/navigation";
-import { createSession } from "../Auth/authChecks";
+import { createSession } from "./authChecks";
 import { APIURL, FormState, GeneralFormState, isNullOrEmpty } from "../types/definitions";
 import { cookies } from "next/headers";
 import { SignUpSchema } from "../ZodValidations/User/UserValidations";
@@ -18,7 +18,7 @@ export async function Login(formstate:FormState, formdata: FormData) {
     }
   }
 
-  try{
+
     const response = await fetch(`${APIURL}/account/login`, {
       method:'POST',
       headers:{
@@ -43,17 +43,6 @@ export async function Login(formstate:FormState, formdata: FormData) {
         success: false
       }
     }
-
-  }catch(error){
-    if(error instanceof Error){
-      return {
-        message: 'An error occured while trying to log in',
-        success:false
-      }
-    }
-
-  }
-
   
 }
 export async function SignUp(formstate:GeneralFormState, formdata: FormData) {

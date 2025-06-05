@@ -4,7 +4,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useState } from 'react';
 import MercurialSnackbar from '../Snackbars/MercurialSnackbar';
-import { Logout } from '@/app/lib/ServerActions/AuthActions';
+import { Logout } from '@/app/lib/Auth/AuthActions';
 import { ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 

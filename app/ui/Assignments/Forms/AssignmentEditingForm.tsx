@@ -10,6 +10,7 @@ import {startTransition, useActionState, useState } from "react";
 import { UpdateAssignment } from "@/app/lib/RequestIntermediaries/AssignmentInter";
 import MercurialSnackbar from "../../Snackbars/MercurialSnackbar";
 import SelectMenu from "../../Creation/SelectMenu";
+import { useMercurialStore } from "@/app/store/useMercurialStore";
 
 interface AssignmentEditingFormProps{
   handleClose : ()=> void
@@ -24,6 +25,7 @@ export default function AssignmentEditingForm({assignment, handleClose, mutate}:
   const [subjectSelected, setSubjectSelected] = useState(assignment?.subjectId ?? 0)
   const [topicSelected, setTopicSelected] = useState(assignment?.topicId ?? 0)
   const [state, action, pending] = useActionState(UpdateAssignment, undefined)
+  const {isAuthenticated} =  useMercurialStore()
   const handleSubjectSelection = (event: SelectChangeEvent) =>{
       setSubjectSelected(Number.parseInt(event.target.value))
   }
@@ -40,6 +42,7 @@ export default function AssignmentEditingForm({assignment, handleClose, mutate}:
     formdata.append('id', assignment?.id ?? "")
     formdata.append('subjectId', subjectSelected.toString())
     formdata.append('topicId', topicSelected.toString())
+    formdata.append('auth', isAuthenticated ? 'true' : 'false')
 
     startTransition(()=>{
       action(formdata)

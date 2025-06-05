@@ -12,10 +12,11 @@ export async function CreateAssignmentServer(formdata: FormData) {
       subjectId : Number.parseInt(formdata.get('subjectId')?.toString() || '-1'),
       topicId : Number.parseInt(formdata.get('topicId')?.toString() || '-1'),
       noteContent : formdata.get('noteContent')?.toString(),
-      dueDate : Date.parse(formdata.get('dueDate')?.toString() || '0000-00-00T00:00:00Z'),
+      dueDate : new Date(formdata.get('dueDate')?.toString() || '0000-00-00T00:00:00Z'),
     })
   
     if(!validation.success){
+      console.log(validation.error.toString());
       throw new Error(validation.error.toString())
     }
   
@@ -54,7 +55,7 @@ export async function UpdateAssignmentServer(formdata: FormData) {
     subjectId : Number.parseInt(formdata.get('subjectId')?.toString() || '-1'),
     topicId : Number.parseInt(formdata.get('topicId')?.toString() || '-1'),
     noteContent : formdata.get('noteContent')?.toString(),
-    dueDate : Date.parse(formdata.get('dueDate')?.toString() || '0000-00-00T00:00:00Z'),
+    dueDate : new Date(formdata.get('dueDate')?.toString() || '0000-00-00T00:00:00Z'),
   })
   if(!validation.success){
     throw new Error(validation.error.toString())
@@ -90,7 +91,7 @@ export async function GetUserTodoAssignmentsServer(offset:number, limit:number) 
 
     const token = (await cookies()).get('token')?.value
     
-    const response = await fetch(`${APIURL}/todoAssignments?offset=${offset}&limit=${limit}`, {
+    const response = await fetch(`${APIURL}/assignment/todoAssignments?offset=${offset}&limit=${limit}`, {
       method:'GET',
       headers:{
         'Authorization': `Bearer ${token}`,
@@ -114,7 +115,7 @@ export async function GetUserDoneAssignmentsServer(offset:number, limit:number) 
 
     const token = (await cookies()).get('token')?.value
     
-    const response = await fetch(`${APIURL}/doneAssignments?offset=${offset}&limit=${limit}`, {
+    const response = await fetch(`${APIURL}/assignment/doneAssignments?offset=${offset}&limit=${limit}`, {
       method:'GET',
       headers:{
         'Authorization': `Bearer ${token}`,
