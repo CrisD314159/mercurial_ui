@@ -16,6 +16,8 @@ export default function EditSubject({mutate, title, id}:SubjectEditProps) {
     const [open, setOpen] = useState(false);
     const [state, action, pending] = useActionState(UpdateSubject, undefined)
     const {isAuthenticated} = useMercurialStore()
+    const [alert, setAlert] = useState(state?.errors ? true : false);
+
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -40,7 +42,7 @@ export default function EditSubject({mutate, title, id}:SubjectEditProps) {
     return (
         <div>
             {
-                state?.errors && <MercurialSnackbar message={state.errors} state={true} type="error"/>
+                state?.errors && <MercurialSnackbar message={state.errors} state={alert} type="error" closeMethod={setAlert}/>
             }
             <IconButton size="small"  onClick={handleClickOpen}><EditRoundedIcon /></IconButton>
             <Dialog open={open} onClose={handleClose} sx={{ backdropFilter: 'blur(2px)' }}

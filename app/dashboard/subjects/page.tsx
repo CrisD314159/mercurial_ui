@@ -9,7 +9,7 @@ import MercurialSnackbar from '@/app/ui/Snackbars/MercurialSnackbar';
 import EditSubject from '@/app/ui/Subject/EditSubject';
 import SubjectCreation from '@/app/ui/Subject/SubjectCreation';
 import DeleteAlert from '@/app/ui/Alerts/DeleteAlert';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 
 
@@ -18,6 +18,7 @@ export default function SubjectsPage() {
   const {isAuthenticated} = useMercurialStore()
   const {data, error, isLoading, mutate} = useSWR<Subject[], GenericError>('subjects', () => GetSubjects())
   const {setSubject} = useMercurialStore()
+  const [alert, setAlert] = useState(error ? true : false)
 
 
   useEffect(()=>{
@@ -38,7 +39,7 @@ export default function SubjectsPage() {
   
       <div className="flex flex-col justify-center w-full items-center h-[90%] relative">
         {
-          error && <MercurialSnackbar message={error.message} state={true} type='error'/>
+          error && <MercurialSnackbar message={error.message} state={alert} type='error' closeMethod={setAlert}/>
         }
         <List style={{height:'100%', flex:1, width:'100%', overflowY:'auto', paddingBottom:'40px'}}>
           {

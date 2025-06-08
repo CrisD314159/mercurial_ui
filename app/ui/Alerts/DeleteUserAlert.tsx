@@ -34,7 +34,7 @@ export default function DeleteUserAlert() {
   return (
     <>
     {
-      alert && <MercurialSnackbar message='An unexpected error occured while trying to delete the topic' state={true} type='error'/>
+      alert && <MercurialSnackbar message='An unexpected error occured while trying to delete the topic' state={alert} type='error' closeMethod={setAlert}/>
     }
       <Button onClick={handleOpen} variant='outlined' color='error'>
         Delete your account

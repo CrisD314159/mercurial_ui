@@ -47,7 +47,7 @@ export default function DeleteAlert({body, mutate, title, id, isAuthenticated, d
   return (
     <>
     {
-      alert && <MercurialSnackbar message='An unexpected error occured while trying to delete the topic' state={true} type='error'/>
+      alert && <MercurialSnackbar message='An unexpected error occured while trying to delete the topic' state={alert} type='error'closeMethod={setAlert}/>
     }
     {
       assignmentAlert ?

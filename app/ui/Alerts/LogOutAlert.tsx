@@ -35,7 +35,7 @@ export default function LogOutAlert() {
   return (
     <>
     {
-      alert && <MercurialSnackbar message='An unexpected error occured while trying to delete the topic' state={true} type='error'/>
+      alert && <MercurialSnackbar message='An unexpected error occured while trying to delete the topic' state={alert} type='error' closeMethod={setAlert}/>
     }
     <ListItemButton sx={{background:'#db040c', borderRadius:'15px'}} onClick={handleOpen}>
       <ListItemIcon>

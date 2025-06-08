@@ -148,7 +148,7 @@ export async function DeleteUserAssignmentsServer(id:string) {
     })
     if(response.status == 200){
       return {
-        success: false,
+        success: true,
         message:"Assignment deleted"
       }
     }

@@ -6,45 +6,54 @@ import { cookies } from "next/headers";
 import { SignUpSchema } from "../ZodValidations/User/UserValidations";
 
 
-
-
-export async function Login(formstate:FormState, formdata: FormData) {
+export async function Login(formstate: FormState, formdata: FormData) {
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0' 
   const email = formdata.get('email')?.toString()
   const password = formdata.get('password')?.toString()
 
-  if(isNullOrEmpty(email) || isNullOrEmpty(password)) {
+  if (isNullOrEmpty(email) || isNullOrEmpty(password)) {
     return {
-      message: "Invalid email or password"
+      message: 'Invalid email or password',
     }
   }
 
+  let response: Response
 
-    const response = await fetch(`${APIURL}/account/login`, {
-      method:'POST',
-      headers:{
-        'Content-Type': 'application/json'
+  try {
+    console.log("shfksdhfjksdhfj");
+    response = await fetch(`${APIURL}/account/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify({email, password})
+      body: JSON.stringify({ email, password }),
     })
-    console.log(response.status);
-  
-  
-    if(response.status === 401){
-      redirect('/verifyAccount')
+    
+  } catch (error) {
+    console.log(error);
+    return {
+      message: 'Could not connect to the server',
+      success: false,
     }
-  
-    if (response.status === 200){
-      const {token, refreshToken} = await response.json()
-      await createSession(token, refreshToken)
-      redirect('/dashboard')
-    }else{
-      return {
-        message:'Error fetching the data',
-        success: false
-      }
-    }
-  
+  }
+
+  if (response.status === 401) {
+    redirect('/verifyAccount')
+  }
+
+  if (response.status === 200) {
+    const { token, refreshToken } = await response.json()
+    await createSession(token, refreshToken)
+    redirect('/dashboard')
+  }
+
+  return {
+    message: 'Error fetching the data',
+    success: false,
+  }
 }
+
+
 export async function SignUp(formstate:GeneralFormState, formdata: FormData) {
   try {
   

@@ -13,6 +13,7 @@ export default function TopicCreation({mutate}:TopicCreationProps) {
     const [open, setOpen] = useState(false);
     const [state, action, pending] = useActionState(CreateTopic, undefined)
     const {isAuthenticated} = useMercurialStore()
+    const [alert, setAlert] = useState(state?.errors ? true : false);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -37,7 +38,7 @@ export default function TopicCreation({mutate}:TopicCreationProps) {
     return (
         <div>
             {
-                state?.errors && <MercurialSnackbar message={state.errors.toString()} state={true} type="error"/>
+                state?.errors && <MercurialSnackbar message={state.errors.toString()} state={alert} type="error" closeMethod={setAlert}/>
             }
             <Fab size="small" color="info" onClick={handleClickOpen}><AddIcon /></Fab>
             <Dialog open={open} onClose={handleClose} sx={{ backdropFilter: 'blur(2px)' }}

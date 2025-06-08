@@ -23,6 +23,7 @@ export default function AssignmentCreationForm({mutate, handleClose}: Assignment
   const [subjectSelected, setSubjectSelected] = useState(0)
   const [topicSelected, setTopicSelected] = useState(0)
   const [state, action, pending] = useActionState(CreateAssignment, undefined)
+  const [alert, setAlert] = useState(subjectError || topicError || state?.errors ? true : false)
   const {isAuthenticated} = useMercurialStore()
   const handleSubjectSelection = (event: SelectChangeEvent) =>{
       setSubjectSelected(Number.parseInt(event.target.value))
@@ -52,16 +53,16 @@ export default function AssignmentCreationForm({mutate, handleClose}: Assignment
   return (
     <form className="w-full h-full flex flex-col items-center gap-7 relative" onSubmit={handleCreate} >
       {
-        subjectError && <MercurialSnackbar message={subjectError.message} state={true} type="error"/>
+        subjectError && <MercurialSnackbar message={subjectError.message} state={alert} type="error" closeMethod={setAlert} />
       }
       {
-        topicError && <MercurialSnackbar message={topicError.message} state={true} type="error"/>
+        topicError && <MercurialSnackbar message={topicError.message} state={alert} type="error" closeMethod={setAlert}/>
       }
       {
-        state?.errors && <MercurialSnackbar message={state.errors} state={true} type="error"/>
+        state?.errors && <MercurialSnackbar message={state.errors} state={alert} type="error" closeMethod={setAlert}/>
       }
       <div className="w-full flex flex-col items-center">
-        <Typography variant="h5" sx={{marginBottom:'7px'}}>
+        <Typography variant="h6" sx={{marginBottom:'7px'}}>
           Put a title to your assignment
         </Typography>
         <TextField label={"Title"} name="title" required sx={{width:'80%'}} />
@@ -70,12 +71,15 @@ export default function AssignmentCreationForm({mutate, handleClose}: Assignment
         <SelectMenu options={subjects} disabled={isLoadingSubjects} option={subjectSelected} title="Subjects" handleSelect={handleSubjectSelection}/>
         <SelectMenu options={topics} option={topicSelected} disabled={isLoadingTopics} title="Topics" handleSelect={handleTopicSelection}/>
       </div>
-      <div className="flex w-full justify-center items-center flex-wrap">
+      <div className="flex w-full flex-col justify-center items-center flex-wrap">
+        <Typography variant="h6" sx={{marginBottom:'7px'}}>
+          Assignment Due date
+        </Typography>
         <TextField type="datetime-local"  name="dueDate" required sx={{width:'80%'}} />
       </div>
       <div className="w-full flex flex-col items-center">
-      <Typography variant="h5" sx={{marginBottom:'7px'}}>
-          Add a note if you want
+      <Typography variant="h6" sx={{marginBottom:'7px'}}>
+          Assignment Note
         </Typography>
         <TextField multiline maxRows={7} label="Add a note" name="noteContent" sx={{width:'80%', height:'250px'}} />
       </div>

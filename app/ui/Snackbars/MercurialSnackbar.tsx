@@ -7,9 +7,10 @@ interface SnackbarProps{
   state:boolean
   message:string
   type: 'error' | 'info' | 'success' | 'warning'
+  closeMethod: (state:boolean) => void
 
 }
-export default function MercurialSnackbar({message, state, type}:SnackbarProps) {
+export default function MercurialSnackbar({message, state, type, closeMethod}:SnackbarProps) {
   const [open, setOpen] = useState(state);
 
 
@@ -21,7 +22,7 @@ export default function MercurialSnackbar({message, state, type}:SnackbarProps) 
     if (reason === 'clickaway') {
       return;
     }
-
+    closeMethod(false)
     setOpen(false);
   };
 

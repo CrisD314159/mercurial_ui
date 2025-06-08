@@ -13,6 +13,7 @@ export default function LoginForm() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [state, action, pending ] = useActionState(Login, undefined)
+  const [alert, setAlert] = useState(state?.success ? false : true)
 
   const handleSubmit = (e:React.FormEvent<HTMLFormElement>) =>{
     e.preventDefault()
@@ -26,7 +27,7 @@ export default function LoginForm() {
   return (
     <div className="h-full w-full flex justify-center items-center relative">
       {
-        state?.success === false && <MercurialSnackbar message={state.message} state={true} type="error"/>
+        state?.success === false && <MercurialSnackbar message={state.message} state={alert} type="error" closeMethod={setAlert}/>
       }
       <div className="w-[60%] h-[80%]">
         <div className="flex flex-col items-center gap-10 pt-6" > 

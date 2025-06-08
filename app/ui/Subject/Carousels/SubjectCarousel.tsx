@@ -17,6 +17,7 @@ interface SubjectSliderProps{
 export default function SubjectCarousel({filterAssignments}: SubjectSliderProps){
   const {data, error, isLoading} = useSWR<Subject[], GenericError>('subjects', ()=> GetSubjects())
   const [selected, setSelected] = useState<number>(0)
+  const [alert, setAlert] = useState(error ? true : false)
   const handleClick = (id:number)=>{
     if(selected === id){
       setSelected(0)
@@ -38,7 +39,7 @@ export default function SubjectCarousel({filterAssignments}: SubjectSliderProps)
     <div className="w-full h-12 flex relative top-6 justify-center">
 
       {
-        error && <MercurialSnackbar message={error.message} state={true} type="error"/>
+        error && <MercurialSnackbar message={error.message} state={alert} type="error" closeMethod={setAlert}/>
       }
       
       <ul className="carousel flex w-[98%] scrollbar-hide">

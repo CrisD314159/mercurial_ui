@@ -25,12 +25,19 @@ export default function AssignmentEditingForm({assignment, handleClose, mutate}:
   const [subjectSelected, setSubjectSelected] = useState(assignment?.subjectId ?? 0)
   const [topicSelected, setTopicSelected] = useState(assignment?.topicId ?? 0)
   const [state, action, pending] = useActionState(UpdateAssignment, undefined)
+  const [alert, setAlert] = useState(subjectError || topicError || state?.errors ? true : false)
   const {isAuthenticated} =  useMercurialStore()
   const handleSubjectSelection = (event: SelectChangeEvent) =>{
       setSubjectSelected(Number.parseInt(event.target.value))
   }
   const handleTopicSelection = (event: SelectChangeEvent) =>{
      setTopicSelected(Number.parseInt(event.target.value))
+  }
+
+  function toLocalDateTimeInputValue(date: Date) {
+    const offset = date.getTimezoneOffset();
+    const localDate = new Date(date.getTime() - offset * 60 * 1000);
+    return localDate.toISOString().slice(0, 16);
   }
 
 
@@ -55,13 +62,13 @@ export default function AssignmentEditingForm({assignment, handleClose, mutate}:
   return (
     <form className="w-full h-full flex flex-col items-center gap-7 relative" onSubmit={handleUpdate} >
       {
-        subjectError && <MercurialSnackbar message={subjectError.message} state={true} type="error"/>
+        subjectError && <MercurialSnackbar message={subjectError.message} state={alert} type="error" closeMethod={setAlert} />
       }
       {
-        topicError && <MercurialSnackbar message={topicError.message} state={true} type="error"/>
+        topicError && <MercurialSnackbar message={topicError.message} state={alert} type="error" closeMethod={setAlert}/>
       }
       {
-        state?.errors && <MercurialSnackbar message={state.errors} state={true} type="error"/>
+        state?.errors && <MercurialSnackbar message={state.errors} state={alert} type="error" closeMethod={setAlert}/>
       }
       <div className="w-full flex flex-col items-center">
         <Typography variant="h5" sx={{marginBottom:'7px'}}>
@@ -74,7 +81,17 @@ export default function AssignmentEditingForm({assignment, handleClose, mutate}:
         <SelectMenu options={topics} option={topicSelected} disabled={isLoadingTopics} title="Topics" handleSelect={handleTopicSelection}/>
       </div>
       <div className="flex w-full justify-center items-center flex-wrap">
-        <TextField type="datetime-local" defaultValue={assignment?.dueDate ? new Date(assignment.dueDate).toISOString().slice(0, 16) : Date.now()}  name="dueDate" required sx={{width:'80%'}} />
+        <TextField
+          type="datetime-local"
+          defaultValue={
+            assignment?.dueDate
+              ? toLocalDateTimeInputValue(new Date(assignment.dueDate))
+              : toLocalDateTimeInputValue(new Date())
+          }
+          name="dueDate"
+          required
+          sx={{ width: '80%' }}
+        />
       </div>
       <div className="w-full flex flex-col items-center">
       <Typography variant="h5" sx={{marginBottom:'7px'}}>

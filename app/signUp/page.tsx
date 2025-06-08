@@ -10,6 +10,7 @@ import { SignUp } from "../lib/Auth/AuthActions";
 export default function SignUpPage() {
   const [password, setPassword] = useState('');
   const [state, action, pending] = useActionState(SignUp, undefined)
+  const [alert, setAlert] = useState(state?.errors ? true : false);
 
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -25,10 +26,10 @@ export default function SignUpPage() {
   return (
       <div className="h-full w-full flex items-center justify-center">
                 {
-                    state?.errors && <MercurialSnackbar message={state.errors} state={true} type="error" />
+                    state?.errors && <MercurialSnackbar message={state.errors} state={alert} type="error" closeMethod={setAlert} />
                 }
                 {
-                    state?.success && <MercurialSnackbar message={"Thanks for signed up in Mercurial, please proceed to log in"} state={true} type="success" />
+                    state?.success && <MercurialSnackbar message={"Thanks for signed up in Mercurial, please proceed to log in"} state={alert} type="success" closeMethod={setAlert} />
                 }
               <div className="w-[60%] h-[80%] flex flex-col gap-5 items-center">
                 <Image src="/mercurialLogo.png" alt="" className="imageLogo" width={80} height={80} />

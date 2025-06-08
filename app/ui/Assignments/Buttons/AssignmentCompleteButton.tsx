@@ -11,6 +11,7 @@ interface AssignmentCompleteButton{
 export default function AssignmentCompleteButton({id, mutate}:AssignmentCompleteButton) {
   const [error, setError] = useState<string |null>(null)
   const [pending, setPending] = useState(false)
+  const [alert, setAlert] = useState(error ? true : false)
 
   const markAsDoneAction = async ()=>{
     try {
@@ -30,7 +31,7 @@ export default function AssignmentCompleteButton({id, mutate}:AssignmentComplete
   return (
     <>
     {
-      error && <MercurialSnackbar message={error} state={true} type='error'/>
+      error && <MercurialSnackbar message={error} state={alert} type='error' closeMethod={setAlert}/>
     }
     <button 
       disabled={pending}

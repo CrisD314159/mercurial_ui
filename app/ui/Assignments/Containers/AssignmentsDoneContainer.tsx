@@ -16,6 +16,7 @@ export default function AssignmentsDoneContainer() {
   const [offset, setOffset] = useState(ASSIGNMENT_OFFSET)
   const [isLoadingMore, setIsLoadingMore] = useState(false)
   const [hasMore, setHasMore] = useState(false)
+  const [alert, setAlert] = useState(error ? true : false)
   const { ref, inView } = useInView({ threshold: 0.1 })
 
 
@@ -60,7 +61,7 @@ export default function AssignmentsDoneContainer() {
       }
     return (
       <div className="w-full h-full relative flex flex-col items-center">
-        {error && <MercurialSnackbar message="An error occurred while fetching the data" state={true} type="error" />}
+        {error && <MercurialSnackbar message="An error occurred while fetching the data" state={alert} type="error" closeMethod={setAlert} />}
         {assignments && (
           <AssignmentsListComponent
             doneCard={true}

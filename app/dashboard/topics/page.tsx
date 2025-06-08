@@ -9,6 +9,7 @@ import EditTopic from "@/app/ui/Topic/EditTopic";
 import MercurialSnackbar from "@/app/ui/Snackbars/MercurialSnackbar";
 import { GenericError } from "@/app/lib/types/definitions";
 import DeleteAlert from "@/app/ui/Alerts/DeleteAlert";
+import { useState } from "react";
 
 
 export default function TopicsPage() {
@@ -16,6 +17,7 @@ export default function TopicsPage() {
   const {data,  error, isLoading, mutate} = useSWR<Topic[], GenericError>('topics', ()=> GetTopics(), {
     refreshWhenHidden:true, revalidateOnFocus:true
   })
+  const [alert, setAlert] = useState(error ? true : false)
 
   if (isLoading){
     return (
@@ -29,7 +31,7 @@ export default function TopicsPage() {
   
       <div className="flex flex-col justify-center w-full items-center h-[90%] relative">
         {
-          error && <MercurialSnackbar message={error.message} state={true} type="error"/>
+          error && <MercurialSnackbar message={error.message} state={alert} type="error" closeMethod={setAlert}/>
         }
 
           <List style={{height:'100%', flex:1, width:'100%', overflowY:'auto', paddingBottom:'40px'}}>

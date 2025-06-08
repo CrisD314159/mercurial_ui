@@ -36,3 +36,9 @@ export interface ChecklistNode{
   content:string
 }
 
+export interface User{
+  name:string
+  profilePicture:string
+  email:string
+}
+
