@@ -1,5 +1,5 @@
 'use client'
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import {CircularProgress } from "@mui/material"
 import { Subject } from "@/lib/types/entityTypes";
 import useSWR from "swr";
@@ -17,7 +17,14 @@ interface SubjectSliderProps{
 export default function SubjectCarousel({filterAssignments}: SubjectSliderProps){
   const {data, error, isLoading} = useSWR<Subject[], GenericError>('subjects', ()=> GetSubjects())
   const [selected, setSelected] = useState<number>(0)
-  const [alert, setAlert] = useState(error ? true : false)
+  const [alert, setAlert] = useState(false)
+
+  useEffect(()=>{
+    if(error){
+      setAlert(true)
+    }
+  }, [error])
+  
   const handleClick = (id:number)=>{
     if(selected === id){
       setSelected(0)
@@ -37,11 +44,7 @@ export default function SubjectCarousel({filterAssignments}: SubjectSliderProps)
   }
   return(
     <div className="w-full h-12 flex relative top-6 justify-center">
-
-      {
-        error && <MercurialSnackbar message={error.message} state={alert} type="error" closeMethod={setAlert}/>
-      }
-      
+      <MercurialSnackbar message={error?.message ?? "An unexpected error occurred"} state={alert} type="error" closeMethod={setAlert}/>
       <ul className="carousel flex w-[98%] scrollbar-hide">
       {
         data && data?.length > 0 ? (

@@ -16,7 +16,6 @@ export async function CreateAssignmentServer(formdata: FormData) {
     })
   
     if(!validation.success){
-      console.log(validation.error.toString());
       throw new Error(validation.error.toString())
     }
   

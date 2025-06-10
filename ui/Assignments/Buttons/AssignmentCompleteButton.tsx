@@ -11,7 +11,7 @@ interface AssignmentCompleteButton{
 export default function AssignmentCompleteButton({id, mutate}:AssignmentCompleteButton) {
   const [error, setError] = useState<string |null>(null)
   const [pending, setPending] = useState(false)
-  const [alert, setAlert] = useState(error ? true : false)
+  const [alert, setAlert] = useState(false)
 
   const markAsDoneAction = async ()=>{
     try {
@@ -20,7 +20,10 @@ export default function AssignmentCompleteButton({id, mutate}:AssignmentComplete
       mutate()
 
     }catch (error) {
-      if (error instanceof Error) setError(error.message)
+      if (error instanceof Error){
+      setError(error.message)
+      setAlert(true)
+      }
 
     }finally{
       setPending(false)
@@ -38,7 +41,7 @@ export default function AssignmentCompleteButton({id, mutate}:AssignmentComplete
       onClick={markAsDoneAction}
      className="relative h-full w-12 group bg-transparent border-green-500 rounded-r-md overflow-hidden">
       <div className="absolute inset-0 bg-green-700 group-hover:bg-green-600 transition-colors duration-200"></div>
-      <CheckRoundedIcon className="relative z-10 text-white group-hover:scale-110 transition-transform duration-200" />
+      <CheckRoundedIcon className="relative text-white group-hover:scale-110 transition-transform duration-200" />
     </button>
     </>
   )

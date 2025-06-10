@@ -1,4 +1,3 @@
-import './header.css'
 import { IconButton } from '@mui/material';
 import Image from 'next/image';
 import MercurialDrawer from '../Drawer/MercurialDrawer';

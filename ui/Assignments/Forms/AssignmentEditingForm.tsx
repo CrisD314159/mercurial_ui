@@ -1,12 +1,9 @@
-
 'use client'
-import useSWR from "swr";
 import { GetSubjects } from "@/lib/RequestIntermediaries/SubjectInter";
 import { GetTopics } from "@/lib/RequestIntermediaries/TopicInter";
-import { Assignment, Subject, Topic } from "@/lib/types/entityTypes";
-import { GenericError } from "@/lib/types/definitions";
+import { Assignment } from "@/lib/types/entityTypes";
 import { Button, SelectChangeEvent, TextField, Typography } from "@mui/material";
-import {startTransition, useActionState, useState } from "react";
+import {startTransition, useActionState, useEffect, useState } from "react";
 import { UpdateAssignment } from "@/lib/RequestIntermediaries/AssignmentInter";
 import MercurialSnackbar from "../../Snackbars/MercurialSnackbar";
 import SelectMenu from "../../Creation/SelectMenu";
@@ -20,13 +17,21 @@ interface AssignmentEditingFormProps{
 
 
 export default function AssignmentEditingForm({assignment, handleClose, mutate}:AssignmentEditingFormProps) {
- const {data:subjects, error:subjectError, isLoading:isLoadingSubjects } = useSWR<Subject[], GenericError>('subjects', ()=> GetSubjects())
-  const {data:topics, error:topicError, isLoading:isLoadingTopics } = useSWR<Topic[], GenericError>('topics', ()=> GetTopics())
   const [subjectSelected, setSubjectSelected] = useState(assignment?.subjectId ?? 0)
   const [topicSelected, setTopicSelected] = useState(assignment?.topicId ?? 0)
   const [state, action, pending] = useActionState(UpdateAssignment, undefined)
-  const [alert, setAlert] = useState(subjectError || topicError || state?.errors ? true : false)
+  const [alert, setAlert] = useState(false)
+  const [alertText, setAlertText] = useState('')
   const {isAuthenticated} =  useMercurialStore()
+
+  useEffect(()=>{
+    if (state && !state.success) {
+      setAlertText(typeof state.message === "string" ? state.message : JSON.stringify(state.message))
+    setAlert(true)
+    }
+  }, [state])
+
+
   const handleSubjectSelection = (event: SelectChangeEvent) =>{
       setSubjectSelected(Number.parseInt(event.target.value))
   }
@@ -61,26 +66,18 @@ export default function AssignmentEditingForm({assignment, handleClose, mutate}:
   
   return (
     <form className="w-full h-full flex flex-col items-center gap-7 relative" onSubmit={handleUpdate} >
-      {
-        subjectError && <MercurialSnackbar message={subjectError.message} state={alert} type="error" closeMethod={setAlert} />
-      }
-      {
-        topicError && <MercurialSnackbar message={topicError.message} state={alert} type="error" closeMethod={setAlert}/>
-      }
-      {
-        state?.errors && <MercurialSnackbar message={state.errors} state={alert} type="error" closeMethod={setAlert}/>
-      }
+      <MercurialSnackbar message={alertText} state={alert} type="error" closeMethod={setAlert}/>
       <div className="w-full flex flex-col items-center">
-        <Typography variant="h5" sx={{marginBottom:'7px'}}>
-          Put a title to your assignment
-        </Typography>
         <TextField label={"Title"} name="title" defaultValue={assignment?.title ?? ""} required sx={{width:'80%'}} />
       </div>
       <div className="flex w-full justify-center items-center flex-wrap">
-        <SelectMenu options={subjects} disabled={isLoadingSubjects} option={subjectSelected} title="Subjects" handleSelect={handleSubjectSelection}/>
-        <SelectMenu options={topics} option={topicSelected} disabled={isLoadingTopics} title="Topics" handleSelect={handleTopicSelection}/>
+        <SelectMenu FetchMethod={GetSubjects} fetchKey="subjects" option={subjectSelected} title="Subjects" handleSelect={handleSubjectSelection}/>
+        <SelectMenu FetchMethod={GetTopics} fetchKey="topics" option={topicSelected} title="Topics" handleSelect={handleTopicSelection}/>
       </div>
-      <div className="flex w-full justify-center items-center flex-wrap">
+      <div className="flex flex-col w-full justify-center items-center flex-wrap">
+        <Typography variant="h6" sx={{marginBottom:'7px'}}>
+          Assignment Due date
+        </Typography>
         <TextField
           type="datetime-local"
           defaultValue={

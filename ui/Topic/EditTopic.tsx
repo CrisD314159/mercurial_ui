@@ -1,6 +1,6 @@
 'use client'
 import {  Button, Dialog, DialogActions, DialogContent, IconButton, TextField } from "@mui/material";
-import { startTransition, useActionState, useState } from "react";
+import { startTransition, useActionState, useEffect, useState } from "react";
 import { UpdateTopic } from "@/lib/RequestIntermediaries/TopicInter";
 import { useMercurialStore } from "@/store/useMercurialStore";
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
@@ -17,7 +17,13 @@ export default function EditTopic({mutate, color, title, id}:TopicCreationProps)
     const [open, setOpen] = useState(false);
     const [state, action, pending] = useActionState(UpdateTopic, undefined)
     const {isAuthenticated} = useMercurialStore()
-    const [alert, setAlert] = useState(state?.errors ? true : false);
+    const [alert, setAlert] = useState(false);
+
+    useEffect(()=>{
+        if(state && !state.success){
+            setAlert(true)
+        }
+    }, [state])
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -41,9 +47,9 @@ export default function EditTopic({mutate, color, title, id}:TopicCreationProps)
 
     return (
         <div>
-            {
-                state?.errors && <MercurialSnackbar message={state.errors} state={alert} type="error" closeMethod={setAlert}/>
-            }
+            
+            <MercurialSnackbar message={state?.message ?? "An unexpected error occurred"} state={alert} type="error" closeMethod={setAlert}/>
+            
             <IconButton size="small"  onClick={handleClickOpen}><EditRoundedIcon /></IconButton>
             <Dialog open={open} onClose={handleClose} sx={{ backdropFilter: 'blur(2px)' }}
             >

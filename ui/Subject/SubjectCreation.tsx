@@ -1,7 +1,7 @@
 'use client'
 import {  Button, Dialog, DialogActions, DialogContent, Fab, TextField } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
-import { startTransition, useActionState, useState } from "react";
+import { startTransition, useActionState, useEffect, useState } from "react";
 import { useMercurialStore } from "@/store/useMercurialStore";
 import MercurialSnackbar from "../Snackbars/MercurialSnackbar";
 import { CreateSubject } from "@/lib/RequestIntermediaries/SubjectInter";
@@ -13,8 +13,14 @@ export default function SubjectCreation({mutate}:SubjectCreationProps) {
     const [open, setOpen] = useState(false);
     const [state, action, pending] = useActionState(CreateSubject, undefined)
     const {isAuthenticated} = useMercurialStore()
-    const [alert, setAlert] = useState(state?.errors ? true : false);
+    const [alert, setAlert] = useState(false);
 
+    useEffect(()=>{
+        if(state && !state.success){
+          setAlert(true)
+        }
+    }, [state])
+    
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -31,15 +37,14 @@ export default function SubjectCreation({mutate}:SubjectCreationProps) {
         })
         mutate()
         handleClose()
-        console.log(state);
     }
 
 
     return (
         <div>
-            {
-                state?.errors && <MercurialSnackbar message={state.errors.toString()} state={alert} type="error" closeMethod={setAlert}/>
-            }
+            
+            <MercurialSnackbar message={state?.message ?? "An unexpected error occurred"} state={alert} type="error" closeMethod={setAlert}/>
+            
             <Fab size="small" color="info" onClick={handleClickOpen}><AddIcon /></Fab>
             <Dialog open={open} onClose={handleClose} sx={{ backdropFilter: 'blur(2px)' }}
             >
@@ -47,10 +52,6 @@ export default function SubjectCreation({mutate}:SubjectCreationProps) {
                         display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '30px'
                     }}>
                         <form onSubmit={handleCreate}>
-                            {
-                                state?.errors && <div>Error</div>
-
-                            }
                             <TextField placeholder="New Subject" name="title" variant="standard"
                             sx={{marginBottom:'15px'}}
                             required inputProps={{ maxLength: 70 }}

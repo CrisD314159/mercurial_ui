@@ -1,6 +1,6 @@
 
 
-export const APIURL = "https://localhost:5066"
+export const APIURL = "http://localhost:5066"
 
 export type FormState = 
   | {

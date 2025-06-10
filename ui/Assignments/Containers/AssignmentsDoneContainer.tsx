@@ -1,3 +1,4 @@
+'use client'
 import { checkIsloggedIn } from "@/lib/Auth/authChecks";
 import { GetDoneAssignments } from "@/lib/RequestIntermediaries/AssignmentInter";
 import { GetUserDoneAssignmentsServer } from "@/lib/ServerActions/AssignmentActions";
@@ -15,15 +16,22 @@ export default function AssignmentsDoneContainer() {
   const { data: assignments, error, mutate, isLoading } = useSWR<Assignment[]>('doneAssignments', () => GetDoneAssignments());
   const [offset, setOffset] = useState(ASSIGNMENT_OFFSET)
   const [isLoadingMore, setIsLoadingMore] = useState(false)
-  const [hasMore, setHasMore] = useState(false)
-  const [alert, setAlert] = useState(error ? true : false)
+  const [hasMore, setHasMore] = useState(true)
+  const [alert, setAlert] = useState(false)
   const { ref, inView } = useInView({ threshold: 0.1 })
 
+
+  useEffect(()=>{
+    if(error){
+      setAlert(true)
+    }
+  }, [error])
 
     const loadMoreAssignments = async () => {
       try {
         const isLogged = await checkIsloggedIn()
         if (isLogged) {
+          setIsLoadingMore(true)
           const apiAssignments = await GetUserDoneAssignmentsServer(offset, ASSIGNMENT_OFFSET)
   
           if (apiAssignments.length === 0) {
@@ -61,7 +69,7 @@ export default function AssignmentsDoneContainer() {
       }
     return (
       <div className="w-full h-full relative flex flex-col items-center">
-        {error && <MercurialSnackbar message="An error occurred while fetching the data" state={alert} type="error" closeMethod={setAlert} />}
+        <MercurialSnackbar message="An error occurred while fetching the data" state={alert} type="error" closeMethod={setAlert} />
         {assignments && (
           <AssignmentsListComponent
             doneCard={true}

@@ -25,7 +25,7 @@ export default function AssignmentsListComponent({
 }: AssignmentsListComponentProps) {
   const [filteredAssignments, setFilteredAssignments] = useState<Assignment[]>(assignments);
 
-
+  console.log(hasMore);
   useEffect(() => {
     setFilteredAssignments(assignments);
   }, [assignments]);
@@ -39,7 +39,7 @@ export default function AssignmentsListComponent({
   };
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full relative">
       <SubjectCarousel filterAssignments={filterAssignments} />
       <List
         sx={{
@@ -60,12 +60,13 @@ export default function AssignmentsListComponent({
         ) : (
           <div>{title}</div>
         )}
+
+        {hasMore && (
+          <div ref={ref} className="mt-4 mb-8absolute bottom-20 h-10 w-10">
+             <CircularProgress color="primary" hidden={!isLoadingMore}  />
+          </div>
+        )}
       </List>
-      {hasMore && (
-        <div ref={ref} className="mt-4 mb-8">
-          {isLoadingMore && <CircularProgress color="info" />}
-        </div>
-      )}
     </div>
   );
 }

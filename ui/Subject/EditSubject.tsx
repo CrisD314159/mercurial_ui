@@ -1,6 +1,6 @@
 'use client'
 import {  Button, Dialog, DialogActions, DialogContent, IconButton, TextField } from "@mui/material";
-import { startTransition, useActionState, useState } from "react";
+import { startTransition, useActionState, useEffect, useState } from "react";
 import { useMercurialStore } from "@/store/useMercurialStore";
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import MercurialSnackbar from "../Snackbars/MercurialSnackbar";
@@ -16,8 +16,13 @@ export default function EditSubject({mutate, title, id}:SubjectEditProps) {
     const [open, setOpen] = useState(false);
     const [state, action, pending] = useActionState(UpdateSubject, undefined)
     const {isAuthenticated} = useMercurialStore()
-    const [alert, setAlert] = useState(state?.errors ? true : false);
+    const [alert, setAlert] = useState(false);
 
+    useEffect(()=>{
+        if(state && !state.success){
+          setAlert(true)
+        }
+    }, [state])
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -41,9 +46,8 @@ export default function EditSubject({mutate, title, id}:SubjectEditProps) {
 
     return (
         <div>
-            {
-                state?.errors && <MercurialSnackbar message={state.errors} state={alert} type="error" closeMethod={setAlert}/>
-            }
+            
+         <MercurialSnackbar message={state?.message ?? "An unexpected error occurred"} state={alert} type="error" closeMethod={setAlert}/>
             <IconButton size="small"  onClick={handleClickOpen}><EditRoundedIcon /></IconButton>
             <Dialog open={open} onClose={handleClose} sx={{ backdropFilter: 'blur(2px)' }}
             >
