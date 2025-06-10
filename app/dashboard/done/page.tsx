@@ -1,5 +1,5 @@
 'use client'
-import AssignmentsDoneContainer from "@/app/ui/Assignments/Containers/AssignmentsDoneContainer";
+import AssignmentsDoneContainer from "@/ui/Assignments/Containers/AssignmentsDoneContainer";
 
 export default function Doneage() {
 

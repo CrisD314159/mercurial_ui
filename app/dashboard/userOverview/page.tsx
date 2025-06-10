@@ -1,12 +1,12 @@
 'use client'
 
-import { GetUserOverview } from '@/app/lib/ServerActions/UserActions';
-import { GenericError } from '@/app/lib/types/definitions';
-import { User } from '@/app/lib/types/entityTypes';
-import { useMercurialStore } from '@/app/store/useMercurialStore';
-import DeleteUserAlert from '@/app/ui/Alerts/DeleteUserAlert';
-import MercurialSnackbar from '@/app/ui/Snackbars/MercurialSnackbar';
-import EditUser from '@/app/ui/User/EditUser';
+import { GetUserOverview } from '@/lib/ServerActions/UserActions';
+import { GenericError } from '@/lib/types/definitions';
+import { User } from '@/lib/types/entityTypes';
+import { useMercurialStore } from '@/store/useMercurialStore';
+import DeleteUserAlert from '@/ui/Alerts/DeleteUserAlert';
+import MercurialSnackbar from '@/ui/Snackbars/MercurialSnackbar';
+import EditUser from '@/ui/User/EditUser';
 import { Avatar, CircularProgress } from '@mui/material';
 import { useState } from 'react';
 import useSWR from 'swr';

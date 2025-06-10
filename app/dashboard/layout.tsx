@@ -1,7 +1,7 @@
 import React from "react";
-import Header from "../ui/Header/Header";
-import BottomNav from "../ui/BottomNav/BottomNav";
-import AuthComponent from "../lib/Auth/AuthComponent";
+import Header from "../../ui/Header/Header";
+import BottomNav from "../../ui/BottomNav/BottomNav";
+import AuthComponent from "../../lib/Auth/AuthComponent";
 
 export default function DashboardLayout({children}:{children: React.ReactNode}) {
 

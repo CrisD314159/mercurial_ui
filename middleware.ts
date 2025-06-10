@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { checkIsloggedIn } from './app/lib/Auth/authChecks';
+import { checkIsloggedIn } from './lib/Auth/authChecks';
 
 
  

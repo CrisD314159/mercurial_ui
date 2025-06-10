@@ -2,7 +2,7 @@ import React from "react";
 import { Red_Hat_Display } from 'next/font/google'
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import './globals.css'
-import { ThemeContextProvider } from "./lib/theme/ThemeContextProvidex";
+import { ThemeContextProvider } from "../lib/theme/ThemeContextProvidex";
 import { Metadata } from "next";
 
 

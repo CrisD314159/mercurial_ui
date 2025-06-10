@@ -1,4 +1,4 @@
-import LoginForm from "./ui/Forms/LoginForm";
+import LoginForm from "../ui/Forms/LoginForm";
 
 
 

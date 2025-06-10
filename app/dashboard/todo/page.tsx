@@ -1,5 +1,5 @@
 'use client'
-import AssignmentsTodoContainer from "@/app/ui/Assignments/Containers/AssignmentsTodoContainer"
+import AssignmentsTodoContainer from "@/ui/Assignments/Containers/AssignmentsTodoContainer"
 
 export default function TodoPage() {
   return (

@@ -1,14 +1,14 @@
 'use client'
 import { CircularProgress, List } from "@mui/material";
-import { useMercurialStore } from '@/app/store/useMercurialStore';
+import { useMercurialStore } from '@/store/useMercurialStore';
 import useSWR from 'swr';
-import { DeleteSubject, GetSubjects } from '@/app/lib/RequestIntermediaries/SubjectInter';
-import { Subject } from '@/app/lib/types/entityTypes';
-import { GenericError } from '@/app/lib/types/definitions';
-import MercurialSnackbar from '@/app/ui/Snackbars/MercurialSnackbar';
-import EditSubject from '@/app/ui/Subject/EditSubject';
-import SubjectCreation from '@/app/ui/Subject/SubjectCreation';
-import DeleteAlert from '@/app/ui/Alerts/DeleteAlert';
+import { DeleteSubject, GetSubjects } from '@/lib/RequestIntermediaries/SubjectInter';
+import { Subject } from '@/lib/types/entityTypes';
+import { GenericError } from '@/lib/types/definitions';
+import MercurialSnackbar from '@/ui/Snackbars/MercurialSnackbar';
+import EditSubject from '@/ui/Subject/EditSubject';
+import SubjectCreation from '@/ui/Subject/SubjectCreation';
+import DeleteAlert from '@/ui/Alerts/DeleteAlert';
 import { useEffect, useState } from 'react';
 
 
