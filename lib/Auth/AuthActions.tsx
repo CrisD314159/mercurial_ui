@@ -88,9 +88,9 @@ export async function SignUp(formstate:GeneralFormState, formdata: FormData) {
       }
     }
   
-    if (response.status === 200){
+    if (response.status === 201){
       return {
-        message: "Thanks for sing up to Mercurial",
+        message: "Thanks for sing up to Mercurial, check your email and spam folder :)",
         success:true
       }
     }else{

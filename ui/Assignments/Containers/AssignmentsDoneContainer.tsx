@@ -41,13 +41,13 @@ export default function AssignmentsDoneContainer() {
   
           // Actualiza directamente la caché de SWR
           mutate(prev => [...(prev || []), ...apiAssignments], false)
-          console.log("cambio en las tareas");
+
           setOffset(prev => prev + ASSIGNMENT_OFFSET)
         } else {
           setHasMore(false)
         }
       } catch (e) {
-        console.error(e)
+        setAlert(true)
       } finally {
         setIsLoadingMore(false)
       }

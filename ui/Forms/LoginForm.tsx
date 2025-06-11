@@ -17,7 +17,6 @@ export default function LoginForm() {
 
   useEffect(()=>{
     if(state && state.success === false){
-      console.log("Errores", state.message);
       setAlert(true)
     }
   }, [state])

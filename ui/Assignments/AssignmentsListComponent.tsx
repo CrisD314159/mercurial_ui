@@ -25,7 +25,6 @@ export default function AssignmentsListComponent({
 }: AssignmentsListComponentProps) {
   const [filteredAssignments, setFilteredAssignments] = useState<Assignment[]>(assignments);
 
-  console.log(hasMore);
   useEffect(() => {
     setFilteredAssignments(assignments);
   }, [assignments]);

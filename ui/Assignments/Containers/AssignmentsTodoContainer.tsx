@@ -48,7 +48,7 @@ export default function AssignmentsTodoContainer() {
         setHasMore(false)
       }
     } catch (e) {
-      console.error(e)
+      setAlert(true)
     } finally {
       setIsLoadingMore(false)
     }

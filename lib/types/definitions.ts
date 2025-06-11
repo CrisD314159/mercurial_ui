@@ -1,6 +1,6 @@
 
 
-export const APIURL = "http://localhost:5066"
+export const APIURL = process.env.API_URL
 
 export type FormState = 
   | {

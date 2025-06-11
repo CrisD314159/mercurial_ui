@@ -37,7 +37,6 @@ export default function TopicCreation({mutate}:TopicCreationProps) {
         })
         mutate()
         handleClose()
-        console.log(state);
     }
 
 

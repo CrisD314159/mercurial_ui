@@ -12,7 +12,8 @@ const redHatDisplay = Red_Hat_Display({
 })
 
 export const metadata: Metadata = {
-  appleWebApp:true
+  appleWebApp:true,
+  title:"Mercurial"
 
 }
 

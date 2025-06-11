@@ -17,6 +17,7 @@ export default function ChangePassword() {
 
   useEffect(()=>{
     if(state && state.success === false){
+      setAlertType("error")
       setAlert(true)
     }else if(state  && state.success){
       setAlertType("success")

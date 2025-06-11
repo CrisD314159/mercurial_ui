@@ -35,8 +35,6 @@ export default function PushNotificationComponent({assignment}:PushNotificationC
 
     return `${year}-${month}-${day} at ${hours}:${minutes}`
   }
-  console.log(assignment.dueDate);
-
 
   const handlePushNotification = async () => {
 
