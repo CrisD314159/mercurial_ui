@@ -1,3 +1,4 @@
+'use server'
 import { APIURL, GeneralFormState } from "../types/definitions";
 import { ChangePasswordSchema } from "../ZodValidations/User/UserValidations";
 
@@ -6,7 +7,6 @@ export async function RecoverAccountAction(formstate:GeneralFormState, formdata:
   const email = formdata.get('email')?.toString()
 
   let response : Response
-
   try {
     response = await fetch(`${APIURL}/user/recoverAccount`, {
       method:'PUT',
@@ -16,7 +16,6 @@ export async function RecoverAccountAction(formstate:GeneralFormState, formdata:
       body: JSON.stringify({email})
     })
   }catch (error) {
-    console.log(error);
     return {
       message: "An error occurred while trying to connect server",
       success: false

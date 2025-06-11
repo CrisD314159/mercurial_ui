@@ -30,7 +30,6 @@ export const fetchToken = async () => {
     }
     return null;
   } catch (err) {
-    console.error("An error occurred while fetching the token:", err);
     return null;
   }
 };

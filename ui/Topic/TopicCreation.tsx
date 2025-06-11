@@ -58,7 +58,7 @@ export default function TopicCreation({mutate}:TopicCreationProps) {
                                 <label>
                                     Topic color:
                                 </label>
-                                <input type="color" name="color" className="w-12 h-12" required></input>
+                                <input type="color" name="color" defaultValue={"#000080"} className="w-12 h-12" required></input>
                             </div>
                             <DialogActions>
                                 <Button onClick={handleClose} variant="outlined" color="error">Cancel</Button>

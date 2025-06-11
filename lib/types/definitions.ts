@@ -1,6 +1,6 @@
 
 
-export const APIURL = process.env.API_URL
+export const APIURL = process.env.NEXT_PUBLIC_API_URL
 
 export type FormState = 
   | {

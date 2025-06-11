@@ -76,12 +76,11 @@ export default function AssignmentCard({assignment, mutate, doneCard}:Assignment
             ${expanded ? 'h-36 opacity-100 translate-y-0' : 'max-h-0 opacity-0 -translate-y-4'}
           `}
         >
-          <p>
+          <p className="whitespace-pre-line">
             {assignment.noteContent === '' ? "This assignment does not have any note" : assignment.noteContent}
           </p>
         </div>
     </div>
 
   )
-  
 }
