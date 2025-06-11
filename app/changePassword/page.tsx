@@ -1,13 +1,13 @@
 'use client'
-import { startTransition, useActionState, useEffect, useState } from "react"
+import { startTransition, Suspense, useActionState, useEffect, useState } from "react"
 import PasswordInput from "../../ui/Creation/PasswordInput"
-import {Button, TextField } from "@mui/material"
+import {Button, CircularProgress, TextField } from "@mui/material"
 import { ChangePasswordAction } from "@/lib/ServerActions/RecoverAccountActions"
 import MercurialSnackbar from "@/ui/Snackbars/MercurialSnackbar"
 import { useSearchParams } from "next/navigation"
 import Link from "next/link"
 
-export default function ChangePassword() {
+ function ChangePasswordPage() {
   const searchParams = useSearchParams()
   const changeToken = searchParams.get('changeToken')
   const [alert, setAlert] = useState(false)
@@ -50,4 +50,12 @@ export default function ChangePassword() {
     </div>
   )
   
+}
+
+export default function Wrapper() {
+  return (
+    <Suspense fallback={<CircularProgress color="primary"/>}>
+      <ChangePasswordPage />
+    </Suspense>
+  )
 }
