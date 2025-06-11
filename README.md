@@ -1,30 +1,93 @@
-# React + TypeScript + Vite
+# Mercurial UI
+<p align="center">
+  <img alt="VS Code in action" src="public/mercurialLogo.png" width="200">
+</p>
+Mercurial UI is a web application built with Nextjs (React), TypeScript. It provides a user-friendly interface for managing tasks, subjects, and topics, with features such as authentication, dashboards, and user profile management.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+You can visit the app deployment at (https://mercurial-app.vercel.app)
 
-Currently, two official plugins are available:
+**Author:** [Crisdev](https://crisdev-pi.vercel.app)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- User authentication (sign up, login, password recovery, account verification)
+- Dashboard for managing tasks (create, edit, delete, mark as done/undone)
+- Subject and topic management (create, edit, delete)
+- Responsive UI with Material-UI and custom CSS
+- Integration with a RESTful backend API
+- User profile and settings management
+- Offline capabilities an features
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Project Structure
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+```
+.
+├── app/                # Next.js app directory (pages, layouts, routes)
+├── components/         # Reusable React components (forms, dialogs, etc.)
+├── hooks/              # Custom React hooks
+├── lib/                # Utility libraries
+├── public/             # Static assets
+├── store/              # State management (e.g., Zustand stores)
+├── ui/                 # UI components (forms, widgets)
+├── utils/              # Utility functions (API calls, helpers)
+├── package.json        # Project dependencies and scripts
+├── tsconfig.json       # TypeScript configuration
+├── README.md           # Project documentation
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v16+ recommended)
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/your-username/mercurial_ui.git
+   cd mercurial_ui
+   ```
+
+2. Install dependencies:
+   ```sh
+   npm install
+   # or
+   yarn install
+   ```
+
+3. Set up environment variables:
+   - Copy `.env.example` to `.env` and fill in the required values.
+
+### Running the Development Server
+
+```sh
+npm run dev
+# or
+yarn dev
+```
+
+The app will be available at [http://localhost:3000](http://localhost:3000).
+
+### Building for Production
+
+```sh
+npm run build
+npm run start
+```
+
+## API
+
+The app communicates with a RESTful API. This API us developed using ASP.NET Core 9, you can find the reposotory for this project at (https://github.com/CrisD314159/Mercurial_Dotnet) 
+
+## Technologies Used
+
+- [React](https://react.dev/)
+- [Next.js](https://nextjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Material-UI](https://mui.com/)
+- [Zustand](https://zustand-demo.pmnd.rs/) (for state management)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Dexie.js](https://dexie.org) (For offline features)
+

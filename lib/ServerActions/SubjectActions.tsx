@@ -1,0 +1,121 @@
+'use server'
+import { cookies } from "next/headers";
+import { APIURL } from "../types/definitions";
+import { SubjectSchema, SubjectUpdateSchema } from "../ZodValidations/Subject/SubjectValidations";
+
+
+
+
+export async function CreateSubjectServer(formdata: FormData) {
+  
+    const token = (await cookies()).get('token')?.value
+    const validation = SubjectSchema.safeParse({
+      title:formdata.get('title')
+    })
+  
+    if(!validation.success){
+      throw new Error(validation.error.toString())
+    }
+  
+    const {title} = validation.data
+  
+    const response = await fetch(`${APIURL}/subject`, {
+      method:'POST',
+      headers:{
+        'Authorization': `Bearer ${token}`,
+        'Content-Type':'application/json'
+      },
+      body:JSON.stringify({title})
+    })
+
+    if(response.status === 201){
+      return {
+        success: true,
+        message:"Subject created"
+      }
+    }else{
+      const {message} = await response.json()
+      throw new Error(message ?? "An unexpected error occurred")
+    }
+}
+
+export async function UpdateSubjectServer(formdata: FormData) {
+  const token = (await cookies()).get('token')?.value
+
+  const validation = SubjectUpdateSchema.safeParse({
+    id:Number.parseInt(formdata.get('id')?.toString() || '-1'),
+    title:formdata.get('title')
+  })
+
+  if(!validation.success){
+    throw new Error(validation.error.toString())
+  }
+
+  const {id, title} = validation.data
+
+
+  const response = await fetch(`${APIURL}/subject`, {
+    method:'PUT',
+    headers:{
+      'Authorization': `Bearer ${token}`,
+      'Content-Type':'application/json'
+    },
+    body:JSON.stringify({"subjectId":id, title})
+  })
+
+  if(response.status == 200){
+    return {
+      success: true,
+      message:"Subject updated"
+    }
+  }else{
+      const {message} = await response.json()
+      throw new Error(message ?? "An unexpected error occurred")
+    }
+}
+
+export async function GetUserSubjectsServer() {
+
+    const token = (await cookies()).get('token')?.value
+    
+    const response = await fetch(`${APIURL}/subject?offset=0&limit=15`, {
+      method:'GET',
+      headers:{
+        'Authorization': `Bearer ${token}`,
+      },
+
+    })
+
+    if(response.status == 200){
+      const {subjects} = await response.json()
+      return subjects
+    }else{
+      const {message} = await response.json()
+      throw new Error(message ?? "An unexpected error occurred")
+    }
+}
+
+export async function DeleteUserSubjectsServer(id:string) {
+
+    const token = (await cookies()).get('token')?.value
+
+    const response = await fetch(`${APIURL}/subject/${id}`, {
+      method:'DELETE',
+      headers:{
+        'Authorization': `Bearer ${token}`,
+      },
+
+    })
+    if(response.status == 200){
+      return {
+        success: true,
+        message:"Topic deleted"
+      }
+    }else{
+      const {message} = await response.json()
+      throw new Error(message ?? "An unexpected error occurred")
+    }
+}
+
+
+

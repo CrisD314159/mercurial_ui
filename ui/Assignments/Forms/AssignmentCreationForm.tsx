@@ -1,0 +1,86 @@
+'use client'
+import { GetSubjects } from "@/lib/RequestIntermediaries/SubjectInter";
+import { GetTopics } from "@/lib/RequestIntermediaries/TopicInter";
+import { Button, SelectChangeEvent, TextField, Typography } from "@mui/material";
+import {startTransition, useActionState, useEffect, useState } from "react";
+import { CreateAssignment } from "@/lib/RequestIntermediaries/AssignmentInter";
+import MercurialSnackbar from "../../Snackbars/MercurialSnackbar";
+import SelectMenu from "../../Creation/SelectMenu";
+import { useMercurialStore } from "@/store/useMercurialStore";
+
+
+interface AssignmentCreationForm{
+  handleClose : ()=> void
+  mutate: () => void
+}
+
+export default function AssignmentCreationForm({mutate, handleClose}: AssignmentCreationForm) {
+  const [subjectSelected, setSubjectSelected] = useState(0)
+  const [topicSelected, setTopicSelected] = useState(0)
+  const [state, action, pending] = useActionState(CreateAssignment, undefined)
+  const [alert, setAlert] = useState(false)
+  const [alertText, setAlertText] = useState('')
+  const {isAuthenticated} = useMercurialStore()
+
+  const handleSubjectSelection = (event: SelectChangeEvent) =>{
+      setSubjectSelected(Number.parseInt(event.target.value))
+  }
+  const handleTopicSelection = (event: SelectChangeEvent) =>{
+     setTopicSelected(Number.parseInt(event.target.value))
+  }
+
+
+  useEffect(()=>{
+    if (state && !state.success) {
+      setAlertText(typeof state.message === "string" ? state.message : JSON.stringify(state.message))
+    setAlert(true)
+    }
+  }, [state])
+
+  const handleCreate = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+
+    const formdata = new FormData(event.currentTarget)
+
+    formdata.append('subjectId', subjectSelected.toString())
+    formdata.append('topicId', topicSelected.toString())
+    formdata.append('auth', isAuthenticated ? 'true' : 'false')
+
+    startTransition(()=>{
+      action(formdata)
+    })
+    mutate()
+    handleClose()
+
+  };
+  
+  return (
+    <form className="w-full h-full flex flex-col items-center gap-7 relative" onSubmit={handleCreate} >
+      <MercurialSnackbar message={alertText} state={alert} type="error" closeMethod={setAlert}/>
+      <div className="w-full flex flex-col items-center">
+        <TextField label={"Title"} name="title" required sx={{width:'80%'}} />
+      </div>
+      <div className="flex w-full justify-center items-center flex-wrap">
+        <SelectMenu FetchMethod={GetSubjects} fetchKey="subjects" option={subjectSelected} title="Subjects" handleSelect={handleSubjectSelection}/>
+        <SelectMenu FetchMethod={GetTopics} fetchKey="topics" option={topicSelected} title="Topics" handleSelect={handleTopicSelection}/>
+      </div>
+      <div className="flex w-full flex-col justify-center items-center flex-wrap">
+        <Typography variant="h6" sx={{marginBottom:'7px'}}>
+          Assignment Due date
+        </Typography>
+        <TextField type="datetime-local"  name="dueDate" required sx={{width:'80%'}} />
+      </div>
+      <div className="w-full flex flex-col items-center">
+      <Typography variant="h6" sx={{marginBottom:'7px'}}>
+          Assignment Note
+        </Typography>
+        <TextField multiline maxRows={7} label="Add a note" name="noteContent" sx={{width:'80%', height:'250px'}} />
+      </div>
+        <div className="absolute bottom-5">
+          <Button variant="contained" color="secondary" disabled={pending} type="submit">Create Assignment</Button>
+        </div>
+    </form>
+  )
+
+
+}

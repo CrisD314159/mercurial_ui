@@ -1,0 +1,74 @@
+'use client'
+import { CircularProgress, List } from "@mui/material";
+import { useMercurialStore } from '@/store/useMercurialStore';
+import useSWR from 'swr';
+import { DeleteSubject, GetSubjects } from '@/lib/RequestIntermediaries/SubjectInter';
+import { Subject } from '@/lib/types/entityTypes';
+import { GenericError } from '@/lib/types/definitions';
+import MercurialSnackbar from '@/ui/Snackbars/MercurialSnackbar';
+import EditSubject from '@/ui/Subject/EditSubject';
+import SubjectCreation from '@/ui/Subject/SubjectCreation';
+import DeleteAlert from '@/ui/Alerts/DeleteAlert';
+import { useEffect, useState } from 'react';
+
+
+
+
+export default function SubjectsPage() {
+  const {isAuthenticated} = useMercurialStore()
+  const {data, error, isLoading, mutate} = useSWR<Subject[], GenericError>('subjects', () => GetSubjects())
+  const {setSubject} = useMercurialStore()
+  const [alert, setAlert] = useState(error ? true : false)
+
+
+  useEffect(()=>{
+    if(data){
+      setSubject(data)
+    }
+  }, [data, setSubject])
+
+  if(isLoading){
+    return(
+      <div className='flex flex-col justify-center w-full items-center h-[90%] relative'>
+        <CircularProgress/>
+      </div>
+    )
+  }
+
+  return (
+  
+      <div className="flex flex-col justify-center w-full items-center h-[90%] relative">
+        {
+          error && <MercurialSnackbar message={error.message} state={alert} type='error' closeMethod={setAlert}/>
+        }
+        <List style={{height:'100%', flex:1, width:'100%', overflowY:'auto', paddingBottom:'40px'}}>
+          {
+            data && data.length > 0 ? 
+
+            data.map((subject: Subject) => {
+              return (
+                <div className="rounded-2xl border border-neutral-500 shadow-lg my-5 mx-5 px-6 py-6 flex justify-between items-center transition-transform duration-200 ease-in-out hover:scale-[1.01] hover:shadow-xl" key={subject.id}>
+                  <div className="flex items-center gap-3">
+                    <h3 className="text-xl">{subject.title}</h3>
+                  </div>
+
+                  <div className="flex gap-4">
+                    <EditSubject id={subject.id} mutate={mutate} title={subject.title}/>
+                    <DeleteAlert body="Are you sure you want to delete this subject" title="Delete Subject" id={subject.id} isAuthenticated={isAuthenticated}
+                    mutate={mutate}  deleteMethod={DeleteSubject}/>
+                  </div>
+                </div>
+              )
+            }):
+            <div className='w-full mt-5'>
+              <p style={{textAlign:'center'}}>There are not subjects</p>
+            </div>
+          }
+        </List>
+          <div className="absolute bottom-9">
+              <SubjectCreation mutate={mutate}/>
+          </div>
+        </div>
+
+  )
+}
