@@ -16,6 +16,7 @@ export async function RecoverAccountAction(formstate:GeneralFormState, formdata:
       body: JSON.stringify({email})
     })
   }catch (error) {
+    console.log(error);
     return {
       message: "An error occurred while trying to connect server",
       success: false
@@ -47,11 +48,13 @@ export async function ChangePasswordAction(formstate:GeneralFormState, formdata:
 
     if(!validation.success){
       return {
-        message: "Check your inputs and try again"
+        message: "Check your inputs and try again",
+        success:false
       }
     }
 
     const {code, email, password} = validation.data
+    console.log(code, email, password);
 
     let response : Response
     try {

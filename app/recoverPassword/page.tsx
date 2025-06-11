@@ -3,6 +3,7 @@ import { startTransition, useActionState, useEffect, useState } from "react"
 import { Button, TextField } from "@mui/material"
 import {RecoverAccountAction} from "@/lib/ServerActions/RecoverAccountActions"
 import MercurialSnackbar from "@/ui/Snackbars/MercurialSnackbar"
+import Link from "next/link"
 
 export default function RecoverPasswordPage() {
   const [state, action, pending] = useActionState(RecoverAccountAction, undefined)
@@ -34,8 +35,9 @@ export default function RecoverPasswordPage() {
         <form className="flex flex-col items-center justify-center gap-5" onSubmit={handleSubmit}>
           <h1 className="text-3xl mb-4">Password Recovery</h1>
           <p >Enter your email to recover your password</p>
-          <TextField  variant="outlined" name="email" required label="Email"/>
+          <TextField  variant="outlined" name="email" type="email" required label="Email"/>
           <Button type="submit" variant="contained" color="primary" disabled={pending}>Send</Button>
+          <Button LinkComponent={Link} href="/" color="secondary" variant="contained" disabled={pending}>Go Back</Button>
         </form>
     </div>
   )

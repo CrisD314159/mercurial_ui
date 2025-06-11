@@ -1,7 +1,7 @@
 'use server'
 import { cookies } from "next/headers"
 import { APIURL, GeneralFormState } from "../types/definitions"
-import { UpdateUserSchema } from "../ZodValidations/User/UserValidations"
+import { UpdateUserSchema, VerifyAccountSchema } from "../ZodValidations/User/UserValidations"
 import { Logout } from "../Auth/AuthActions"
 
 
@@ -94,4 +94,52 @@ export async function DeleteUserAction() {
       message: message ?? "An unexpected error occurred"
     }
   }
+}
+
+
+export async function VerifyAccountAction(formstate:GeneralFormState, formdata:FormData) {
+
+  const validations = VerifyAccountSchema.safeParse({
+    email:formdata.get('email'),
+    code: formdata.get('code')
+  })
+
+  if(!validations.success){
+    return {
+      message: "Check your inputs and try again",
+      success:false
+    }
+  }
+
+  const {code, email} = validations.data
+
+  let response: Response
+
+  try {
+    response = await fetch(`${APIURL}/user/verifyUser`, {
+      method:'PUT',
+      headers:{
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({code, email})
+    })
+  } catch (error) {
+    return{
+      message:"An error occurred while trying to connect server",
+      success:false
+    }
+  }
+
+  if(response.status ===200){
+     return {
+      message:"Account successfully verified",
+      success:true
+     }
+  }else{
+    const {message} = await response.json()
+    return {
+      message: message,
+      success:false
+     }
+  }  
 }

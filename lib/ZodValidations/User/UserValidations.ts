@@ -16,3 +16,8 @@ export const ChangePasswordSchema = z.object({
   code: z.string().nonempty(),
   password: z.string().nonempty()
 })
+
+export const VerifyAccountSchema = z.object({
+  email: z.string().email(),
+  code: z.string().nonempty()
+})
