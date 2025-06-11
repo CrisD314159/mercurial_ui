@@ -11,7 +11,7 @@ export async function SchedulePushNotification(token:string | null, title:string
       token: token,
       title,
       message: `Your task is about to expire`,
-      link: "https://localhost:3000/dashboard/todo",
+      link: "https://mercurial-app.vercel.app/dashboard/todo",
       dueDate: new Date(dueDate?.toString() ?? Date.now().toString())
     }),
   });
