@@ -1,17 +1,14 @@
 import admin from "firebase-admin";
 import { Message } from "firebase-admin/messaging";
 import { NextRequest, NextResponse } from "next/server";
-import serviceKeyJson from "@/service_key.json";
-import { ServiceAccount } from "firebase-admin";
-const serviceKey = serviceKeyJson as ServiceAccount;
+const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_JSON || "{}");
 
-// Initialize Firebase Admin SDK
 if (!admin.apps.length) {
-  const serviceAccount = serviceKey
   admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
   });
 }
+
 
 export async function POST(request: NextRequest) {
   const { token, title, message, link } = await request.json();

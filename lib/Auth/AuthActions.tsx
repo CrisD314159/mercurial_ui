@@ -115,12 +115,13 @@ export async function Logout() {
   })
 
   console.log(response.status);
-  if(response.status === 200 || response.status === 404){
+  if(response.status === 200 || response.status === 404 || response.status === 401){
     (await cookies()).delete('refresh')
     ;(await cookies()).delete('token')
     redirect('/')
   }else{
     const {message} = await response.json()
+    console.log(message);
     throw new Error(message ?? "An unexpected error occurred")
   }
   
