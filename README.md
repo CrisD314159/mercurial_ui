@@ -1,36 +1,93 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Mercurial UI
+<p align="center">
+  <img alt="VS Code in action" src="public/mercurialLogo.png" width="200">
+</p>
+Mercurial UI is a web application built with Nextjs (React), TypeScript. It provides a user-friendly interface for managing tasks, subjects, and topics, with features such as authentication, dashboards, and user profile management.
+
+You can visit the app deployment at (https://mercurial-app.vercel.app)
+
+**Author:** [Crisdev](https://crisdev-pi.vercel.app)
+
+## Features
+
+- User authentication (sign up, login, password recovery, account verification)
+- Dashboard for managing tasks (create, edit, delete, mark as done/undone)
+- Subject and topic management (create, edit, delete)
+- Responsive UI with Material-UI and custom CSS
+- Integration with a RESTful backend API
+- User profile and settings management
+- Offline capabilities an features
+
+## Project Structure
+
+```
+.
+├── app/                # Next.js app directory (pages, layouts, routes)
+├── components/         # Reusable React components (forms, dialogs, etc.)
+├── hooks/              # Custom React hooks
+├── lib/                # Utility libraries
+├── public/             # Static assets
+├── store/              # State management (e.g., Zustand stores)
+├── ui/                 # UI components (forms, widgets)
+├── utils/              # Utility functions (API calls, helpers)
+├── package.json        # Project dependencies and scripts
+├── tsconfig.json       # TypeScript configuration
+├── README.md           # Project documentation
+```
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
+- Node.js (v16+ recommended)
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/your-username/mercurial_ui.git
+   cd mercurial_ui
+   ```
+
+2. Install dependencies:
+   ```sh
+   npm install
+   # or
+   yarn install
+   ```
+
+3. Set up environment variables:
+   - Copy `.env.example` to `.env` and fill in the required values.
+
+### Running the Development Server
+
+```sh
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The app will be available at [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Building for Production
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```sh
+npm run build
+npm run start
+```
 
-## Learn More
+## API
 
-To learn more about Next.js, take a look at the following resources:
+The app communicates with a RESTful API. This API us developed using ASP.NET Core 9, you can find the reposotory for this project at (https://github.com/CrisD314159/Mercurial_Dotnet) 
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Technologies Used
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- [React](https://react.dev/)
+- [Next.js](https://nextjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Material-UI](https://mui.com/)
+- [Zustand](https://zustand-demo.pmnd.rs/) (for state management)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Dexie.js](https://dexie.org) (For offline features)
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
