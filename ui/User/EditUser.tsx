@@ -55,7 +55,7 @@ export default function EditUser({mutate, name}:UserEditProps) {
                         <form onSubmit={handleUpdate}>
 
                             <TextField placeholder="Update Your Name" name="name" variant="standard"
-                            required inputProps={{ maxLength: 100 }} defaultValue={name} sx={{marginBottom:'15px'}}
+                            required inputProps={{ maxLength: 10 }} defaultValue={name} sx={{marginBottom:'15px'}}
                             ></TextField>
                             <DialogActions>
                                 <Button onClick={handleClose} variant="outlined" color="error">Cancel</Button>

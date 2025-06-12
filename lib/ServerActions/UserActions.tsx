@@ -52,7 +52,7 @@ export async function UpdateUserAction(state:GeneralFormState, formdata: FormDat
         'Authorization': `Bearer ${token}`,
         'Content-Type':'application/json'
       },
-      body: JSON.stringify({name})
+      body: JSON.stringify({name:name.trim()})
     })
     } catch (error) {
       return {

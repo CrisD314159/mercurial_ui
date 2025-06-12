@@ -47,10 +47,10 @@ export default function SignUpPage() {
                   >
                           <TextField
                               required
-                              label="Full Name"
+                              label="User Name"
                               variant="outlined"
                               name="name"
-                              inputProps={{  minLength: 3, maxLength: 40 }}
+                              inputProps={{  minLength: 3, maxLength: 10 }}
                           />
                           <TextField
                               required
