@@ -1,12 +1,12 @@
 import {z} from 'zod'
 
 export const UpdateUserSchema = z.object({
-  name: z.string().nonempty().max(100)
+  name: z.string().nonempty().max(10)
 })
 
 
 export const SignUpSchema = z.object({
-  name: z.string().nonempty().max(100),
+  name: z.string().nonempty().max(10),
   password: z.string().nonempty(),
   email: z.string().email()
 })
