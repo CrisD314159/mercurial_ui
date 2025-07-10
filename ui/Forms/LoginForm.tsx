@@ -5,6 +5,8 @@ import Link from "next/link"
 import { startTransition, useActionState, useEffect, useState } from "react"
 import MercurialSnackbar from "../Snackbars/MercurialSnackbar"
 import { Button, TextField } from "@mui/material"
+import GoogleIcon from "@/public/GoogleIcon"
+import { APIURL } from "@/lib/types/definitions"
 
 
 
@@ -36,8 +38,15 @@ export default function LoginForm() {
       <div className="w-[60%] h-[80%]">
         <div className="flex flex-col items-center gap-10 pt-6" > 
             <Image src="/mercurialLogo.png" alt=""width={80} height={80} />
-        
           <h1 className="text-2xl text-center">Welcome to Mercurial</h1>
+          <Button 
+          variant="outlined" 
+          LinkComponent={Link}
+          href={`${APIURL}/account/api/login/google`}
+          style={{display:'flex', justifyContent:'center', alignItems:'center', gap:'7px'}}>
+            <GoogleIcon/>
+            <p>Sign in with Google</p>
+          </Button>
           <form className="flex flex-col gap-5 items-center" onSubmit={handleSubmit}>
             <TextField required label="E-mail" variant="outlined" type="email" name="email" value={email} onChange={(e)=> {setEmail(e.target.value)}}/>
             <TextField required label="Password" type="password" variant="outlined" name="password" value={password} onChange={(e)=>{setPassword(e.target.value)}}/>
