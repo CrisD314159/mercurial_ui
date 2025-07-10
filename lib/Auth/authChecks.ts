@@ -9,6 +9,7 @@ export async function checkIsloggedIn() {
     const token = (await cookies()).get('token')?.value
     const refresh = (await cookies()).get('refresh')?.value
     if(!token && refresh){
+      console.log("Entra quí");
       return await refreshToken()
     }
   const response = await fetch(`${APIURL}/user`, {
@@ -78,7 +79,6 @@ export async function createSession(token: string, refreshToken: string) {
      path: '/',
    })
 
-   console.log("token establecido");
    cookieStore.set('refresh', refreshToken, {
      httpOnly: true,
      secure: false,
