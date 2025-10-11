@@ -5,21 +5,21 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useState } from 'react';
-import MercurialSnackbar from '../Snackbars/MercurialSnackbar';
 import { DeleteUserAction } from '@/lib/ServerActions/UserActions';
+import toast from 'react-hot-toast';
 
 
 
 export default function DeleteUserAlert() { 
   const [open, setOpen] = useState(false);
-  const [alert, setAlert] = useState(false);
 
 
   const handleDelete = async () =>{
     try {
       await DeleteUserAction()
     } catch (error) {
-      setAlert(true)
+      if(error instanceof Error)
+        toast.error(error.message)
     }
   }
 
@@ -33,9 +33,6 @@ export default function DeleteUserAlert() {
 
   return (
     <>
-    {
-      alert && <MercurialSnackbar message='An unexpected error occured while trying to delete the topic' state={alert} type='error' closeMethod={setAlert}/>
-    }
       <Button onClick={handleOpen} variant='outlined' color='error'>
         Delete your account
       </Button>

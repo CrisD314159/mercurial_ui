@@ -3,25 +3,21 @@ import { startTransition, Suspense, useActionState, useEffect, useState } from "
 import PasswordInput from "../../ui/Creation/PasswordInput"
 import {Button, CircularProgress, TextField } from "@mui/material"
 import { ChangePasswordAction } from "@/lib/ServerActions/RecoverAccountActions"
-import MercurialSnackbar from "@/ui/Snackbars/MercurialSnackbar"
 import { useSearchParams } from "next/navigation"
 import Link from "next/link"
+import toast from "react-hot-toast"
 
  function ChangePasswordPage() {
   const searchParams = useSearchParams()
   const changeToken = searchParams.get('changeToken')
-  const [alert, setAlert] = useState(false)
   const [password, setPassword] = useState('')
   const [state, action, pending] = useActionState(ChangePasswordAction, undefined)
-  const [alertType, setAlertType] = useState<'error'| 'success'>('error')
 
   useEffect(()=>{
     if(state && state.success === false){
-      setAlertType("error")
-      setAlert(true)
+      toast.error(state.message)
     }else if(state  && state.success){
-      setAlertType("success")
-      setAlert(true)
+      toast.success(state.message)
     }
   }, [state])
 
@@ -39,7 +35,6 @@ import Link from "next/link"
 
   return(
     <div className="w-full h-full flex items-center justify-center">
-      <MercurialSnackbar closeMethod={setAlert} message={state?.message ?? "An unexpected error occurred"} state={alert} type={alertType}/>
         <form onSubmit={handleSubmit} className="flex flex-col items-center justify-center gap-5">
           <h1 className="text-3xl">Reset Password</h1>
           <TextField name="email" variant="outlined" type="email" required label="Email" sx={{m:1, width: '25ch'}}/>

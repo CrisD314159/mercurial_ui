@@ -5,9 +5,9 @@ import { Assignment } from "@/lib/types/entityTypes";
 import { Button, SelectChangeEvent, TextField, Typography } from "@mui/material";
 import {startTransition, useActionState, useEffect, useState } from "react";
 import { UpdateAssignment } from "@/lib/RequestIntermediaries/AssignmentInter";
-import MercurialSnackbar from "../../Snackbars/MercurialSnackbar";
 import SelectMenu from "../../Creation/SelectMenu";
 import { useMercurialStore } from "@/store/useMercurialStore";
+import toast from "react-hot-toast";
 
 interface AssignmentEditingFormProps{
   handleClose : ()=> void
@@ -20,16 +20,17 @@ export default function AssignmentEditingForm({assignment, handleClose, mutate}:
   const [subjectSelected, setSubjectSelected] = useState(assignment?.subjectId ?? 0)
   const [topicSelected, setTopicSelected] = useState(assignment?.topicId ?? 0)
   const [state, action, pending] = useActionState(UpdateAssignment, undefined)
-  const [alert, setAlert] = useState(false)
-  const [alertText, setAlertText] = useState('')
   const {isAuthenticated} =  useMercurialStore()
 
-  useEffect(()=>{
-    if (state && !state.success) {
-      setAlertText(typeof state.message === "string" ? state.message : JSON.stringify(state.message))
-    setAlert(true)
-    }
-  }, [state])
+  useEffect(()=>{ 
+      if (state && state.success) { 
+          toast.success(state.message)
+          mutate() 
+          handleClose() 
+      } else if(state && !state.success){ 
+          toast.error(state.message) 
+      } 
+  }, [state, mutate, handleClose])
 
 
   const handleSubjectSelection = (event: SelectChangeEvent) =>{
@@ -59,14 +60,10 @@ export default function AssignmentEditingForm({assignment, handleClose, mutate}:
     startTransition(()=>{
       action(formdata)
     })
-    mutate()
-    handleClose()
-
   };
   
   return (
     <form className="w-full h-full flex flex-col items-center gap-7 relative" onSubmit={handleUpdate} >
-      <MercurialSnackbar message={alertText} state={alert} type="error" closeMethod={setAlert}/>
       <div className="w-full flex flex-col items-center">
         <TextField label={"Title"} name="title" defaultValue={assignment?.title ?? ""} required sx={{width:'80%'}} />
       </div>

@@ -4,26 +4,21 @@ import Image from "next/image";
 import { Button, TextField } from "@mui/material";
 import PasswordInput from "../../ui/Creation/PasswordInput";
 import Link from "next/link";
-import MercurialSnackbar from "../../ui/Snackbars/MercurialSnackbar";
 import { SignUp } from "../../lib/Auth/AuthActions";
+import toast from "react-hot-toast";
 
 export default function SignUpPage() {
   const [password, setPassword] = useState('');
   const [state, action, pending] = useActionState(SignUp, undefined)
-  const [alert, setAlert] = useState(false);
-  const [alertType, setAlertType] = useState<'error' | 'success'>('error');
 
 
   useEffect(()=>{
-    if(state && state.success === false){
-        setAlertType('error')
-        setAlert(true)
-    } else if (state && state.success){
-        setAlertType('success')
-        setAlert(true)
+    if(state && !state.success){
+      toast.error(state.message)
+    } else if(state && state.success){
+      toast.success(state.message)
     }
   }, [state])
-
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -37,7 +32,6 @@ export default function SignUpPage() {
   }
   return (
       <div className="h-full w-full flex items-center justify-center">
-            <MercurialSnackbar closeMethod={setAlert} message={state?.message ?? "An unexpected error occurred"} state={alert} type={alertType} /> 
               <div className="w-[60%] h-[80%] flex flex-col gap-5 items-center">
                 <Image src="/mercurialLogo.png" alt="" className="imageLogo" width={80} height={80} />
                 <h1 className="text-2xl">{"Just a few more steps"}</h1>

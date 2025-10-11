@@ -6,10 +6,10 @@ import useSWR from 'swr'
 import { DeleteTopic, GetTopics } from "@/lib/RequestIntermediaries/TopicInter";
 import { useMercurialStore } from "@/store/useMercurialStore";
 import EditTopic from "@/ui/Topic/EditTopic";
-import MercurialSnackbar from "@/ui/Snackbars/MercurialSnackbar";
 import { GenericError } from "@/lib/types/definitions";
 import DeleteAlert from "@/ui/Alerts/DeleteAlert";
-import { useState } from "react";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
 
 
 export default function TopicsPage() {
@@ -17,7 +17,12 @@ export default function TopicsPage() {
   const {data,  error, isLoading, mutate} = useSWR<Topic[], GenericError>('topics', ()=> GetTopics(), {
     refreshWhenHidden:true, revalidateOnFocus:true
   })
-  const [alert, setAlert] = useState(error ? true : false)
+
+  useEffect(()=>{
+    if(error){
+      toast.error(error.message)
+    }
+  })
 
   if (isLoading){
     return (
@@ -30,9 +35,6 @@ export default function TopicsPage() {
   return (
   
       <div className="flex flex-col justify-center w-full items-center h-[90%] relative">
-        {
-          error && <MercurialSnackbar message={error.message} state={alert} type="error" closeMethod={setAlert}/>
-        }
 
           <List style={{height:'100%', flex:1, width:'100%', overflowY:'auto', paddingBottom:'40px'}}>
           {

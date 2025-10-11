@@ -16,7 +16,10 @@ export async function CreateTopicOffline(formdata: FormData) {
     const {title, color} = validation.data
   
    db.topics.add({title, color})
-    return true
+    return {
+      success: true,
+      message: "Topic created"
+    };
   
 }
 
@@ -39,7 +42,10 @@ export async function UpdateTopicOffline(formdata: FormData) {
   }
 
    db.topics.update(id, { title, color })
-  return true
+    return {
+      success: true,
+      message: "Topic updated"
+    };
   
   
 }

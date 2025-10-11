@@ -6,7 +6,7 @@ import useSWR from "swr";
 import { GetSubjects } from "@/lib/RequestIntermediaries/SubjectInter";
 import './carousel.css'
 import { GenericError } from "@/lib/types/definitions";
-import MercurialSnackbar from "../../Snackbars/MercurialSnackbar";
+import toast from "react-hot-toast";
 
 
 interface SubjectSliderProps{
@@ -17,11 +17,10 @@ interface SubjectSliderProps{
 export default function SubjectCarousel({filterAssignments}: SubjectSliderProps){
   const {data, error, isLoading} = useSWR<Subject[], GenericError>('subjects', ()=> GetSubjects())
   const [selected, setSelected] = useState<number>(0)
-  const [alert, setAlert] = useState(false)
 
   useEffect(()=>{
     if(error){
-      setAlert(true)
+      toast.error(error.message)
     }
   }, [error])
   
@@ -44,7 +43,6 @@ export default function SubjectCarousel({filterAssignments}: SubjectSliderProps)
   }
   return(
     <div className="w-full h-12 flex relative top-6 justify-center">
-      <MercurialSnackbar message={error?.message ?? "An unexpected error occurred"} state={alert} type="error" closeMethod={setAlert}/>
       <ul className="carousel flex w-[98%] scrollbar-hide">
       {
         data && data?.length > 0 ? (

@@ -1,23 +1,20 @@
 "use client"
-import { startTransition, useActionState, useEffect, useState } from "react"
+import { startTransition, useActionState, useEffect } from "react"
 import { Button, TextField } from "@mui/material"
 import {RecoverAccountAction} from "@/lib/ServerActions/RecoverAccountActions"
-import MercurialSnackbar from "@/ui/Snackbars/MercurialSnackbar"
 import Link from "next/link"
+import toast from "react-hot-toast"
 
 export default function RecoverPasswordPage() {
   const [state, action, pending] = useActionState(RecoverAccountAction, undefined)
-  const [alert, setAlert] = useState(false)
-  const [alertType, setAlertType] = useState<'error' | 'success'>('error')
 
 
-  useEffect(() => {
-    if (state && state.success === false) {
-      setAlertType("error")
-      setAlert(true)
-    } else if (state && state.success){
-      setAlertType('success')
-      setAlert(true)
+
+  useEffect(()=>{
+    if(state && !state.success){
+      toast.error(state.message)
+    } else if(state && state.success){
+      toast.success(state.message)
     }
   }, [state])
 
@@ -32,7 +29,6 @@ export default function RecoverPasswordPage() {
 
   return (
     <div className="w-full h-full flex justify-center items-center">
-        <MercurialSnackbar closeMethod={setAlert} message={state?.message ?? "An unexpected error occurred"} state={alert} type={alertType}/>
         <form className="flex flex-col items-center justify-center gap-5" onSubmit={handleSubmit}>
           <h1 className="text-3xl mb-4">Password Recovery</h1>
           <p >Enter your email to recover your password</p>

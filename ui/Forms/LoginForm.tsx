@@ -3,10 +3,10 @@ import { Login } from "@/lib/Auth/AuthActions"
 import Image from "next/image"
 import Link from "next/link"
 import { startTransition, useActionState, useEffect, useState } from "react"
-import MercurialSnackbar from "../Snackbars/MercurialSnackbar"
 import { Button, TextField } from "@mui/material"
 import GoogleIcon from "@/public/GoogleIcon"
 import { APIURL } from "@/lib/types/definitions"
+import toast from "react-hot-toast"
 
 
 
@@ -15,11 +15,12 @@ export default function LoginForm() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [state, action, pending ] = useActionState(Login, undefined)
-  const [alert, setAlert] = useState(false)
 
   useEffect(()=>{
-    if(state && state.success === false){
-      setAlert(true)
+    if(state && state.success){
+      toast.success(state.message)
+    } else if(state && !state.success){
+      toast.error(state.message)    
     }
   }, [state])
 
@@ -34,7 +35,6 @@ export default function LoginForm() {
   }
   return (
     <div className="h-full w-full flex justify-center items-center relative">
-       <MercurialSnackbar message={state?.message ?? "An unexpected error occurred"} state={alert} type="error" closeMethod={setAlert}/>
       <div className="w-[60%] h-[80%]">
         <div className="flex flex-col items-center gap-10 pt-6" > 
             <Image src="/mercurialLogo.png" alt=""width={80} height={80} />

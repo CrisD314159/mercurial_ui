@@ -5,11 +5,11 @@ import useSWR from 'swr';
 import { DeleteSubject, GetSubjects } from '@/lib/RequestIntermediaries/SubjectInter';
 import { Subject } from '@/lib/types/entityTypes';
 import { GenericError } from '@/lib/types/definitions';
-import MercurialSnackbar from '@/ui/Snackbars/MercurialSnackbar';
 import EditSubject from '@/ui/Subject/EditSubject';
 import SubjectCreation from '@/ui/Subject/SubjectCreation';
 import DeleteAlert from '@/ui/Alerts/DeleteAlert';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import toast from "react-hot-toast";
 
 
 
@@ -18,8 +18,12 @@ export default function SubjectsPage() {
   const {isAuthenticated} = useMercurialStore()
   const {data, error, isLoading, mutate} = useSWR<Subject[], GenericError>('subjects', () => GetSubjects())
   const {setSubject} = useMercurialStore()
-  const [alert, setAlert] = useState(error ? true : false)
 
+
+  useEffect(()=>{
+    if(error)
+      toast.error(error.message)
+  }, [error])
 
   useEffect(()=>{
     if(data){
@@ -38,9 +42,6 @@ export default function SubjectsPage() {
   return (
   
       <div className="flex flex-col justify-center w-full items-center h-[90%] relative">
-        {
-          error && <MercurialSnackbar message={error.message} state={alert} type='error' closeMethod={setAlert}/>
-        }
         <List style={{height:'100%', flex:1, width:'100%', overflowY:'auto', paddingBottom:'40px'}}>
           {
             data && data.length > 0 ? 

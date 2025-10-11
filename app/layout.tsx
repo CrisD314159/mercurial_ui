@@ -4,6 +4,7 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import './globals.css'
 import { ThemeContextProvider } from "../lib/theme/ThemeContextProvidex";
 import { Metadata } from "next";
+import {Toaster} from 'react-hot-toast';
 
 
 const redHatDisplay = Red_Hat_Display({
@@ -28,12 +29,14 @@ Readonly<{
 {
   return (
     <html lang="en">
+
       <head>
        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
        <meta name="theme-color" content="#ffffff" />
         <meta name="apple-mobile-web-app-title" content="Mercurial"/>
       </head>
         <body className={`${redHatDisplay.className} antialiased h-screen`}>
+          <Toaster/>
           <AppRouterCacheProvider>
             <ThemeContextProvider>
                 {children}
