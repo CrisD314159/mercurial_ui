@@ -7,8 +7,8 @@ import { CircularProgress } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import useSWR from "swr";
-import MercurialSnackbar from "../../Snackbars/MercurialSnackbar";
 import AssignmentsListComponent from "../AssignmentsListComponent";
+import toast from "react-hot-toast";
 
 const ASSIGNMENT_OFFSET = 10
 
@@ -17,13 +17,14 @@ export default function AssignmentsDoneContainer() {
   const [offset, setOffset] = useState(ASSIGNMENT_OFFSET)
   const [isLoadingMore, setIsLoadingMore] = useState(false)
   const [hasMore, setHasMore] = useState(true)
-  const [alert, setAlert] = useState(false)
   const { ref, inView } = useInView({ threshold: 0.1 })
 
 
   useEffect(()=>{
     if(error){
-      setAlert(true)
+      if(error instanceof Error){
+        toast.error(error.message)
+      }
     }
   }, [error])
 
@@ -46,8 +47,9 @@ export default function AssignmentsDoneContainer() {
         } else {
           setHasMore(false)
         }
-      } catch (e) {
-        setAlert(true)
+      } catch (error) {
+        if(error instanceof Error)
+          toast.error(error.message)
       } finally {
         setIsLoadingMore(false)
       }
@@ -69,7 +71,6 @@ export default function AssignmentsDoneContainer() {
       }
     return (
       <div className="w-full h-full relative flex flex-col items-center">
-        <MercurialSnackbar message="An error occurred while fetching the data" state={alert} type="error" closeMethod={setAlert} />
         {assignments && (
           <AssignmentsListComponent
             doneCard={true}

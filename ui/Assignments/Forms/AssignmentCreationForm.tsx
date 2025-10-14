@@ -4,9 +4,9 @@ import { GetTopics } from "@/lib/RequestIntermediaries/TopicInter";
 import { Button, SelectChangeEvent, TextField, Typography } from "@mui/material";
 import {startTransition, useActionState, useEffect, useState } from "react";
 import { CreateAssignment } from "@/lib/RequestIntermediaries/AssignmentInter";
-import MercurialSnackbar from "../../Snackbars/MercurialSnackbar";
 import SelectMenu from "../../Creation/SelectMenu";
 import { useMercurialStore } from "@/store/useMercurialStore";
+import toast from "react-hot-toast";
 
 
 interface AssignmentCreationForm{
@@ -18,8 +18,6 @@ export default function AssignmentCreationForm({mutate, handleClose}: Assignment
   const [subjectSelected, setSubjectSelected] = useState(0)
   const [topicSelected, setTopicSelected] = useState(0)
   const [state, action, pending] = useActionState(CreateAssignment, undefined)
-  const [alert, setAlert] = useState(false)
-  const [alertText, setAlertText] = useState('')
   const {isAuthenticated} = useMercurialStore()
 
   const handleSubjectSelection = (event: SelectChangeEvent) =>{
@@ -30,12 +28,15 @@ export default function AssignmentCreationForm({mutate, handleClose}: Assignment
   }
 
 
-  useEffect(()=>{
-    if (state && !state.success) {
-      setAlertText(typeof state.message === "string" ? state.message : JSON.stringify(state.message))
-    setAlert(true)
-    }
-  }, [state])
+  useEffect(()=>{ 
+      if (state && state.success) { 
+          mutate() 
+          handleClose() 
+          toast.success(state.message)
+      } else if(state && !state.success){ 
+          toast.error(state.message) 
+      } 
+  }, [state, mutate, handleClose])
 
   const handleCreate = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -49,14 +50,10 @@ export default function AssignmentCreationForm({mutate, handleClose}: Assignment
     startTransition(()=>{
       action(formdata)
     })
-    mutate()
-    handleClose()
-
   };
   
   return (
     <form className="w-full h-full flex flex-col items-center gap-7 relative" onSubmit={handleCreate} >
-      <MercurialSnackbar message={alertText} state={alert} type="error" closeMethod={setAlert}/>
       <div className="w-full flex flex-col items-center">
         <TextField label={"Title"} name="title" required sx={{width:'80%'}} />
       </div>

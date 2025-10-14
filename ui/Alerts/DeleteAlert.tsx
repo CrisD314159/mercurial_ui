@@ -7,8 +7,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useState } from 'react';
 import {IconButton, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
-import MercurialSnackbar from '../Snackbars/MercurialSnackbar';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
+import toast from 'react-hot-toast';
 
 
 interface DeleteDialogProps{
@@ -24,15 +24,16 @@ interface DeleteDialogProps{
 
 export default function DeleteAlert({body, mutate, title, id, isAuthenticated, deleteMethod, assignmentAlert}: DeleteDialogProps) { 
   const [open, setOpen] = useState(false);
-  const [alert, setAlert] = useState(false);
 
 
   const handleDelete = async () =>{
     try {
       await deleteMethod(isAuthenticated, typeof id === "string" ? id : id.toString())
+      toast.success("Done!")
       mutate()
     } catch (error) {
-      setAlert(true)
+      if(error instanceof Error)
+        toast.error(error.message)
     }
   }
 
@@ -47,9 +48,6 @@ export default function DeleteAlert({body, mutate, title, id, isAuthenticated, d
   return (
     <>
     {
-      alert && <MercurialSnackbar message='An unexpected error occured while trying to delete the topic' state={alert} type='error'closeMethod={setAlert}/>
-    }
-    {
       assignmentAlert ?
       <ListItem disablePadding>
         <ListItemButton autoFocus onClick={handleOpen}>
@@ -60,7 +58,7 @@ export default function DeleteAlert({body, mutate, title, id, isAuthenticated, d
         </ListItemButton>
       </ListItem>
       :
-      <IconButton >
+      <IconButton onClick={handleOpen}>
         <DeleteIcon />
       </IconButton>
     }

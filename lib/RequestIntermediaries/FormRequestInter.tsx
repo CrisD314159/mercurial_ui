@@ -1,26 +1,33 @@
-
-export async function FormRequestInter(onlineMethod: (formdata:FormData) => Promise<{success:boolean ; message:string}>, 
-offlineMethod: (formdata:FormData) => Promise<boolean>, formdata: FormData, isAuthenticated:boolean) {
-  if(isAuthenticated){
+export async function FormRequestInter(
+  onlineMethod: (formdata: FormData) => Promise<{ success: boolean; message: string }>,
+  offlineMethod: (formdata: FormData) => Promise<{ success: boolean; message: string }>,
+  formdata: FormData,
+  isAuthenticated: boolean
+): Promise<{ success: boolean; message: string }> {
+  if (isAuthenticated) {
     try {
-      await onlineMethod(formdata)
+      return await onlineMethod(formdata);
     } catch (error) {
-      if (error instanceof Error){
+      if (error instanceof Error) {
         return {
-          success:false,
+          success: false,
           message: error.message
-        }  
+        };
       }
+      return {
+        success: false,
+        message: "An unexpected error happened"
+      };
     }
-  }else{
-    try { 
-      await offlineMethod(formdata)
+  } else {
+    try {
+      return await offlineMethod(formdata);
     } catch (error) {
       return {
-        success:false,
-        message: "An unexpected error happend"
-      }  
+        success: false,
+        message: "An unexpected error happened"
+      };
     }
   }
-  
 }
+

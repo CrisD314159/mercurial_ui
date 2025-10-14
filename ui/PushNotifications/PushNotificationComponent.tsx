@@ -5,7 +5,7 @@ import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Dialog
 import { useState } from "react";
 import AccessAlarmsRoundedIcon from '@mui/icons-material/AccessAlarmsRounded';
 import { SchedulePushNotification } from "@/lib/ServerActions/NotificationActions";
-import MercurialSnackbar from "../Snackbars/MercurialSnackbar";
+import toast from "react-hot-toast";
 
 
 interface PushNotificationComponentProps{
@@ -14,9 +14,6 @@ interface PushNotificationComponentProps{
 export default function PushNotificationComponent({assignment}:PushNotificationComponentProps) {
   const { token, notificationPermissionStatus } = useFcmToken();
   const [open, setOpen] = useState(false);
-  const [alert, setAlert] = useState(false);
-  const [message, setMessage] = useState("");
-  const [type, setType] = useState<"error" | "success">("error");
 
 
   const handleClose = () => {
@@ -41,27 +38,19 @@ export default function PushNotificationComponent({assignment}:PushNotificationC
     try {
       const response = await SchedulePushNotification(token, assignment.title, assignment.dueDate)
       if (response.success){
-        setAlert(true)
-        setMessage(response.message)
-        setType("success")
+        toast.success(response.message)
         handleClose()
       }
     } catch (error) {
       if(error instanceof Error){
-        setAlert(true)
-        setMessage("Failed to schedule assignment")
-        setType("error")
+        toast.error(error.message)
         handleClose()
       }
     }
   };
 
   return (
-    <>
-      {
-        alert && <MercurialSnackbar message={message} type={type} state={alert} closeMethod={setAlert} />
-      }
-     
+    <>     
       <ListItem disablePadding>
         <ListItemButton autoFocus onClick={handleOpen}>
           <ListItemIcon>

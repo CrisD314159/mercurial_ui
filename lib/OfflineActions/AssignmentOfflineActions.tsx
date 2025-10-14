@@ -25,7 +25,10 @@ export async function CreateAssignmentOffline(formdata: FormData) {
     const id = uuidv4()
   
     db.assignments.add({id, title, subjectId, subjectTitle: subject?.title, topicId, topicTitle: topic?.title, topicColor: topic?.color ?? '', noteContent, dueDate, "taskState": 0}) // 0 represents 'todo'
-    return true
+    return { 
+        success: true, 
+        message: "Assignment created" 
+    }
 } 
 
 
@@ -51,7 +54,10 @@ export async function UpdateAssignmentOffline(formdata: FormData) {
 
 
   await db.assignments.update(id.toString(), {title, subjectId, subjectTitle: subject?.title, topicId, topicTitle: topic?.title, topicColor: topic?.color, noteContent, dueDate}) // Assuming 0 represents 'todo'
-  return true
+  return {
+    success: true,
+    message: "Assignment updated"
+  };
 
 }
 

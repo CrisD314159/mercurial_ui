@@ -3,8 +3,8 @@ import {  Button, Dialog, DialogActions, DialogContent, IconButton, TextField } 
 import { startTransition, useActionState, useEffect, useState } from "react";
 import { useMercurialStore } from "@/store/useMercurialStore";
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
-import MercurialSnackbar from "../Snackbars/MercurialSnackbar";
 import { UpdateUserAction } from "@/lib/ServerActions/UserActions";
+import toast from "react-hot-toast";
 
 
 interface UserEditProps{
@@ -15,11 +15,13 @@ export default function EditUser({mutate, name}:UserEditProps) {
     const [open, setOpen] = useState(false);
     const [state, action, pending] = useActionState(UpdateUserAction, undefined)
     const {isAuthenticated} = useMercurialStore()
-    const [alert, setAlert] = useState(false);
 
     useEffect(()=>{
-        if(state && !state.success){
-            setAlert(true)
+        if(state && state.success){
+            toast.success(state.message)
+        }else if (state && !state.success)
+        {
+            toast.error(state.message)
         }
     }, [state])
 
@@ -44,7 +46,6 @@ export default function EditUser({mutate, name}:UserEditProps) {
 
     return (
         <div>
-             <MercurialSnackbar closeMethod={setAlert} message={state?.message ?? "An unexpected error occurred"} state={alert} type="error"/>
             
             <IconButton size="small"  onClick={handleClickOpen}><EditRoundedIcon /></IconButton>
             <Dialog open={open} onClose={handleClose} sx={{ backdropFilter: 'blur(2px)' }}

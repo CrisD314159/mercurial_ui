@@ -5,10 +5,10 @@ import { GenericError } from '@/lib/types/definitions';
 import { User } from '@/lib/types/entityTypes';
 import { useMercurialStore } from '@/store/useMercurialStore';
 import DeleteUserAlert from '@/ui/Alerts/DeleteUserAlert';
-import MercurialSnackbar from '@/ui/Snackbars/MercurialSnackbar';
 import EditUser from '@/ui/User/EditUser';
 import { Avatar, CircularProgress } from '@mui/material';
-import { useState } from 'react';
+import { useEffect } from 'react';
+import toast from 'react-hot-toast';
 import useSWR from 'swr';
 
 
@@ -16,7 +16,12 @@ export default function UserOverviewPage() {
     
     const {isAuthenticated} = useMercurialStore()
     const {data, error, isLoading, mutate} = useSWR<User, GenericError>('user', ()=> GetUserOverview())
-    const [alert, setAlert] = useState(false)
+
+    useEffect(()=>{
+        if(error){
+            toast.error(error.message)
+        }
+    }, [error])
 
     if(!isAuthenticated){
         return(
@@ -36,9 +41,6 @@ export default function UserOverviewPage() {
 
     return (
         <div className="w-full h-[90%]">
-            {
-                error && <MercurialSnackbar message={error.message} state={alert} type='error' closeMethod={setAlert}/>
-            }
             <div className="bg-gradient-to-r from-purple-500 to-pink-500 h-1 w-full"></div>
             {data && (
 

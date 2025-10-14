@@ -15,7 +15,10 @@ export async function CreateSubjectOffline(formdata: FormData) {
     const {title} = validation.data
   
    db.subjects.add({title})
-    return true
+    return {
+      success: true,
+      message: "Subject created"
+    };
   
 }
 
@@ -37,7 +40,10 @@ export async function UpdateSubjectOffline(formdata: FormData) {
   }
 
    db.subjects.update(id, { title })
-  return true
+    return {
+      success: true,
+      message: "Subject updated"
+    };
   
   
 }

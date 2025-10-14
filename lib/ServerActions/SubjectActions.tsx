@@ -35,7 +35,10 @@ export async function CreateSubjectServer(formdata: FormData) {
       }
     }else{
       const {message} = await response.json()
-      throw new Error(message ?? "An unexpected error occurred")
+      return {
+        success: false,
+        message:message
+      } 
     }
 }
 

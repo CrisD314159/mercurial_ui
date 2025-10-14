@@ -3,23 +3,23 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useState } from 'react';
-import MercurialSnackbar from '../Snackbars/MercurialSnackbar';
 import { Logout } from '@/lib/Auth/AuthActions';
 import { ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
+import toast from 'react-hot-toast';
 
 
 
 export default function LogOutAlert() { 
   const [open, setOpen] = useState(false);
-  const [alert, setAlert] = useState(false);
 
 
   const handleDelete = async () =>{
     try {
       await Logout()
     } catch (error) {
-      setAlert(true)
+      if(error instanceof Error)
+        toast.error(error.message)
     }
   }
 
@@ -34,9 +34,6 @@ export default function LogOutAlert() {
 
   return (
     <>
-    {
-      alert && <MercurialSnackbar message='An unexpected error occured while trying to delete the topic' state={alert} type='error' closeMethod={setAlert}/>
-    }
     <ListItemButton sx={{background:'#db040c', borderRadius:'15px'}} onClick={handleOpen}>
       <ListItemIcon>
         <LogoutRoundedIcon/>

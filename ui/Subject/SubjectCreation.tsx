@@ -3,8 +3,8 @@ import {  Button, Dialog, DialogActions, DialogContent, Fab, TextField } from "@
 import AddIcon from '@mui/icons-material/Add';
 import { startTransition, useActionState, useEffect, useState } from "react";
 import { useMercurialStore } from "@/store/useMercurialStore";
-import MercurialSnackbar from "../Snackbars/MercurialSnackbar";
 import { CreateSubject } from "@/lib/RequestIntermediaries/SubjectInter";
+import toast from "react-hot-toast";
 
 interface SubjectCreationProps{
     mutate:()=> void
@@ -13,13 +13,16 @@ export default function SubjectCreation({mutate}:SubjectCreationProps) {
     const [open, setOpen] = useState(false);
     const [state, action, pending] = useActionState(CreateSubject, undefined)
     const {isAuthenticated} = useMercurialStore()
-    const [alert, setAlert] = useState(false);
 
-    useEffect(()=>{
-        if(state && !state.success){
-          setAlert(true)
-        }
-    }, [state])
+  useEffect(()=>{ 
+      if (state && state.success) { 
+          toast.success(state.message)
+          mutate() 
+          setOpen(false);
+      } else if(state && !state.success){ 
+          toast.error(state.message) 
+      } 
+  }, [state, mutate])
     
     const handleClickOpen = () => {
         setOpen(true);
@@ -35,15 +38,12 @@ export default function SubjectCreation({mutate}:SubjectCreationProps) {
         startTransition(()=>{
             action(formdata)
         })
-        mutate()
-        handleClose()
     }
 
 
     return (
         <div>
             
-            <MercurialSnackbar message={state?.message ?? "An unexpected error occurred"} state={alert} type="error" closeMethod={setAlert}/>
             
             <Fab size="small" color="info" onClick={handleClickOpen}><AddIcon /></Fab>
             <Dialog open={open} onClose={handleClose} sx={{ backdropFilter: 'blur(2px)' }}

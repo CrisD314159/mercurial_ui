@@ -1,23 +1,20 @@
 'use client'
-import { startTransition, useActionState, useEffect, useState } from "react"
+import { startTransition, useActionState, useEffect } from "react"
 import './verificationPage.css'
 import { Button, TextField } from "@mui/material"
 import { VerifyAccountAction } from "@/lib/ServerActions/UserActions"
 import Link from "next/link"
-import MercurialSnackbar from "@/ui/Snackbars/MercurialSnackbar"
+import toast from "react-hot-toast"
 
 export default function VerifyAccountPage() {
-  const [alert, setAlert] = useState(false)
-  const [alertType, setAlertType] = useState<'error' | 'success'>('error')
   const [state, action, pending] = useActionState(VerifyAccountAction, undefined)
 
 
   useEffect(()=>{
     if(state && !state.success){
-      setAlert(true)
+      toast.error(state.message)
     } else if(state && state.success){
-      setAlertType('success')
-      setAlert(true)
+      toast.success(state.message)
     }
   }, [state])
 
@@ -36,7 +33,6 @@ export default function VerifyAccountPage() {
 
  return (
     <div className="w-full h-full flex items-center justify-center">
-    <MercurialSnackbar closeMethod={setAlert} message={state?.message ?? "An unexpected error occurred"} state={alert} type={alertType} /> 
       
     <form onSubmit={handleSubmit} className="flex flex-col items-center justify-center gap-5">
       <h1 className="verificationTitle">VerificationPage</h1>
