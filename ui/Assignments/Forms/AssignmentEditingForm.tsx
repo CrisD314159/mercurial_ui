@@ -24,9 +24,9 @@ export default function AssignmentEditingForm({assignment, handleClose, mutate}:
 
   useEffect(()=>{ 
       if (state && state.success) { 
-          toast.success(state.message)
           mutate() 
           handleClose() 
+          toast.success(state.message)
       } else if(state && !state.success){ 
           toast.error(state.message) 
       } 
